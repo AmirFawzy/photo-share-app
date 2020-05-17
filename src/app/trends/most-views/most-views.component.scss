@@ -1,0 +1,7 @@
+@import '../../../framework/mixins';
+
+@include photo-masonry();
+
+ngx-masonry {
+  margin-top: 30px;
+}

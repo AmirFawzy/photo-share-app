@@ -1,0 +1,64 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+@import '~@angular/material/theming';
+
+@include rating-Badge();
+
+.row {
+  margin-top: 30px;
+
+  .user-card {
+    * {
+      color: #ffffff;
+    }
+
+    figure {
+      border: 4px solid #ffff;
+      width: 130px;
+      height: 130px;
+      @include set-margin(0, 0, -55px, 0);
+      @include mat-elevation(12, #000, .4);
+      z-index: 1;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .card-content {
+      // background: $primary-gradient;
+      background: linear-gradient(to bottom, #8A4D76, #E47972);
+      @include set-padding(52px, 0, 20px, 0);
+      @include mat-elevation(10, #8a4d76, 1);
+
+      .rate {
+        background-color: #ffffff;
+        width: 31px;
+        height: 31px;
+        line-height: 31px;
+        border-radius: $ellipse;
+        z-index: 2;
+
+        span {
+          color: $text-color;
+        }
+      }
+
+      .user-name {
+        text-transform: capitalize;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      .mat-divider-horizontal {
+        border-top-color: rgba(#fff, .15);
+      }
+
+      a.mat-button.mat-raised-button {
+        background: $primary-gradient-btn;
+        border-radius: $ellipse;
+        text-decoration: none;
+      }
+    }
+  }
+}

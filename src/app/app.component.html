@@ -1,0 +1,162 @@
+<perfect-scrollbar [config]="config" [class.auth-activated]="isAuth" [usePSClass]="true" (psScrollY)="scrolled($event)" (psYReachEnd)="scrolled($event)" (psYReachStart)="scrolled($event)" [autoPropagation]="true" [ngStyle]="{ 'max-width': wWidth + 'px', 'max-height': wHeight + 'px' }" [disabled]="disableScrollbar">
+
+  <!-- custom cursor -->
+  <div class="custom-cursor position-absolute" [class.enter-cursor-active]="cursorName === 'Open'" [hidden]="isCustomCursorHidden || tabletScreenDown" #customCursor>
+
+    <div class="cursor position-relative" #cursor>
+
+      <span class="left-line position-absolute" #cursorLeftLine></span>
+
+      <span class="right-line position-absolute" #cursorRightLine></span>
+
+    </div>
+
+    <div class="cursor-name position-absolute" *ngIf="cursorName">
+      <span class="mat-body-2">{{ cursorName }}</span>
+    </div>
+
+  </div>
+  <!-- /custom cursor -->
+
+  <mat-progress-bar class="main-progress-bar position-fixed" mode="indeterminate" color="accent" [hidden]="!loadingBarState"></mat-progress-bar>
+  
+  <!-- header -->
+  <mat-toolbar class="px-0 mb-3" data-ele-color="primary" style="position: relative" [ngClass]="{'position-relative zindex-2': !isAuth, 'remove-m': isTrendsPage || isCollectionPage, 'sticky': stickyToolbar, 'shrink': isBelowHeroSlider}" color="primary">
+
+    <ps-header class="w-100" data-ele-color="primary" [homePageUrl]="isHomePageOpen" [isPassedHeroSlider]="isBelowHeroSlider" (sidenavTrigger)="openSidenav($event)"></ps-header>
+
+  </mat-toolbar>
+  <!-- /header -->
+    
+  <!-- main sidenav -->
+  <mat-sidenav-container>
+
+    <!-- sidenav -->
+    <mat-sidenav class="main-sidenav" [class.close]="sidenavCloseAnimate" mode="side" position="end" [fixedInViewport]="true" opened #sideNav [hidden]="!isAuth">
+
+      <div class="d-flex flex-column align-items-center justify-content-between h-100 mx-0 mt-3 mb-2" *ngIf="isAuth">
+
+        <div class="d-flex flex-column align-items-center">
+
+          <span class="menu-trigger user position-relative d-inline-block" data-ele-color="primary" (click)="userMenu.toggle(); notificationMenu.close(); moreMenu.close(); (userMenu.opened || notificationMenu.opened || moreMenu.opened) ? disableScrollbar = true : disableScrollbar = false">
+
+            <img class="rounded-circle" data-ele-name="Menu" [src]="userPhoto" alt="user-photo" *ngIf="userPhoto; else skeletonPlaceholder">
+
+            <ng-template #skeletonPlaceholder>
+              <div class="skeleton-circle-photo-xs d-inline-block"></div>
+            </ng-template>
+
+            <ng-container *ngIf="isTop3Users">
+
+              <mat-icon class="rating-badge position-absolute" data-ele-name="Menu">
+                stars
+                <span class="back-layer position-absolute rounded-circle" [style.background-color]="topUsersBadgeColor"></span>
+              </mat-icon>
+
+            </ng-container>
+
+            <ng-container *ngIf="isTop10Users">
+
+              <span class="top-10 position-absolute rounded-circle" data-ele-name="Menu"></span>
+
+            </ng-container>
+
+          </span>
+
+          <span class="menu-trigger notification d-inline-block position-relative" (click)="notificationMenu.toggle(); userMenu.close(); moreMenu.close(); (userMenu.opened || notificationMenu.opened || moreMenu.opened) ? disableScrollbar = true : disableScrollbar = false">
+
+            <mat-icon data-ele-name="Notification">notifications</mat-icon>
+
+            <span class="has-notifications position-absolute"></span>
+
+          </span>
+
+          <span class="menu-trigger upload-photos d-inline-block" (click)="openUploadDialog()">
+            <mat-icon data-ele-name="Upload">cloud_upload</mat-icon>
+          </span>
+
+        </div>
+
+        <div>
+
+          <span class="menu-trigger more2 d-inline-block" (click)="moreMenu.toggle(); userMenu.close(); notificationMenu.close(); (userMenu.opened || notificationMenu.opened || moreMenu.opened) ? disableScrollbar = true : disableScrollbar = false">
+            <mat-icon>more_horiz</mat-icon>
+          </span>
+
+        </div>
+
+      </div>
+      
+    </mat-sidenav>
+    <!-- /sidenav -->
+  
+    <!-- sidenav content -->
+    <mat-sidenav-content [ngStyle]="{ 'margin-right': isAuth && !sidenavCloseAnimate ? '57px' : 0 }">
+
+      <!-- user menu sidenav -->
+      <mat-sidenav-container (backdropClick)="disableScrollbar = false">
+
+        <mat-sidenav [style.right.px]="sidenavWidth" mode="over" position="end" [fixedInViewport]="true" #userMenu>
+          <ps-user-menu></ps-user-menu>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+
+          <!-- notification sidenav -->
+          <mat-sidenav-container (backdropClick)="disableScrollbar = false">
+
+            <mat-sidenav [style.right.px]="sidenavWidth" mode="over" position="end" [fixedInViewport]="true" #notificationMenu>
+              <ps-notifications-menu></ps-notifications-menu>
+            </mat-sidenav>
+
+            <mat-sidenav-content>
+
+              <!-- more menu sidenav -->
+              <mat-sidenav-container (backdropClick)="disableScrollbar = false">
+
+                <mat-sidenav [style.right.px]="sidenavWidth" mode="over" position="end" [fixedInViewport]="true" #moreMenu>
+                  <ps-more-menu></ps-more-menu>
+                </mat-sidenav>
+                
+                <!-- app content -->
+                <mat-sidenav-content class="overflow-hidden">
+
+                  <div class="container-fluid">
+
+                    <div class="row" [@fadeIn]="routeAnimate(outlet)"> <!-- [style.margin-right.px]="isAboveTabletScreen && isAuth && outlet.isActivated ? 35 : -15" -->
+
+                      <router-outlet (activate)="onActive($event)" #outlet="outlet"></router-outlet>
+
+                    </div>
+
+                  </div>
+                  
+                </mat-sidenav-content>
+                <!-- /app content -->
+  
+              </mat-sidenav-container>
+              <!-- /more menu sidenav -->
+
+            </mat-sidenav-content>
+
+          </mat-sidenav-container>
+          <!-- /notification sidenav -->
+
+        </mat-sidenav-content>
+
+      </mat-sidenav-container>
+      <!-- /user menu sidenav -->
+
+    </mat-sidenav-content>
+    <!-- /sidenav content -->
+
+  </mat-sidenav-container>
+  <!-- /main sidenav -->
+  
+  <!-- footer -->
+  <div [hidden]="isUserHomePage">
+    <ps-footer class="d-block" [class.remove-m]="isUserProfilePage || isRegisterPage"></ps-footer>
+  </div>
+  <!-- /footer -->
+  
+</perfect-scrollbar>

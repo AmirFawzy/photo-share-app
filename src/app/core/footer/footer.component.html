@@ -1,0 +1,113 @@
+<div class="container-fluid">
+
+  <div class="row">
+
+    <div class="col-sm-6 col-lg-4">
+
+      <div class="about">
+
+        <figure class="logo mb-3">
+          <img src="../../../assets/logo-small.png" alt="logo-small">
+        </figure>
+
+        <p class="mat-body-2 mb-1">Our vision is to gather photographers in one place for them to get inspired, meet and share their works togather world wide to show people the photos is not just taking a photo but it's true art. </p>
+
+        <button mat-button class="mat-button" type="button" aria-label="read more" routerLink="/">
+          read more
+          <mat-icon class="align-middle icon-18">arrow_forward</mat-icon>
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="col-sm-6 col-lg">
+
+      <div class="useful-links column">
+
+        <h5 class="mat-subheading-1 mt-0 mb-3">{{ 'useful links' | uppercase }}</h5>
+
+        <ul class="list pl-0" role="list">
+
+          <li class="mb-2"><a routerLink="/" aria-label="blog form more article" class="d-inline-block mat-body-2">Blog</a></li>
+          <li class="mb-2"><a routerLink="/" aria-label="licenses of photos in details" class="d-inline-block mat-body-2">Licenses</a></li>
+          <li class="mb-2"><a routerLink="/" aria-label="about app owners or company behind it" class="d-inline-block mat-body-2">About us</a></li>
+          <li class="mb-2"><a routerLink="/" aria-label="contact with app owners for questions or problems" class="d-inline-block mat-body-2">Contact us</a></li>
+          <li><a aria-label="contest page for more contest maded by the owners or sponsers" routerLink="/" class="d-inline-block mat-body-2">Contest</a></li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="col-sm-6 col-lg" *ngIf="topUsers">
+
+      <div class="photographers column">
+
+        <h5 class="mat-subheading-1 mt-0 mb-3">{{ 'featured photographers' | uppercase }}</h5>
+
+        <ul class="list pl-0" role="list">
+
+          <li [class.mb-2]="!isLast" *ngFor="let user of topUsers; last as isLast">
+            <a aria-label="photographer profile to know ... who he is?" routerLink="/" class="d-inline-block mat-body-2">{{ user.userName }}</a>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="col-sm-6 col-lg">
+
+      <div class="follow-us column">
+
+        <h5 class="mat-subheading-1 mt-0 mb-3">{{ 'follow us' | uppercase }}</h5>
+
+        <ul class="list pl-0" role="list">
+
+          <li class="d-inline-block mr-3">
+            <a aria-label="facebook app page" routerLink="/" data-ele-color="primary" class="d-inline-block mat-body-2 rounded-circle text-center">
+              <fa-icon [icon]="['fab', 'facebook-f']" [fixedWidth]="true" size="lg"></fa-icon>
+            </a>
+          </li>
+
+          <li class="d-inline-block mr-3">
+            <a aria-label="twitter app account" routerLink="/" data-ele-color="primary" class="d-inline-block mat-body-2 rounded-circle text-center">
+              <fa-icon [icon]="['fab', 'twitter']" [fixedWidth]="true" size="lg"></fa-icon>
+            </a>
+          </li>
+
+          <li class="d-inline-block mr-3">
+            <a aria-label="instagram app page" routerLink="/" data-ele-color="primary" class="d-inline-block mat-body-2 rounded-circle text-center">
+              <fa-icon [icon]="['fab', 'instagram']" [fixedWidth]="true" size="lg"></fa-icon>
+            </a>
+          </li>
+
+          <li class="d-inline-block">
+            <a aria-label="medium app page for more articles" routerLink="/" data-ele-color="primary" class="d-inline-block mat-body-2 rounded-circle text-center">
+              <fa-icon [icon]="['fab', 'medium-m']" [fixedWidth]="true" size="lg"></fa-icon>
+            </a>
+          </li>
+
+        </ul>
+
+      </div>    
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Copy rights -->
+<div class="copy-rights">
+
+  <p class="mat-body-2 text-center mb-0 mt-5">
+    <mat-icon class="icon-16">copyright</mat-icon>
+    All rights reserved to PhotoShare.Inc
+  </p>
+
+</div>
+<!-- /Copy rights -->

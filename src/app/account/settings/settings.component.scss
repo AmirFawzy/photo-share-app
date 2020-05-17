@@ -1,0 +1,80 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+
+$fa-icon-size: 24px;
+
+.settings {
+  .mat-form-field {
+    mat-icon {
+      cursor: pointer;
+    }
+
+    .pass-not-match {
+      color: $Danger;
+    }
+
+    .ng-fa-icon {
+      font-size: $fa-icon-size;
+      margin-right: 8px;
+    }
+
+    .check-icon {
+      color: $secondary-color;
+    }
+
+    .mat-hint.mat-right {
+      @media screen and (max-width: 400px) {
+        flex: 1 1 9% !important;
+      }
+    }
+  }
+
+  .email,
+  .password {
+    .mat-button {
+      transform: translateY(-6px);
+    }
+  }
+
+  .select-country {
+    .mat-option {
+
+      &:hover:not(.mat-option-disabled),
+      &:focus:not(.mat-option-disabled),
+      &.mat-active {
+        background-color: $hover-color;
+      }
+    }
+  }
+
+  .checkbox {
+    .mat-hint {
+      line-height: normal;
+      color: rgba(#000000, .6) !important;
+    }
+  }
+
+  .contacts {
+    @include set-margin(50px, 0, 39px, 0);
+
+    @include media-breakpoint-down(xs) {
+      @include set-margin(25px, 0, 39px, 0);
+    }
+
+    .mat-subheading-1 {
+      margin-bottom: 30px;
+    }
+
+    .mat-form-field.mat-form-field-appearance-outline .mat-form-field-label {
+      margin-top: 0;
+    }
+
+    .mat-form-field.mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
+      margin-top: -0.25em !important;
+    }
+  }
+
+  .submit-btn {
+    @include gradient-btn();
+  }
+}

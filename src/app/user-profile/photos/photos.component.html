@@ -1,0 +1,31 @@
+<div class="col mt-3 mb-5">
+
+  <ng-container *ngIf="photos.length; else noPhotos">
+
+    <ngx-masonry class="row no-gutters pb-4" [options]="masnoryConfig" [useImagesLoaded]="true">
+
+      <ngxMasonryItem class="col-6 col-md-4 col-xl-3 p-1 item d-flex" *ngFor="let photo of photos">
+
+        <ps-photo-card [photo]="photo"></ps-photo-card>
+
+      </ngxMasonryItem>
+
+    </ngx-masonry>
+
+  </ng-container>
+
+  <ng-template #noPhotos>
+
+    <div class="no-photos-exist d-flex flex-column justify-content-center align-items-center pt-4">
+
+      <mat-icon>photo</mat-icon>
+
+      <h5 class="mat-display-4 mt-2" [ngClass]="{'mb-5': !isOwner, 'mb-3': isOwner}">{{ 'no photos exist' | titlecase }}</h5>
+
+      <button mat-raised-button class="mt-3" type="button" aria-label="add photos" *ngIf="isOwner" (click)="onUploadPhotos()">add photos</button>
+
+    </div>
+
+  </ng-template>
+
+</div>

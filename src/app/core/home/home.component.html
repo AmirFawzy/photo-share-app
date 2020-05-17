@@ -1,0 +1,266 @@
+<ng-container *ngIf="!isAuth">
+
+  <!-- hero slider -->
+  <section class="hero-slider position-relative" [ngStyle]="{ 'width': heroContainerW + 'px', 'height': heroContainerH + 'px' }">
+
+    <div class="overlay position-absolute"></div>
+
+    <div class="content d-flex flex-column justify-content-center align-items-center position-relative">
+      <h1 class="mat-headline white">Photo Share</h1>
+      <h4 class="mat-display-3 text-center white">One place for photographers to get inspired, discover and share their awesome work we believe that one photo could change the whole mood.</h4>
+      <button mat-raised-button color="accent" class="mat-button mt-5" type="button" aria-label="get start">get start</button>
+    </div>
+    
+  </section>
+  <!-- /hero slider -->
+
+  <div class="divider w-100 py-4" *ngIf="!mostViewsPhotos || !mostLikesPhotos"></div>
+
+  <!-- Popular Photos -->
+  <ng-container *ngIf="mostViewsPhotos && mostLikesPhotos">
+
+    <section class="popular-photos" *ngIf="mostViewsPhotos.length || mostLikesPhotos.length">
+  
+      <h5 class="mat-title text-center mb-4 text-uppercase">Most popular photos</h5>
+  
+      <mat-tab-group color="accent" disableRipple="true">
+  
+        <mat-tab label="MOST VIEWS">
+  
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-6 col-lg-3" *ngFor="let photo of mostViewsPhotos">
+                <a class="photo rounded" aria-label="photo page" [routerLink]="[ '/photo', photo.id, photo.title.split(' ').join('-') ]">
+                  <figure>
+                    <img data-ele-name="Open" [src]="photo.photo.downloadUrl" [alt]="photo.title">
+                    <figcaption>
+                      <div class="views mat-body-2">
+                        <mat-icon>remove_red_eye</mat-icon>
+                        <span>{{ photo.views }}</span>
+                      </div>
+                      <div class="likes mat-body-2">
+                        <mat-icon>favorite</mat-icon>
+                        <span>{{ photo.likes }}</span>
+                      </div>
+                    </figcaption>
+                  </figure>
+                </a>
+              </div>
+            </div>
+          </div>
+  
+        </mat-tab>
+  
+        <mat-tab label="MOST LIKES">
+  
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-6 col-lg-3" *ngFor="let photo of mostLikesPhotos">
+                <a class="photo rounded" aria-label="photo page" [routerLink]="[ '/photo', photo.id, photo.title.split(' ').join('-') ]">
+                  <figure>
+                    <img data-ele-name="Open" [src]="photo.photo.downloadUrl" [alt]="photo.title">
+                    <figcaption>
+                      <div class="views mat-body-2">
+                        <mat-icon>remove_red_eye</mat-icon>
+                        <span>{{ photo.views }}</span>
+                      </div>
+                      <div class="likes mat-body-2">
+                        <mat-icon>favorite</mat-icon>
+                        <span>{{ photo.likes }}</span>
+                      </div>
+                    </figcaption>
+                  </figure>
+                </a>
+              </div>
+            </div>
+          </div>
+  
+        </mat-tab>
+  
+      </mat-tab-group>
+  
+      <div class="w-100 text-right container-fluid">
+        <div class="row">
+          <div class="col">
+            <a class="view-more-btn mat-button" aria-label="top rated photos" routerLink="/trends" disableRipple="true" mat-button>
+              view more
+              <mat-icon>arrow_forward</mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+    </section>
+
+  </ng-container>
+  
+  <!-- /Popular Photos -->
+
+  <!-- Features -->
+  <section class="features">
+    <div class="item row mx-0 position-relative">
+
+      <div class="img-1 col col-lg-6 px-0">
+        <!-- <img src="../../../assets/images/features/inspiration.jpeg" alt="inspiration"> -->
+      </div>
+
+      <div class="caption col-sm-6 pr-0 d-none d-lg-block">
+        <div class="text d-flex flex-column justify-content-center">
+          <h2 class="mat-display-1">Inspiration</h2>
+          <p class="mat-body-1 my-0">Get inspired by others work and discover new ways of thinking find out new art style and different variation of techniches to improve your thoughts and evaluate your work.</p>
+        </div>
+      </div>
+
+      <div class="caption d-lg-none position-absolute">
+        <div class="text">
+          <h2 class="mat-display-1">Inspiration</h2>
+          <p class="mat-body-1 my-0">Get inspired by others work and discover new ways of thinking find out new art style and different variation of techniches to improve your thoughts and evaluate your work.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="item row mx-0 position-relative">
+
+      <div class="img-2 col col-lg-6 px-0 order-1">
+        <!-- <img src="../../../assets/images/features/share-work.jpeg" alt="share"> -->
+      </div>
+
+      <div class="caption col-sm-6 pr-0 d-none d-lg-block">
+        <div class="text d-flex flex-column justify-content-center">
+          <h2 class="mat-display-1">Share</h2>
+          <p class="mat-body-1 my-0">Share your work with others around the world get feedbacks, make yourself and your work known and rate others work as they going to rate yours</p>
+        </div>
+      </div>
+
+      <div class="caption d-lg-none position-absolute">
+        <div class="text">
+          <h2 class="mat-display-1">Share</h2>
+          <p class="mat-body-1 my-0">Share your work with others around the world get feedbacks, make yourself and your work known and rate others work as they going to rate yours</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="item row mx-0 position-relative">
+
+      <div class="img-3 col col-lg-6 px-0">
+        <!-- <img src="../../../assets/images/features/meet-photographers.jpeg" alt="meet"> -->
+      </div>
+
+      <div class="caption col-sm-6 pr-0 d-none d-lg-block">
+
+        <div class="text d-flex flex-column justify-content-center">
+          <h2 class="mat-display-1">Meet</h2>
+          <p class="mat-body-1 my-0">Meet new people those sharing the same interesting as yours, get on touch with them discuss them, make new friends and learn discover new experinces from experts in your career.</p>
+        </div>
+
+      </div>
+
+      <div class="caption d-lg-none position-absolute">
+
+        <div class="text">
+          <h2 class="mat-display-1">Meet</h2>
+          <p class="mat-body-1 my-0">Meet new people those sharing the same interesting as yours, get on touch with them discuss them, make new friends and learn discover new experinces from experts in your career.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+  <!-- /Features -->
+
+  <!-- Statistics -->
+  <section class="statistics position-relative">
+    
+    <figure class="stats-background position-absolute">
+      <img class="img-fluid" src="../../../assets/images/statistics.jpeg" alt="stats">
+    </figure>
+
+    <div class="stats-overlay position-absolute w-100 h-100"></div>
+
+    <div class="container-fluid position-relative h-100">
+      <div class="row h-100">
+
+        <div class="col-12 col-md-4">
+          <div class="stats stats-title p-0 pl-sm-5 d-flex justify-content-center align-items-start flex-column">
+            <h4 class="mat-display-2 title white mb-3">Statstics</h4>
+            <p class="mat-display-4 title-description white mt-3">What numbers telling us?</p>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-8">
+          <div class="row">
+            
+            <div class="stats col-4">
+              <div class="d-flex justify-content-center align-items-sm-center align-items-start flex-column h-100">
+                <p class="white mb-0 ml-0 number" [class.mat-display-4]="!mobileScreenBelow" [class.mat-title]="mobileScreenBelow">
+                  <mat-icon class="align-middle">group</mat-icon>
+                    167K
+                </p>
+                <h4 class="mat-title white position-relative mt-0 font-weight-light font-italic">Users</h4>
+              </div>
+            </div>
+  
+            <div class="stats col-4">
+              <div class="d-flex justify-content-center align-items-sm-center align-items-start flex-column h-100">
+                <p class="white mb-0 ml-0 number" [class.mat-display-4]="!mobileScreenBelow" [class.mat-title]="mobileScreenBelow">
+                  <mat-icon class="align-middle">photo</mat-icon>
+                    623K
+                </p>
+                <h4 class="mat-title white position-relative mt-0 font-weight-light font-italic">Photos</h4>
+              </div>
+            </div>
+  
+            <div class="stats col-4">
+              <div class="d-flex justify-content-center align-items-sm-center align-items-start flex-column h-100">
+                <p class="white mb-0 ml-0 number" [class.mat-display-4]="!mobileScreenBelow" [class.mat-title]="mobileScreenBelow">
+                  <mat-icon class="align-middle">tag_faces</mat-icon>
+                    950K
+                </p>
+                <h4 class="mat-title white position-relative mt-0 font-weight-light font-italic">Visitors</h4>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <figure class="waves position-absolute w-100 h-auto m-0">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-100" viewBox="0 0 3510.8 349.9">
+        <path class="waveRGBA" style='opacity:0.35;' d="M1538.6,349.9c-8.5-5.8-17-11.5-25.4-17.2c-201.1-134-443.1-203.1-683.1-195.3
+          c-227.5,7.5-446.5,85.8-635.3,212.4H1538.6z"/>
+        <path class="waveFill" fill='#FFFFFF' d="M3510.8,204.2c-20.4-11.2-41.6-21.2-62.2-29.5c-82.7-33.3-189.3-48.1-283.7-29.4
+          c-145.5,29-226.9,126.3-365.6,165.7c-122,34.6-266.8,18.4-392.2-11.3c-243.9-57.8-476.4-125.1-746.4-111c-148,7.7-291,38.8-421.4,82
+          c-134.5,44.6-293.8,106.7-448.7,58.3c-131.8-41.3-200.4-132.1-322.4-182c-91.2-37.3-207.8-50.7-315.1-36.3
+          C98,118.1,45.7,132.9,0,153.3v197.2h3510.8V204.2z"/>
+        <path class="waveRGBA" style='opacity:0.35;' d="M3510.8,282.8c-117.5-97.4-255.6-201.2-413.4-176.4c-111.4,17.5-184.7,114-282.7,161
+          c-127.3,61-227.1-16.9-341-69.3c-153.7-70.6-343.6-51.4-480.7,48.6c-42.4,31-83,70-125.2,103.2h1643V282.8z"/>
+        <path class="waveRGBA" style='opacity:0.35;' d="M3510.8,161.9c-21.6-2.7-43-3.1-62.3-1.6c-73,5.5-142.2,33.4-209.5,62.3c-67.3,28.9-134.9,59.4-207.2,70.9
+          c-241.2,38.3-440.7-133.6-663.5-189c-201.9-50.2-415.8-6.8-611.8,62.6c-199.5,70.6-405.5,169.7-612.9,127.5
+          c-146-29.7-268.2-125.9-403.1-189.1C501.4-6.7,247.5-4.2,0,50.1v299.8h3510.8V161.9z"/>
+      </svg>
+    </figure>
+
+  </section>
+  <!-- /Statistics -->
+
+  <!-- join us -->
+  <section class="join-us-now position-relative d-flex align-items-center justify-content-center">
+
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <p class="mat-display-1 text-center">We getting bigger everyday</p>
+      <button mat-raised-button class="mat-button d-block white" routerLink="/register" type="button" aria-label="join us">join us</button>
+    </div>
+
+  </section>
+  <!-- /join us -->
+</ng-container>
+
+<!-- user home page -->
+<ng-container *ngIf="isAuth">
+  <ps-user-home></ps-user-home>
+</ng-container>
+<!-- user home page -->

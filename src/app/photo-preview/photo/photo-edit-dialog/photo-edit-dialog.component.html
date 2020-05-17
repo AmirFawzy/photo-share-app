@@ -1,0 +1,168 @@
+<div class="edit-dialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+
+  <mat-dialog-content class="m-0 p-0" #dialogContent>
+
+    <perfect-scrollbar [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{'max-width': dialogContentSize.width + 'px', 'max-height': dialogContentSize.height + 'px'}">
+
+      <div class="content">
+
+        <figure class="m-0 w-100">
+          <img class="img-fluid" [src]="photo.photo.downloadUrl" [alt]="photo.title">
+        </figure>
+
+        <form class="mt-4" (ngSubmit)="onSubmit(f)" #f="ngForm">
+
+          <!-- title -->
+          <mat-form-field class="w-100 mb-1" appearance="outline" color="accent">
+
+            <mat-label>Title</mat-label>
+
+            <input matInput type="text" aria-label="title" name="title" ngModel #title="ngModel" required>
+
+            <mat-error *ngIf="title.touched && title.invalid">This field is <b>reuqired</b>.</mat-error>
+
+          </mat-form-field>
+          <!-- /title -->
+
+          <!-- keywords -->
+          <mat-form-field class="w-100 mb-1" appearance="outline" color="accent">
+
+            <mat-chip-list #keywordsList>
+
+              <mat-chip *ngFor="let keyword of photo.keywords; let i = index" [selectable]="false" [removable]="true" (removed)="onRemoveKeyword(i)">
+                {{ keyword }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+
+            </mat-chip-list>
+
+            <mat-label>Keywords</mat-label>
+
+            <input matInput class="w-100" type="text" aria-label="keywords" name="keywords" [matChipInputFor]="keywordsList" [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="onAddKeyword($event)">
+
+            <mat-error>This field is <b>reuqired</b>.</mat-error>
+
+            <mat-hint *ngIf="aboveTabletScreen" align="left">Press <kbd>{{ 'enter' | uppercase }}</kbd> to add new keyword.</mat-hint>
+
+            <mat-hint *ngIf="tabletScreenDown" align="left">Press <kbd>,</kbd> to add new keyword.</mat-hint>
+
+          </mat-form-field>
+          <!-- /keywords -->
+
+          <!-- Description -->
+          <mat-form-field class="w-100 mb-1" color="accent" appearance="outline">
+
+            <mat-label>Description</mat-label>
+
+            <textarea matInput type="text" aria-label="description" name="description" ngModel #desc="ngModel"></textarea>
+
+          </mat-form-field>
+          <!-- /Description -->
+
+          <!-- Location -->
+          <mat-form-field class="w-100 mb-1" color="accent" appearance="outline">
+
+            <mat-label>Country location</mat-label>
+
+            <mat-select aria-label="country location" name="countries" [panelClass]="'select-location'" (selectionChange)="onSelectionChange($event)" ngModel #countriesSelect="ngModel">
+              <mat-option *ngFor="let country of countries" [value]="country.Name.toLowerCase()">{{ country.Name }}</mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="countriesSelect.touched && countriesSelect.invalid">This field is <b>required</b>.</mat-error>
+
+          </mat-form-field>
+          <!-- /Location -->
+
+          <!-- Location details -->
+          <mat-form-field class="w-100 mb-1" color="accent" appearance="outline">
+
+            <mat-label>City location</mat-label>
+
+            <mat-select aria-label="city location" name="cities" [panelClass]="'select-location'" ngModel #citiesSelect="ngModel" [disabled]="countriesSelect.invalid">
+              <mat-option *ngFor="let city of cities" [value]="city.toLowerCase()">{{ city }}</mat-option>
+            </mat-select>
+
+          </mat-form-field>
+          <!-- /Location details -->
+
+          <!-- Nodity -->
+          <mat-checkbox class="mb-2" color="accent" name="nodity" ngModel><span class="mat-body-1">Is this photo has nodity.</span></mat-checkbox>
+          <!-- /Nodity -->
+
+          <!-- Camera -->
+          <mat-form-field class="w-100 mb-1" color="accent" appearance="outline">
+
+            <mat-label>Camera</mat-label>
+
+            <input matInput type="text" aria-label="camera" name="camera" ngModel #cameraInput="ngModel">
+
+            <mat-error *ngIf="cameraInput.touched && cameraInput.invalid">This field is <b>required</b>.</mat-error>
+
+          </mat-form-field>
+          <!-- /Camera -->
+
+          <!-- Tools -->
+          <mat-form-field class="w-100 mb-1" color="accent" appearance="outline">
+
+            <mat-chip-list #toolsList>
+
+              <mat-chip *ngFor="let tool of photo.tools; let i = index" [selectable]="false" [removable]="true" (removed)="onRemoveTool(i)">
+                {{ tool }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+
+            </mat-chip-list>
+
+            <mat-label>Tools</mat-label>
+
+            <input matInput class="w-100" type="text" aria-label="tools" name="tools" [matChipInputFor]="toolsList" [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="onAddTool($event)">
+
+            <mat-hint *ngIf="aboveTabletScreen" align="left">You can add more than one by press <kbd>{{ 'enter' | uppercase }}</kbd>.</mat-hint>
+
+            <mat-hint *ngIf="tabletScreenDown" align="left">Press <kbd>,</kbd> to add new keyword.</mat-hint>
+
+          </mat-form-field>
+          <!-- /Tools -->
+
+          <!-- Software -->
+          <mat-form-field class="w-100 mb-1" color="accent" appearance="outline">
+
+            <mat-chip-list #softwareList>
+
+              <mat-chip *ngFor="let software of photo.software; let i = index" [selectable]="false" [removable]="true" (removed)="onRemoveSoftware(i)">
+                {{ software }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+
+            </mat-chip-list>
+
+            <mat-label>Software</mat-label>
+
+            <input matInput class="w-100" type="text" aria-label="software" name="software" [matChipInputFor]="softwareList" [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="onAddSoftware($event)">
+
+            <mat-hint *ngIf="aboveTabletScreen" align="left">You can add more than one by press <kbd>{{ 'enter' | uppercase }}</kbd>.</mat-hint>
+
+            <mat-hint *ngIf="tabletScreenDown" align="left">Press <kbd>,</kbd> to add new keyword.</mat-hint>
+
+          </mat-form-field>
+          <!-- /Software -->
+
+        </form>
+
+      </div>
+
+    </perfect-scrollbar>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center" data-ele-name="Drag" cdkDragHandle>
+
+    <div>
+
+      <button mat-button type="submit" aria-label="save edits" [mat-dialog-close]="f.valid ? {'formData': f.value, 'otherData': otherValues} : false" [disabled]="f.invalid">save</button>
+
+    </div>
+
+  </mat-dialog-actions>
+
+</div>

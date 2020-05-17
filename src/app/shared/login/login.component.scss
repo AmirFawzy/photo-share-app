@@ -1,0 +1,96 @@
+@import '../../../framework/mixins';
+@import '../../../framework/variables';
+
+@include dialog-scrollbar(login-dialog);
+
+.mat-dialog-container {
+  padding: 0;
+  overflow: hidden;
+}
+
+.login-dialog {
+
+  .mat-display-4 {
+    font: 400 1.5rem/2rem Roboto, "Helvetica Neue", sans-serif !important;
+    @include set-margin(24px, 0, 24px, 0);
+  }
+
+  .dialog-container {
+    @include set-padding(0, 24px, 24px, 24px);
+
+    .password {
+      .mat-body-2 {
+        top: -17px;
+        right: 0;
+
+        @include link-hover();
+      }
+    }
+
+    mat-icon[matSuffix] {
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      @include gradient-btn();
+    }
+
+    .divider {
+      span {
+        top: -10px;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        width: 30px;
+        height: 20px;
+        background-color: #fff;
+        line-height: 20px;
+      }
+    }
+
+    .social-media-login {
+      button {
+        border-radius: $ellipse;
+        height: 56px;
+        line-height: 56px;
+        color: #fff;
+
+        @each $cals,
+        $color in (facebook, #3B5998),
+        (google, #EA4335) {
+          &.#{$cals} {
+            background: #{$color};
+          }
+        }
+
+        svg {
+          width: 20px;
+          height: 20px;
+          @include set-margin(-4px, 3px, 0, 0);
+
+          path {
+            fill: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  mat-dialog-actions {
+    padding: 20px 0 !important;
+
+    mat-divider {
+      top: 0;
+      right: 0;
+      left: 0;
+    }
+
+    a {
+      @include link-hover();
+      color: $secondary-color;
+    }
+  }
+}
+
+// ::-webkit-scrollbar {
+//   display: none;
+// }

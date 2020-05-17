@@ -1,0 +1,103 @@
+<div class="container-fluid">
+
+  <div class="row pb-5" @fadeInDown *ngIf="photographers; else skeletonPlaceholder">
+
+    <div class="animate-in col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let user of photographers; index as i">
+
+      <div class="user-card position-relative d-flex flex-column align-items-center mb-4">
+
+        <figure class="user-img rounded-circle" [ngStyle]="{'background-image': 'url(' + user.userPhoto + ')'}" [title]="user.userName"></figure>
+
+        <div class="card-content rounded w-100 d-flex flex-column align-items-center">
+
+          <div class="rate text-center position-relative"><span>{{ i + 1 }}</span></div>
+
+          <div class="user-name p-3 w-100 text-center">{{ user.userName | titlecase }}</div>
+
+          <mat-divider class="w-75"></mat-divider>
+
+          <mat-list role="list">
+
+            <mat-list-item role="listitem">
+
+              <mat-icon matListIcon class="mr-2">remove_red_eye</mat-icon>
+
+              <span class="mat-body-1">{{ user.viewsNum | transformBigNumbers }}</span>
+
+            </mat-list-item>
+
+            <mat-list-item role="listitem">
+
+              <mat-icon matListIcon class="mr-2">thumb_up</mat-icon>
+
+              <span class="mat-body-1">{{ user.likesNum | transformBigNumbers }}</span>
+
+            </mat-list-item>
+
+            <mat-list-item role="listitem">
+
+              <mat-icon matListIcon class="mr-2">photo</mat-icon>
+
+              <span class="mat-body-1">{{ user.photosNum | transformBigNumbers }}</span>
+
+            </mat-list-item>
+
+          </mat-list>
+
+          <a [routerLink]="[ '/profile', user.userName.split(' ').join('-').toLowerCase() ]" [queryParams]="{ upi: user.uid }" class="mat-button d-inline-block mt-3" mat-raised-button aria-label="user profile">profile</a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <ng-template #skeletonPlaceholder>
+
+    <div class="skeleton-placeholder">
+
+      <div class="row pb-5">
+
+        <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let block of [1, 2, 3, 4, 5, 6];">
+    
+          <div class="user-card position-relative d-flex flex-column align-items-center mb-4">
+    
+            <figure class="skeleton-circle-photo-lg shadow-none user-img"></figure>
+    
+            <div class="skeleton-block card-content w-100 d-flex flex-column align-items-center">
+    
+              <div class="skeleton-icon rate"></div>
+    
+              <div class="skeleton-title-sm user-name mt-3"></div>
+    
+              <mat-divider class="w-75"></mat-divider>
+    
+              <mat-list role="list">
+    
+                <mat-list-item role="listitem" *ngFor="let item of [1, 2, 3]">
+    
+                  <div matListIcon class="skeleton-icon mr-2 d-inline-block"></div>
+    
+                  <div class="skeleton-title-xs d-inline-block"></div>
+    
+                </mat-list-item>
+        
+              </mat-list>
+    
+              <div class="skeleton-pill-btn-sm d-inline-block mt-3"></div>
+    
+            </div>
+    
+          </div>
+    
+        </div>
+    
+      </div>
+
+    </div>
+
+  </ng-template>
+  
+</div>

@@ -1,0 +1,23 @@
+<a class="photo rounded d-inline-block" [routerLink]="[ '/photo', photo.id, photo.title.split(' ').join('-') ]" aria-label="photo page">
+
+  <img class="img-fluid" [src]="photo.thumbnails.thum500.downloadUrl" [alt]="photo.title" data-ele-name="Open">
+
+  <div class="photo-caption" [ngStyle]="{ 'background-image': 'url(' + photo.thumbnails.thum500.downloadUrl + ')' }" data-ele-name="Open">
+
+    <div class="views mat-body-2">
+
+      <mat-icon data-ele-name="Open">remove_red_eye</mat-icon>
+      <span data-ele-name="Open">{{ photo.views }}</span>
+
+    </div>
+
+    <div class="likes mat-body-2">
+
+      <mat-icon data-ele-name="Open">favorite</mat-icon>
+      <span data-ele-name="Open">{{ photo.likes }}</span>
+
+    </div>
+
+  </div>
+
+</a>

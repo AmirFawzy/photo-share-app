@@ -1,0 +1,21 @@
+@import '../../../../framework/variables';
+@import '../../../../framework/mixins';
+
+.mat-dialog-container {
+  @include set-padding(0,0,24px,0);
+}
+.delete-account-dialog {
+  .mat-dialog-content {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 24px;
+  }
+  .mat-dialog-actions {
+    cursor: move;
+    padding-right: 1em;
+
+    .mat-button {
+      border-radius: $ellipse;
+    }
+  }
+}

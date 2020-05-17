@@ -1,0 +1,74 @@
+<div class="container-fluid mt-3" >
+
+  <div class="row">
+
+    <div class="account-nav col-12 col-md-4 col-lg-3 mb-3 mb-lg-0" *ngIf="userSettings; else skeletonPlaceholder">
+
+      <div class="container">
+
+        <div class="user position-relative d-flex flex-column align-items-center">
+
+          <div class="figure position-absolute rounded-circle">
+
+            <img [src]="userSettings.userPhoto" [alt]="userSettings.userName" class="img-fluid rounded-circle">
+
+            <button mat-icon-button type="button" aria-label="upload profile photo" class="position-absolute" (click)="changePhoto()" matTooltip="Change photo" aria-label="Button that displays a tooltip when focused or hovered over">
+              <mat-icon>photo_camera</mat-icon>
+            </button>
+
+          </div>
+
+          <div class="fig-caption w-100 text-center">
+            <h6 class="mat-title text-white my-3">{{ userSettings.userName }}</h6>
+          </div>
+
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <mat-nav-list [disableRipple]="false">
+          <a mat-list-item class="mat-body-1 my-0 text-white" aria-label="navigation item" *ngFor="let item of navList" [routerLink]="[ item.route ]">{{ item.text }}</a>
+        </mat-nav-list>
+
+      </div>
+
+    </div>
+
+    <ng-template #skeletonPlaceholder>
+
+      <div class="skeleton-placeholder account-nav col-12 col-md-4 col-lg-3 mb-3 mb-lg-0">
+
+        <div class="skeleton-block container">
+  
+          <div class="user position-relative d-flex flex-column align-items-center">
+  
+            <div class="skeleton-circle-photo-xl shadow-none figure position-absolute"></div>
+  
+            <div class="fig-caption w-100">
+              <div class="skeleton-title-sm mx-auto my-3"></div>
+            </div>
+  
+          </div>
+  
+          <mat-divider class="skeleton-divider"></mat-divider>
+  
+          <mat-nav-list [disableRipple]="false">
+            <div mat-list-item class="my-3" *ngFor="let item of [1, 2, 3, 4, 5]">
+              <div class="skeleton-text-sm mx-auto"></div>
+            </div>
+          </mat-nav-list>
+  
+        </div>
+  
+      </div>
+
+    </ng-template>
+
+    <div class="col-12 col-md-8 col-lg-9">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+  
+</div>
+  

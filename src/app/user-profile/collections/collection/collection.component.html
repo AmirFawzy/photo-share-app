@@ -1,0 +1,689 @@
+<div @contentAnimation *ngIf="collection; else skeletonPlaceholder">
+
+  <!-- collection fancy head -->
+  <div class="collection-head position-relative d-flex flex-column justify-content-between" [ngStyle]="{'background-image': collection.photos.length ? 'url(' + collection.cover.originalUrl + ')' : null, 'height': collection.photos.length ? '300px' : 'auto' }">
+
+    <!-- previous page -->
+    <div class="d-flex justify-content-between">
+
+      <a class="mat-button pl-0 mt-2 back-btn" routerLink="../../" [queryParams]="{ upi: route.snapshot.queryParams['upi'] }" aria-label="back to profile page">
+
+        <span class=" d-flex justify-content-center align-items-center">
+          <span class="hor-line"></span>
+          <span class="text">back</span>
+        </span>
+
+      </a>
+
+      <span></span>
+
+    </div>
+    <!-- /previous page -->
+
+    <!-- collection title -->
+    <div class="content container-fluid position-relative pb-3">
+
+      <div class="title animate-in d-flex justify-content-between align-items-start mt-3 mb-2">
+
+        <div class="d-flex align-items-center">
+          <h3 class="mat-display-2 m-0">{{ collection.title | titlecase }}</h3>
+        </div>
+
+        <button mat-icon-button type="button" aria-label="report" class="mat-button report-btn ml-3" matTooltip="Report" matTooltipPosition="left">
+          <mat-icon>flag</mat-icon>
+        </button>
+
+      </div>
+
+      <small class="published-date animate-in mb-3 mat-caption">{{ collection.publishedDate | date:'longDate' }}</small>
+
+    </div>
+    <!-- /collection title -->
+
+  </div>
+  <!-- /collection fancy head -->
+
+  <!-- collection edit -->
+  <div class="col mb-3 collection-edit">
+
+    <!-- description -->
+    <div class="head mb-4">
+
+      <p class="description animate-in mat-body-1 mb-4">{{ collection.description }}</p>
+
+      <mat-chip-list [selectable]="false" *ngIf="collection.keywords.length">
+
+        <mat-chip class="animate-in" *ngFor="let keyword of collection.keywords" [disableRipple]="true">{{ keyword }}</mat-chip>
+        
+      </mat-chip-list>
+
+      <mat-accordion *ngIf="tabletScreenDown">
+
+        <!-- collection -->
+        <mat-expansion-panel class="mt-4">
+
+          <mat-expansion-panel-header>
+
+            <mat-panel-title>Collection</mat-panel-title>
+
+            <mat-panel-description>Edit</mat-panel-description>
+            
+          </mat-expansion-panel-header>
+
+          <!-- delete button -->
+          <div class="d-flex justify-content-center mt-1 mb-4">
+
+            <button mat-button type="button" aria-label="delete" color="warn" class="delete-btn" (click)="onDeleteCollection()">
+              <mat-icon>delete</mat-icon>
+              delete
+            </button>
+
+          </div>
+          <!-- delete button -->
+
+          <form [formGroup]="collectionEditForm" (ngSubmit)="onSubmitCollection()">
+
+            <!-- Title -->
+            <mat-form-field appearance="outline" color="accent" class="w-100 mb-1">
+
+              <mat-label>Title</mat-label>
+
+              <input matInput type="text" aria-label="title" formControlName="collectionTitle" required>
+
+              <mat-error *ngIf="collectionEditForm.get('collectionTitle').invalid && collectionEditForm.get('collectionTitle').touched">This field is <b>required</b>.</mat-error>
+
+            </mat-form-field>
+            <!-- /title -->
+
+            <!-- keywords -->
+            <mat-form-field appearance="outline" color="accent" class="w-100 mb-1 mb-lg-3">
+
+              <mat-chip-list #collectionChipList>
+
+                <mat-chip *ngFor="let item of collection.keywords" [selectable]="false" [removable]="true" (removed)="onRemoveCollectionChip(item)">
+                  {{ item.toLowerCase() }}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+
+              </mat-chip-list>
+
+              <mat-label>Keywords</mat-label>
+
+              <input matInput class="w-100" type="text" aria-label="keywords" formControlName="keywords" [matChipInputFor]="collectionChipList" [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="onAddCollectionChip($event)">
+
+              <mat-hint *ngIf="!tabletScreenDown" align="left">Press <kbd>{{ 'enter' | uppercase }}</kbd> to add new keyword.</mat-hint>
+
+              <mat-hint *ngIf="tabletScreenDown" align="left">Press <kbd>,</kbd> to add new keyword.</mat-hint>
+
+            </mat-form-field>
+            <!-- /keywords -->
+
+            <!-- description -->
+            <mat-form-field appearance="outline" color="accent" class="w-100 mb-1">
+
+              <mat-label>Description</mat-label>
+
+              <textarea aria-label="description" matInput formControlName="description"></textarea>
+
+            </mat-form-field>
+            <!-- /description -->
+
+            <div class="d-flex justify-content-center">
+              <button mat-raised-button type="submit" aria-label="save" class="save-btn text-white" [disabled]="collectionEditForm.invalid">save</button>
+            </div>
+
+          </form>
+
+        </mat-expansion-panel>
+        <!-- /collection -->
+        
+      </mat-accordion>
+
+    </div>
+    <!-- /description -->
+
+    <!-- photos -->
+    <div class="row my-5" [ngClass]="{'flex-column': isThatTheSameUserUid, 'flex-lg-row': isThatTheSameUserUid}">
+
+      <div [ngClass]="{'col-lg-8': isThatTheSameUserUid, 'col-12': isThatTheSameUserUid || !isThatTheSameUserUid}">
+
+        <div class="row">
+
+          <!-- photos -->
+          <ng-container *ngIf="photos">
+
+            <figure class="col-4 col-md-3 m-0 position-relative" *ngFor="let photo of photos">
+              
+              <a class="d-block w-100 h-100" [routerLink]="[ '/photo', photo.id, photo.title.toLowerCase().split(' ').join('-') ]" data-ele-name="Open" [ngStyle]="{ 'background-image': 'url(' + photo.thumbnails.thum500.downloadUrl + ')' }" aria-label="go to photo page"></a>
+
+              <figcaption class="position-absolute">
+                <mat-checkbox aria-label="select" color="accent" [value]="photo.id" [disableRipple]="true" (change)="onPhotoSelect($event)"></mat-checkbox>
+              </figcaption>
+
+            </figure>
+
+          </ng-container>
+          <!-- /photos -->
+
+          <!-- upload input -->
+          <div class="upload-input col-4 col-md-3">
+
+            <div matRipple class="upload-container h-100">
+
+              <div class="d-block m-0 h-100 d-flex justify-content-center align-items-center" (click)="onUploadPhotos()">
+
+                <div class="upload-ui text-center">
+
+                  <mat-icon>add_circle</mat-icon>
+                  <p class="mat-body-1 m-0">Select file</p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+          <!-- /upload input -->
+
+        </div>
+
+      </div>
+
+      <!-- forms -->
+      <div class="col-12 col-lg-4 mt-3 mt-lg-0" *ngIf="isThatTheSameUserUid">
+
+        <mat-accordion class="animate-in" [multi]="tabletScreenDown ? false : true">
+
+          <!-- collection -->
+          <mat-expansion-panel [expanded]="true" *ngIf="!tabletScreenDown">
+
+            <mat-expansion-panel-header>
+
+              <mat-panel-title>Collection</mat-panel-title>
+
+              <mat-panel-description>Edit</mat-panel-description>
+              
+            </mat-expansion-panel-header>
+
+            <!-- delete button -->
+            <div class="d-flex justify-content-center mt-1 mb-4">
+
+              <button mat-button type="button" aria-label="save" color="warn" class="delete-btn" (click)="onDeleteCollection()">
+                <mat-icon>delete</mat-icon>
+                delete
+              </button>
+
+            </div>
+            <!-- delete button -->
+
+            <form [formGroup]="collectionEditForm" (ngSubmit)="onSubmitCollection()">
+
+              <!-- Title -->
+              <mat-form-field appearance="outline" color="accent" class="w-100 mb-1">
+
+                <mat-label>Title</mat-label>
+
+                <input matInput type="text" aria-label="title" formControlName="collectionTitle" required>
+
+                <mat-error *ngIf="collectionEditForm.get('collectionTitle').invalid && collectionEditForm.get('collectionTitle').touched">This field is <b>required</b>.</mat-error>
+
+              </mat-form-field>
+              <!-- /title -->
+
+              <!-- keywords -->
+              <mat-form-field appearance="outline" color="accent" class="w-100 mb-1 mb-lg-3">
+
+                <mat-chip-list #collectionChipList>
+
+                  <mat-chip *ngFor="let item of collection.keywords" [selectable]="false" [removable]="true" (removed)="onRemoveCollectionChip(item)">
+                    {{ item.toLowerCase() }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+
+                </mat-chip-list>
+
+                <mat-label>Keywords</mat-label>
+
+                <input matInput class="w-100" type="text" aria-label="keywords" formControlName="keywords" [matChipInputFor]="collectionChipList" [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="onAddCollectionChip($event)">
+
+                <mat-hint *ngIf="!tabletScreenDown" align="left">Press <kbd>{{ 'enter' | uppercase }}</kbd> to add new keyword.</mat-hint>
+
+                <mat-hint *ngIf="tabletScreenDown" align="left">Press <kbd>,</kbd> to add new keyword.</mat-hint>
+
+              </mat-form-field>
+              <!-- /keywords -->
+
+              <!-- description -->
+              <mat-form-field appearance="outline" color="accent" class="w-100 mb-1">
+
+                <mat-label>Description</mat-label>
+
+                <textarea aria-label="description" matInput formControlName="description"></textarea>
+
+              </mat-form-field>
+              <!-- /description -->
+
+              <div class="d-flex justify-content-center">
+                <button mat-raised-button type="submit" aria-label="save" class="save-btn text-white" [disabled]="collectionEditForm.invalid">save</button>
+              </div>
+
+            </form>
+
+          </mat-expansion-panel>
+          <!-- /collection -->
+
+          <!-- photo -->
+          <mat-expansion-panel [expanded]="true" *ngIf="selectedPhoto.length">
+
+            <mat-expansion-panel-header>
+
+              <mat-panel-title>Photo</mat-panel-title>
+
+              <mat-panel-description>Edit</mat-panel-description>
+
+            </mat-expansion-panel-header>
+
+            <!-- delete button -->
+            <div class="d-flex justify-content-center mt-1 mb-4">
+              
+              <button mat-button type="button" aria-label="delete" color="warn" class="delete-btn" (click)="onDeletePhoto()">
+                <mat-icon>delete</mat-icon>
+                {{ selectedPhoto.length > 1 ? 'delete all' : 'delete' }}
+              </button>
+
+            </div>
+            <!-- delete button -->
+
+            <!-- form -->
+            <form [formGroup]="photoEditForm" (ngSubmit)="onSubmitPhoto()" *ngIf="selectedPhoto.length && (selectedPhoto.length < 2)">
+
+              <!-- Title -->
+              <mat-form-field appearance="outline" color="accent" class="w-100 mb-1">
+
+                <mat-label>Title</mat-label>
+
+                <input matInput type="text" aria-label="title" formControlName="photoTitle" required>
+
+                <mat-error *ngIf="photoEditForm.get('photoTitle').invalid && photoEditForm.get('photoTitle').touched">This field is <b>required</b>.</mat-error>
+
+              </mat-form-field>
+              <!-- /title -->
+
+              <!-- keywords -->
+              <mat-form-field appearance="outline" color="accent" class="w-100 mb-1 mb-lg-3">
+
+                <mat-chip-list #photoChipList>
+
+                  <mat-chip *ngFor="let item of selectedPhoto[0].keywords" [selectable]="false" [removable]="true" (removed)="onRemovePhotoChip(item)">
+                    {{ item.toLowerCase() }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+
+                </mat-chip-list>
+
+                <mat-label>Keywords</mat-label>
+
+                <input matInput class="w-100" type="text" aria-label="keywords" formControlName="keywords" [matChipInputFor]="photoChipList" [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="onAddPhotoChip($event)">
+
+                <mat-hint *ngIf="!tabletScreenDown" align="left">Press <kbd>{{ 'enter' | uppercase }}</kbd> to add new keyword.</mat-hint>
+
+                <mat-hint *ngIf="tabletScreenDown" align="left">Press <kbd>,</kbd> to add new keyword.</mat-hint>
+
+              </mat-form-field>
+              <!-- /keywords -->
+
+              <!-- description -->
+              <mat-form-field appearance="outline" color="accent" class="w-100 mb-1">
+
+                <mat-label>Description</mat-label>
+
+                <textarea aria-label="description" matInput formControlName="description" ></textarea>
+
+              </mat-form-field>
+              <!-- /description -->
+
+              <!-- Location -->
+              <mat-form-field class="w-100 mb-1" color="accent" appearance="outline">
+
+                <mat-label>Country</mat-label>
+
+                <mat-select aria-label="country" formControlName="country" [panelClass]="'select-location'" (selectionChange)="onSelectionChange($event)">
+                  <mat-option *ngFor="let country of countries" [value]="country.Name.toLowerCase()">{{ country.Name }}</mat-option>
+                </mat-select>
+
+              </mat-form-field>
+              <!-- /Location -->
+
+              <!-- Location details -->
+              <div *ngIf="isLocationExist">
+
+                <mat-form-field class="w-100 mb-1" color="accent" appearance="outline">
+
+                  <mat-label>City</mat-label>
+
+                  <mat-select aria-label="city" formControlName="city" [panelClass]="'select-location'">                    
+                    <mat-option *ngFor="let city of cities" [value]="city.toLowerCase()">{{ city }}</mat-option>
+                  </mat-select>
+
+                </mat-form-field>
+
+              </div>
+              <!-- /Location details -->
+
+              <!-- Nodity -->
+              <mat-checkbox color="accent" formControlName="nodity"><span class="mat-body-1">Is this photo has nodity.</span></mat-checkbox>
+              <!-- /Nodity -->
+
+              <!-- Camera -->
+              <mat-form-field class="w-100 mb-1 mt-2" color="accent" appearance="outline">
+
+                <mat-label>Camera</mat-label>
+
+                <input matInput type="text" aria-label="camera" formControlName="camera">
+
+              </mat-form-field>
+              <!-- /Camera -->
+
+              <!-- Tools -->
+              <mat-form-field class="w-100 mb-1 mb-lg-3" color="accent" appearance="outline">
+
+                <mat-chip-list #toolsList>
+
+                  <mat-chip *ngFor="let tool of selectedPhoto[0].tools; let i = index" [selectable]="false" [removable]="true" (removed)="onRemoveTool(i)">
+                    {{ tool }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+
+                </mat-chip-list>
+
+                <mat-label>Tools</mat-label>
+
+                <input matInput class="w-100" type="text" aria-label="tools" formControlName="tools" [matChipInputFor]="toolsList" [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="onAddTool($event)">
+
+                <mat-hint *ngIf="!tabletScreenDown" align="left">You can add more than one by press <kbd>{{ 'enter' | uppercase }}</kbd> .</mat-hint>
+
+                <mat-hint *ngIf="tabletScreenDown" align="left">You can add more than one by press <kbd>,</kbd> .</mat-hint>
+
+              </mat-form-field>
+              <!-- /Tools -->
+
+              <!-- Software -->
+              <mat-form-field class="w-100 mb-1 mb-lg-3" color="accent" appearance="outline">
+
+                <mat-chip-list #softwareList>
+
+                  <mat-chip *ngFor="let software of selectedPhoto[0].software; let i = index" [selectable]="false" [removable]="true" (removed)="onRemoveSoftware(i)">
+                    {{ software }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+
+                </mat-chip-list>
+
+                <mat-label>Software</mat-label>
+
+                <input matInput class="w-100" type="text" aria-label="software" formControlName="software" [matChipInputFor]="softwareList" [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="onAddSoftware($event)">
+
+                <mat-hint *ngIf="!tabletScreenDown" align="left">You can add more than one by press <kbd>{{ 'enter' | uppercase }}</kbd> .</mat-hint>
+
+                <mat-hint *ngIf="tabletScreenDown" align="left">You can add more than one by press <kbd>,</kbd> .</mat-hint>
+
+              </mat-form-field>
+              <!-- /Software -->
+
+              <div class="d-flex justify-content-center mt-3">                
+                <button mat-raised-button type="submit" aria-label="save" [ngClass]="{'save-btn text-white': photoEditForm.valid}" [disabled]="photoEditForm.invalid">save</button>
+              </div>
+
+            </form>
+            <!-- /form -->
+
+          </mat-expansion-panel>
+          <!-- /photo -->
+
+        </mat-accordion>
+
+      </div>      
+      <!-- /forms -->
+
+    </div>
+    <!-- /photos -->
+
+  </div>
+  <!-- /collection edit -->
+
+</div>
+
+<ng-template #skeletonPlaceholder>
+
+  <div class="skeleton-placeholder">
+
+    <!-- collection fancy head -->
+    <div class="collection-head position-relative d-flex flex-column justify-content-between" style="height: 300px">
+  
+      <!-- previous page -->
+      <div class="skeleton-pill-btn-sm mt-3 ml-3"></div>
+      <!-- /previous page -->
+  
+      <!-- collection title -->
+      <div class="content container-fluid position-relative pb-3">
+  
+        <div class="title d-flex justify-content-between align-items-start mt-3 mb-2">
+  
+          <div class="skeleton-title-lg"></div>
+  
+          <div class="skeleton-icon-btn ml-3"></div>
+  
+        </div>
+  
+        <div class="skeleton-caption published-date mb-3"></div>
+  
+      </div>
+      <!-- /collection title -->
+  
+    </div>
+    <!-- /collection fancy head -->
+  
+    <!-- collection edit -->
+    <div class="col mb-3 collection-edit">
+  
+      <!-- description -->
+      <div class="head mb-4">
+  
+        <div class="skeleton-paragraph-sm skeleton-shimmer-medium description"></div>
+  
+        <div class="d-flex pt-3">
+          <div class="skeleton-chip" *ngFor="let chip of [1, 2, 3]"></div>
+        </div>
+  
+        <mat-accordion class="skeleton-accordion" [hideToggle]="true" *ngIf="tabletScreenDown">
+  
+          <!-- collection -->
+          <mat-expansion-panel class="mt-4">
+  
+            <mat-expansion-panel-header>
+  
+              <mat-panel-title>
+                <div class="skeleton-title-xs"></div>
+              </mat-panel-title>
+  
+              <mat-panel-description>
+                <div class="skeleton-text-xs"></div>
+              </mat-panel-description>
+              
+            </mat-expansion-panel-header>
+  
+            <!-- delete button -->
+            <div class="d-flex justify-content-center mt-1 mb-4">
+  
+              <div class="skeleton-pill-btn-sm delete-btn"></div>
+  
+            </div>
+            <!-- delete button -->
+  
+            <div>
+  
+              <div class="w-100 mb-2" *ngFor="let item of [1, 2]">
+                <div class="skeleton-input"></div>  
+              </div>  
+  
+              <!-- description -->
+              <div class="w-100 mb-2">
+                <div class="skeleton-textarea"></div>
+              </div>
+              <!-- /description -->
+  
+              <div class="d-flex justify-content-center">
+                <div class="skeleton-pill-btn-sm save-btn"></div>
+              </div>
+  
+            </div>
+  
+          </mat-expansion-panel>
+          <!-- /collection -->
+          
+        </mat-accordion>
+  
+      </div>
+      <!-- /description -->
+  
+      <!-- photos -->
+      <div class="row my-5" [ngClass]="{'flex-column': isThatTheSameUserUid, 'flex-lg-row': isThatTheSameUserUid}">
+  
+        <div [ngClass]="{'col-lg-8': isThatTheSameUserUid, 'col-12': isThatTheSameUserUid || !isThatTheSameUserUid}">
+  
+          <div class="row">
+  
+            <!-- photos -->
+            <div class="col-4 col-md-3 m-0" *ngFor="let photo of [1, 2, 3]">
+              
+              <div class="skeleton-photo-thumbnail-md d-block h-100"></div>
+
+            </div>
+            <!-- /photos -->
+    
+          </div>
+  
+        </div>
+  
+        <!-- forms -->
+        <div class="col-12 col-lg-4 mt-3 mt-lg-0" *ngIf="isThatTheSameUserUid">
+  
+          <mat-accordion class="skeleton-accordion" [hideToggle]="true" [multi]="tabletScreenDown ? false : true">
+  
+            <!-- collection -->
+            <mat-expansion-panel [expanded]="true" *ngIf="!tabletScreenDown">
+  
+              <mat-expansion-panel-header>
+  
+                <mat-panel-title>
+                  <div class="skeleton-title-sm"></div>
+                </mat-panel-title>
+  
+                <mat-panel-description>
+                  <div class="skeleton-text-xs"></div>
+                </mat-panel-description>
+                
+              </mat-expansion-panel-header>
+  
+              <!-- delete button -->
+              <div class="d-flex justify-content-center mt-1 mb-4">
+  
+                <div class="skeleton-pill-btn-sm delete-btn"></div>
+  
+              </div>
+              <!-- delete button -->
+  
+              <div>
+  
+                <div class="w-100 mb-2" *ngFor="let item of [1, 2]">
+                  <div class="skeleton-input"></div>
+                </div>
+    
+                <!-- description -->
+                <div class="w-100 mb-2">
+                  <div class="skeleton-textarea"></div>
+                </div>
+                <!-- /description -->
+  
+                <div class="d-flex justify-content-center">
+                  <div class="skeleton-pill-btn-sm save-btn"></div>
+                </div>
+  
+              </div>
+  
+            </mat-expansion-panel>
+            <!-- /collection -->
+  
+            <!-- photo -->
+            <mat-expansion-panel [expanded]="true">
+  
+              <mat-expansion-panel-header>
+  
+                <mat-panel-title>
+                  <div class="skeleton-title-xs"></div>
+                </mat-panel-title>
+  
+                <mat-panel-description>
+                  <div class="skeleton-text-xs"></div>
+                </mat-panel-description>
+  
+              </mat-expansion-panel-header>
+  
+              <!-- delete button -->
+              <div class="d-flex justify-content-center mt-1 mb-4">
+                
+                <div class="skeleton-pill-btn-sm delete-btn"></div>
+  
+              </div>
+              <!-- delete button -->
+  
+              <!-- form -->
+              <div>
+  
+                <div class="w-100 mb-2" *ngFor="let item of [1, 2]">
+                  <div class="skeleton-input"></div>
+                </div>
+  
+                <!-- description -->
+                <div class="w-100 mb-2">
+                  <div class="skeleton-textarea"></div>
+                </div>
+                <!-- /description -->
+  
+                <div class="w-100 mb-2" *ngFor="let item of [1, 2]">
+                  <div class="skeleton-input"></div>
+                </div>  
+
+                <!-- Nodity -->
+                <div class="skeleton-text-md my-4"></div>
+                <!-- /Nodity -->
+  
+                <div class="w-100 mb-2" *ngFor="let item of [1, 2]">
+                  <div class="skeleton-input"></div>
+                </div>
+
+                <div class="d-flex justify-content-center mt-3">                
+                  <div class="skeleton-pill-btn-sm"></div>
+                </div>
+  
+              </div>
+              <!-- /form -->
+  
+            </mat-expansion-panel>
+            <!-- /photo -->
+  
+          </mat-accordion>
+  
+        </div>      
+        <!-- /forms -->
+  
+      </div>
+      <!-- /photos -->
+  
+    </div>
+    <!-- /collection edit -->
+
+  </div>
+
+</ng-template>

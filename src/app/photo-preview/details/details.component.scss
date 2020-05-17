@@ -1,0 +1,109 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+@import '../../../framework/partials/bootstrap-grid.scss';
+@import '../../../framework/partials/mixins/border-radius';
+@import '~@angular/material/theming';
+
+.owner {
+  figure {
+    border: 2px solid $secondary-color;
+    width: 80px;
+    height: 80px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    @include media-breakpoint-only(lg) {
+      width: 55px;
+      height: 55px;
+    }
+  }
+
+  .user-name {
+    text-transform: capitalize;
+
+    a {
+      color: $text-color;
+      text-decoration: none;
+      transition: $trans-2;
+
+      &:hover {
+        color: $secondary-color;
+      }
+    }
+  }
+
+  .follow-btn {
+    border-radius: $ellipse;
+  }
+}
+
+.mat-accordion {
+  .mat-expansion-panel {
+    margin-bottom: 1em;
+    box-shadow: none !important;
+
+    .mat-expansion-panel-header {
+      background-color: #eee;
+      transition: $trans-2;
+
+      .mat-expansion-panel-header-title,
+      .mat-expansion-indicator::after {
+        color: $secondary-color;
+      }
+
+      .mat-expansion-indicator::after {
+        transform: rotate(45deg) translate(0, -3px);
+      }
+
+      &.mat-expanded {
+        background-color: #eee;
+        @include border-bottom-radius(0);
+      }
+    }
+
+    .mat-expansion-panel-content {
+      background-color: #f2f2f2;
+
+      .mat-expansion-panel-body {
+        padding-top: 1em;
+
+        .mat-icon {
+          color: $text-color;
+        }
+
+        a {
+          @include link-hover();
+          cursor: pointer;
+        }
+      }
+    }
+
+    .stat {
+      width: 33.3%;
+
+      .location {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        margin: auto;
+        width: 100%;
+      }
+    }
+
+    .title,
+    .location {
+      text-transform: capitalize;
+    }
+
+    .location {
+      .location {
+        flex: 78% 1 1;
+      }
+
+      .see-map {
+        flex: 22% 1 1;
+      }
+    }
+  }
+}

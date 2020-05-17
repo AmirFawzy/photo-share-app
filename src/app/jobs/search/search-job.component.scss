@@ -1,0 +1,166 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+
+$mb-align-center-form: calc(48px / 2);
+$no-jobs-container-width: 675px;
+$no-jobs-bg-color-area: hsl(319, 29%, 96%);
+
+.container-fluid.search-job {
+  overflow: hidden;
+
+  .header {
+    .search-form {
+
+      @include media-breakpoint-up(md) {
+        width: 75%;
+      }
+
+      .mat-form-field-appearance-outline .mat-form-field-outline-start {
+        width: 44px;
+      }
+
+      .mat-form-field-appearance-outline .mat-form-field-outline-start {
+        width: 44px;
+      }
+
+      .mat-icon {
+        margin-right: 14px;
+      }
+    }
+
+    .mat-divider {
+      height: 36px;
+      margin-bottom: $mb-align-center-form;
+    }
+
+    .mat-button {
+      margin-bottom: $mb-align-center-form;
+      @include gradient-btn();
+    }
+  }
+
+  .job-list {
+    .mat-list {
+      .mat-list-item {
+        height: auto;
+
+        .mat-list-item-content {
+          justify-content: space-between;
+          width: 100%;
+          padding: 1rem 0;
+
+          h3 a {
+            color: $secondary-color;
+            transition: $trans-2;
+            @include link-hover();
+            background: $primary-gradient;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            .dots {
+              -webkit-text-fill-color: #8142A4;
+            }
+          }
+
+          .mat-list-avatar {
+            flex-basis: 8%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 3px;
+            background: $secondary-gradient;
+            text-transform: capitalize;
+            color: #ffffff;
+            height: 100%;
+
+            @include media-breakpoint-only(lg) {
+              flex-basis: 10%;
+            }
+
+            @include media-breakpoint-only(md) {
+              flex-basis: 14%;
+            }
+
+            @include media-breakpoint-down(sm) {
+              display: none;
+            }
+          }
+
+          .mat-list-text {
+            flex-basis: 92%;
+
+            @include media-breakpoint-only(lg) {
+              flex-basis: 90%;
+            }
+
+            @include media-breakpoint-only(md) {
+              flex-basis: 86%;
+            }
+
+            @include media-breakpoint-down(sm) {
+              flex-basis: auto;
+              padding-left: 0;
+            }
+          }
+
+          .content {
+            .mat-title {
+              text-transform: capitalize;
+              overflow: hidden;
+
+              a {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+              }
+            }
+
+            .date {
+              color: rgba($text-color, .7);
+            }
+
+            .company {
+              text-transform: capitalize;
+
+              .location {
+                color: rgba($text-color, .8);
+              }
+            }
+
+            .salary-vacancy {
+              width: 220px;
+
+              .salary {
+                color: $secondary-color;
+              }
+
+              .vacancy {
+                color: rgba($Danger, .9);
+              }
+            }
+          }
+        }
+
+        .mat-divider {
+          margin: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+.no-jobs-card {
+  width: $no-jobs-container-width;
+  background-color: $no-jobs-bg-color-area;
+  border-radius: $rounded-lg;
+  border: 1px dashed hsl(319, 29%, 88%);
+
+  @include media-breakpoint-down(sm) {
+    width: 100%;
+  }
+
+  button {
+    border-radius: $ellipse;
+  }
+}

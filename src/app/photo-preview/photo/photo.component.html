@@ -1,0 +1,149 @@
+<ng-container *ngIf="photo; else skeletonPlaceholder">
+
+  <!-- Photo -->
+  <div class="photo-preview position-relative mt-3 mt-lg-0" psPreventContextmenu [img]="photo.photo.downloadUrl" [ownerName]="photo.owner.userName" [ownerPhoto]="photo.owner.profilePhoto" #fullscreen>
+
+    <!-- photo owner user badge -->
+    <div class="position-absolute user-badge" *ngIf="(windowWidth <= 768) && !isAuth">
+
+      <div class="d-flex justify-content-between align-items-center w-100 h-100">
+
+        <figure class="m-0 rounded-circle h-auto" [ngStyle]="{'background': 'url(' + photo.owner.profilePhoto + ') center/cover no-repeat'}"></figure>
+
+        <p class="mat-body-2 m-0 text-white">{{ photo.owner.userName | uppercase }}</p>
+
+      </div>
+
+    </div>
+    <!-- /photo owner user badge -->
+
+    <figure class="d-flex flex-column justify-content-center rounded m-0" [ngStyle]="{'background-image': 'url(' + photo.photo.downloadUrl + ')'}"></figure>
+
+    <div class="actions position-absolute">
+
+      <div class="fullscreen-btns rounded-bottom h-100 d-flex justify-content-end align-items-center" *ngIf="!isAuth || !isOwner">
+        <mat-icon (click)="openFullscreen()" *ngIf="!isFullscreen">fullscreen</mat-icon>
+        <mat-icon (click)="exitFullscreen()" *ngIf="isFullscreen" style="cursor: pointer !important">fullscreen_exit</mat-icon>
+      </div>
+
+      <div class="action-btns rounded-bottom h-100 d-flex justify-content-end align-items-center" *ngIf="isAuth && isOwner">
+
+        <div>
+          <button mat-button class="mat-button mr-3" type="button" aria-label="delete" color="warn" (click)="onDelete()">delete</button>
+          <button mat-flat-button class="mat-button" type="button" aria-label="edit" color="accent" (click)="onEdit()">edit</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <!-- /Photo -->
+  
+  <!-- Photo Buttons -->
+  <div class="photo-btns d-flex justify-content-between align-items-center">
+
+    <span>
+
+      <button mat-button type="button" aria-label="like" class="mat-button" (click)="onLikePhoto()" [color]="isUserLikeThePhoto ? 'accent' : 'default'" *ngIf="!isOwner">
+        <mat-icon>favorite</mat-icon>
+        like
+      </button>
+
+      <button mat-button type="button" aria-label="add to collection" class="mat-button" (click)="onAddToCollection()">
+        <mat-icon>library_add</mat-icon>
+        add to collection
+      </button>
+
+    </span>
+
+    <span>
+
+      <button mat-button type="button" aria-label="share" class="mat-button mr-0" (click)="onShare()">
+        <mat-icon>share</mat-icon>
+        share
+      </button>
+
+    </span>
+
+  </div>
+  <!-- /Photo Buttons -->
+  
+  <!-- Description -->
+  <div class="description" *ngIf="photo.description.length || photo.keywords.length">
+
+    <h6 class="mat-title" *ngIf="photo.description.length">Description</h6>
+
+    <p class="mat-body-1 mt-0">
+      {{ photo.description }}
+    </p>
+
+    <mat-chip-list class="keywords">
+      <mat-chip *ngFor="let keyword of photo.keywords" [routerLink]="[ '/search', keyword.toLowerCase().split(' ').join('-') ]">
+        {{ keyword }}
+      </mat-chip>
+    </mat-chip-list>
+
+  </div>
+  <!-- /Description -->
+
+  <mat-divider></mat-divider>
+  
+</ng-container>
+
+
+<ng-template #skeletonPlaceholder>
+
+  <div class="skeleton-placeholder">
+  
+    <!-- Photo -->
+    <div class="photo-preview mt-3 mt-lg-0">
+  
+      <figure class="skeleton-defined-size-photo m-0"></figure>
+  
+    </div>
+    <!-- /Photo -->
+    
+    <!-- Photo Buttons -->
+    <div class="photo-btns d-flex justify-content-between align-items-center">
+  
+      <span>
+  
+        <div class="skeleton-pill-btn-sm mr-2 d-inline-block"></div>
+  
+        <div class="skeleton-pill-btn-md d-inline-block"></div>
+  
+      </span>
+  
+      <span>
+  
+        <div class="skeleton-pill-btn-sm d-inline-block"></div>
+  
+      </span>
+  
+    </div>
+    <!-- /Photo Buttons -->
+    
+    <!-- Description -->
+    <div class="description">
+  
+      <div class="skeleton-title-sm mb-4"></div>
+  
+      <div class="skeleton-paragraph-sm"></div>
+  
+      <div class="pt-4 mb-3">
+        
+        <div class="skeleton-chip d-inline-block"></div>
+        <div class="skeleton-chip d-inline-block"></div>
+        <div class="skeleton-chip d-inline-block"></div>
+        <div class="skeleton-chip d-inline-block"></div>
+        <div class="skeleton-chip d-inline-block"></div>
+  
+      </div>
+  
+    </div>
+    <!-- /Description -->
+      
+  </div>
+
+</ng-template>

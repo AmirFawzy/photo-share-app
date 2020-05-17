@@ -1,0 +1,25 @@
+<div class="share-btns-dialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+  <mat-dialog-content>
+    <button mat-fab type="button" aria-label="facebook" shareButton="facebook" [style.backgroundColor]="share.prop.facebook.color" [getCount]="true" [url]="data.url">
+      <fa-icon [icon]="['fab', 'facebook-f']" [fixedWidth]="true" size="lg"></fa-icon>
+    </button>
+    <button mat-fab type="button" aria-label="twitter" shareButton="twitter" [style.backgroundColor]="share.prop.twitter.color" [getCount]="true" [url]="data.url">
+      <fa-icon [icon]="['fab', 'twitter']" [fixedWidth]="true" size="lg"></fa-icon>
+    </button>
+    <button mat-fab type="button" aria-label="pinterest" shareButton="pinterest" [style.backgroundColor]="share.prop.pinterest.color" [getCount]="true" [url]="data.url">
+      <fa-icon [icon]="['fab', 'pinterest-p']" [fixedWidth]="true" size="lg"></fa-icon>
+    </button>
+    <button mat-fab type="button" aria-label="linkedin" shareButton="linkedin" [style.backgroundColor]="share.prop.linkedin.color" [getCount]="true" [url]="data.url">
+      <fa-icon [icon]="['fab', 'linkedin-in']" [fixedWidth]="true" size="lg"></fa-icon>
+    </button>
+    <button mat-fab type="button" aria-label="tumblr" shareButton="tumblr" [style.backgroundColor]="share.prop.tumblr.color" [getCount]="true" [url]="data.url">
+      <fa-icon [icon]="['fab', 'tumblr']" [fixedWidth]="true" size="lg"></fa-icon>
+    </button>
+    <button mat-fab type="button" aria-label="reddit" shareButton="reddit" [style.backgroundColor]="share.prop.reddit.color" [getCount]="true" [url]="data.url">
+      <fa-icon [icon]="['fab', 'reddit-alien']" [fixedWidth]="true" size="lg"></fa-icon>
+    </button>
+    <button mat-fab type="button" aria-label="email" shareButton="email" [style.backgroundColor]="share.prop.email.color" [getCount]="true" [url]="data.url">
+      <fa-icon [icon]="['fas', 'envelope']" [fixedWidth]="true" size="lg"></fa-icon>
+    </button>
+  </mat-dialog-content>
+</div>

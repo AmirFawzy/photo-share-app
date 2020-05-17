@@ -1,0 +1,178 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+@import '~@angular/material/theming';
+
+// Photo Preview
+.photo-preview {
+
+  .indicator-badge,
+  .user-badge {
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 200px;
+    height: 40px;
+    border-radius: $ellipse;
+    background-color: transparent;
+
+    // this class for on mousemove badge in fullscreen mode
+    .background-blur {
+      filter: blur(3px);
+      background-size: cover;
+      width: 100%;
+      height: 100%;
+      opacity: .8;
+      transform: scale(2);
+    }
+
+    >div {
+      padding: 0.5em;
+      z-index: 1;
+
+      figure {
+        flex: 1 1 10%;
+        border: 1px solid $secondary-color;
+        width: 100%;
+        height: 100% !important;
+      }
+
+      p {
+        padding-left: 5px;
+        flex: 1 1 85%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+  }
+
+  figure {
+    width: 100%;
+    overflow: hidden;
+    height: 578px;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    @media (max-width: 769px) {
+      height: 400px;
+    }
+
+    @media (max-width: 1500px) and (min-width: 770px) {
+      height: 578px;
+    }
+
+    @media (min-width: 1501px) {
+      height: 700px;
+    }
+  }
+
+  .actions {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+
+    .fullscreen-btns {
+      color: #fff;
+      background: linear-gradient(to top, #000, transparent);
+      @include set-padding(0, 1em, 0, 1em);
+
+      .mat-icon {
+        cursor: pointer;
+      }
+    }
+
+    .action-btns {
+      @include set-padding(0, 1em, 0, 1em);
+      background-color: rgba(#fff, .9);
+
+      .mat-button {
+        border-radius: $ellipse;
+      }
+    }
+  }
+
+  &:-webkit-full-screen {
+    figure {
+      height: 100%;
+      max-height: inherit;
+
+      // img {
+      //   position: absolute;
+      //   top: 0;
+      //   left: 0;
+      //   bottom: 0;
+      //   height: 100%;
+      //   width: 100%;
+      // }
+    }
+  }
+
+  &:-moz-full-screen {
+    figure {
+      height: 100%;
+      max-height: inherit;
+
+      // img {
+      //   position: absolute;
+      //   top: 0;
+      //   left: 0;
+      //   bottom: 0;
+      //   height: 100%;
+      //   width: 100%;
+      // }
+    }
+  }
+
+  &:fullscreen {
+    figure {
+      height: 100%;
+      max-height: inherit;
+
+      // img {
+      //   position: absolute;
+      //   top: 0;
+      //   left: 0;
+      //   bottom: 0;
+      //   height: 100%;
+      //   width: 100%;
+      // }
+    }
+  }
+}
+
+// Photo Buttons
+.photo-btns {
+  @include set-margin(10px, 0, 0, 0);
+
+  .mat-button {
+    @include set-margin(0, 8px, 0, 0);
+    border-radius: $ellipse;
+
+    mat-icon {
+      @include set-margin(0, 8px, 0, 0);
+    }
+  }
+}
+
+// Description
+.description {
+  @include set-margin(30px, 0, 0, 0);
+
+  .mat-title {
+    @include set-margin(0, 0, 12px, 0);
+  }
+
+  .mat-body-1 {
+    @include set-margin(0, 0, 30px, 0);
+  }
+
+  .mat-chip {
+    cursor: pointer;
+    line-height: 1;
+  }
+}
+
+.mat-divider {
+  @include set-margin(16px, 0, 20px, 0);
+}

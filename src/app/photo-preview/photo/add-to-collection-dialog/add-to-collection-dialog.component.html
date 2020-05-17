@@ -1,0 +1,76 @@
+<mat-progress-bar mode="indeterminate" color="accent" *ngIf="loadingState"></mat-progress-bar>
+
+<div class="collection-dialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+
+  <div mat-dialog-title class="mat-elevation-z4">
+
+    <form class="d-flex justify-content-around align-items-center" (ngSubmit)="onAddCollection(f)" #f="ngForm">
+
+      <mat-form-field class="flex-grow-1" appearance="outline" color="accent">
+
+        <mat-label>New Collection</mat-label>
+
+        <input matInput type="text" aria-label="new collection" name="collectionTitle" ngModel #newCollection="ngModel">
+
+      </mat-form-field>
+
+      <button mat-button type="submit" aria-label="add a collection" [disabled]="newCollection.value < 1">add</button>
+
+    </form>
+
+  </div>
+
+  <mat-dialog-content #dialogContent>
+
+    <perfect-scrollbar  [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{'max-width': dialogWidth + 'px', 'max-height': '400px'}">
+
+      <ng-container *ngIf="collections">
+
+        <ng-container *ngIf="collections.length; else noCollections">
+  
+          <mat-selection-list (selectionChange)="onSelectionChange($event)" #collectionList="matSelectionList">
+  
+            <ng-container *ngFor="let collection of collections">
+  
+              <mat-list-option [disableRipple]="true" [value]="collection.id" [selected]="collection.photos.includes(data.photoId)">
+                <mat-icon matListIcon>folder</mat-icon>
+                {{ collection.title }}
+              </mat-list-option>
+  
+            </ng-container>
+  
+          </mat-selection-list>
+  
+        </ng-container>
+  
+        <ng-template #noCollections>
+  
+          <div class="d-flex flex-column justify-content-center align-items-center pt-4 pb-2">
+  
+            <mat-icon>photo_library</mat-icon>
+  
+            <h5 class="mat-body-1 mt-2">{{ 'no collection exist' | titlecase }}</h5>
+            
+          </div>
+  
+        </ng-template>
+
+      </ng-container>
+
+    </perfect-scrollbar>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" data-ele-name="Drag" cdkDragHandle>
+
+    <div>
+  
+      <button mat-button type="button" aria-label="cancel" color="warn" mat-dialog-close>cancel</button>
+  
+      <button mat-button type="button" aria-label="save" color="accent" *ngIf="collections" [mat-dialog-close]="{ selected: selectedCollections, unselected: unselectedCollections }">save</button>
+
+    </div>
+
+  </mat-dialog-actions>
+
+</div>

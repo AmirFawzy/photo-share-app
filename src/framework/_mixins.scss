@@ -1,0 +1,309 @@
+@import './partials/bootstrap-grid';
+@import './variables';
+
+// Media query
+@mixin media-xxl-up() {
+  @media screen and (min-width: 1920px) {
+    @content;
+  }
+}
+
+// spacing
+@mixin set-padding($t: 0, $r: 0, $b: 0, $l: 0) {
+  padding-top: $t !important;
+  padding-right: $r !important;
+  padding-bottom: $b !important;
+  padding-left: $l !important;
+}
+
+@mixin set-margin($t: 0, $r: 0, $b: 0, $l: 0) {
+  margin-top: $t !important;
+  margin-right: $r !important;
+  margin-bottom: $b !important;
+  margin-left: $l !important;
+}
+
+@mixin set-radius($topLeft: 0, $topRight: 0, $bottomRight: 0, $bottomLeft: 0) {
+  border-top-left-radius: $topLeft;
+  border-top-right-radius: $topRight;
+  border-bottom-right-radius: $bottomRight;
+  border-bottom-left-radius: $bottomLeft;
+}
+
+// photo card
+@mixin photo() {
+  .photo {
+    position: relative;
+    height: 250px;
+    @include set-margin(0, 0, 1.8em, 0);
+    overflow: hidden;
+    border-radius: 4px;
+    display: block;
+
+    @include media-breakpoint-down(xs) {
+      height: 200px;
+    }
+
+    &:hover figure figcaption {
+      bottom: 0;
+    }
+
+    figure {
+      @include set-margin(0, 0, 0, 0);
+
+      img {
+        width: auto;
+        height: 250px;
+
+        @media screen and (min-width: 1600px) {
+          width: 100%;
+        }
+
+        @media screen and (min-width: 809px) and (max-width: 991.98px) {
+          width: 100%;
+          height: 250px;
+        }
+      }
+
+      figcaption {
+        position: absolute;
+        bottom: -100%;
+        right: 0;
+        left: 0;
+        display: flex;
+        justify-content: space-between;
+        @include set-padding(.5em, 1em, .5em, 1em);
+        @include set-radius(0, 0, 3px, 3px);
+        background: linear-gradient(to bottom, transparent, #000);
+        color: rgba(#fff, .8);
+        transition: $trans-2;
+
+        .mat-body-2 {
+          color: #fff;
+          margin-bottom: 0;
+        }
+
+        mat-icon {
+          @include set-margin(0, .3em, 0, 0);
+        }
+
+        mat-icon,
+        span {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}
+
+// Gradient button
+@mixin gradient-btn($radius: $ellipse) {
+  &:not(:disabled) {
+    border-radius: $radius;
+    background: $primary-gradient-btn;
+    color: #fff !important;
+  }
+
+  &[disabled] {
+    border-radius: $radius;
+  }
+}
+
+// link hover
+@mixin link-hover() {
+  transition: $trans-2;
+  text-decoration-style: underline;
+  text-decoration-color: $text-color;
+
+  @supports (text-decoration-style: dotted) {
+    text-decoration-style: dotted;
+  }
+
+  ;
+
+  &:hover {
+    color: $secondary-color;
+    text-decoration-color: $secondary-color;
+  }
+}
+
+// photo (masonry grid)
+@mixin photo-masonry() {
+  .photo {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+
+    &:hover .photo-caption {
+      bottom: 0;
+    }
+
+    .photo-caption {
+      @include set-margin(0, 0, 0, 0);
+      position: absolute;
+      bottom: -50%;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      @include set-padding(.5em, 1em, .5em, 1em);
+      @include set-radius(0, 0, 3px, 3px);
+      color: rgba(#fff, .8);
+      transition: $trans-2;
+      // background: linear-gradient(to bottom, transparent, #000);
+      background-size: cover;
+      background-position: center bottom;
+
+      @include media-breakpoint-down(md) {
+        bottom: 0;
+      }
+
+      @include media-breakpoint-down(xs) {
+        @include set-padding(.1em, 1em, .3em, 1em);
+      }
+
+      &:after {
+        content: '';
+        position: absolute;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        top: -8px;
+        background: inherit;
+        filter: blur(5px);
+        box-shadow: inset 0 0 100px rgba(0, 0, 0, .2);
+      }
+
+      .mat-body-2 {
+        color: #fff;
+        margin-bottom: 0;
+        margin: 0;
+      }
+
+      mat-icon {
+        @include set-margin(0, .3em, 0, 0);
+      }
+
+      mat-icon,
+      span {
+        vertical-align: middle;
+        position: relative;
+        z-index: 1;
+      }
+    }
+  }
+}
+
+// Dialog scrollbar
+@mixin dialog-scrollbar($selector) {
+  .#{$selector} {
+    perfect-scrollbar>.ps.ps--active-y>.ps__rail-y {
+      z-index: 2;
+      background-color: #f2f2f2 !important;
+      opacity: 1;
+
+      .ps__thumb-y {
+        background: #bdbdbd !important;
+        border-radius: 1px;
+      }
+    }
+  }
+}
+
+// Go Back Button
+@mixin go-back-btn($color: $text-color, $hover-color: $secondary-color) {
+  .back-btn {
+    text-decoration: none !important;
+    
+    .hor-line {
+      width: 60px;
+      height: 2px;
+      background: $color;
+      margin-right: 2px;
+      transition: $trans-2;
+    }
+    
+    .text {
+      color: $color;
+      transition: $trans-2;
+    }
+
+    &:hover {
+      .hor-line {
+        background: $hover-color;
+      }
+
+      .text {
+        color: $hover-color;
+      }
+    }
+  }
+}
+
+@mixin rating-Badge() {
+  .rating-badge {
+    color: $text-color;
+    order: 2;
+    width: auto !important;
+    height: auto !important;
+    border-radius: 0 !important;
+
+    @include media-breakpoint-only(xs) {
+      margin-left: 0 !important;
+      margin-top: 1rem;
+    }
+
+    &:hover {
+      color: $text-color;
+    }
+
+    %bullet {
+      width: 6px;
+      height: 6px;
+      top: 50%;
+      transform: translate(0, -50%);
+      z-index: 1;
+      box-shadow: 1px 3px 3px 0px rgba(0, 0, 0, 0.5) inset;
+    }
+
+    .badge {
+      padding: .1rem 1rem;
+
+      .overlay {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-image: linear-gradient(to top, rgba(0, 0, 0, .2), transparent);
+      }
+
+      .bullet-before {
+        @extend %bullet;
+        left: 6px;
+      }
+
+      .bullet-after {
+        @extend %bullet;
+        right: 6px;
+      }
+    }
+
+    .mat-icon {
+      z-index: 1;
+      margin-right: 0.3rem;
+    }
+
+    .mat-caption {
+      z-index: 2;
+    }
+  }
+}
+
+@mixin skeleton-animation($skeleton-name) {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: $skeleton-name;
+  animation-timing-function: linear;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%) !important;
+}

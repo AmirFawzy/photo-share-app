@@ -1,0 +1,146 @@
+<div class="mt-2 min-vh-100 user-profile">
+
+    <div class="col">
+
+      <!-- user details -->
+      <div class="animate-land-in user-details d-flex justify-content-between align-items-start flex-column flex-lg-row" [style.padding-bottom.px]="!user.aboutMe.length ? 60 : 0">
+
+        <!-- details -->
+        <div class="details d-flex justify-content-between align-items-start">
+
+          <figure class="my-0 photo rounded-circle" [ngStyle]="{ 'background-image': 'url(' + user.userPhoto + ')' }" [title]="user.userName"></figure> 
+
+          <div class="info">
+
+            <div class="first-row stats">
+
+              <span class="followers-num mat-body-1 my-0 align-middle">{{ user.followersNum | transformBigNumbers }} Followers</span>
+
+              <mat-divider [vertical]="true" class="mx-2 d-inline-block align-middle"></mat-divider>
+
+              <span class="photos-num mat-body-1 my-0 align-middle">{{ user.photosNum | transformBigNumbers }} Photo</span>
+
+              <span class="country mat-body-1 my-0 d-inline-flex justify-content-center align-items-center align-middle">
+                <fa-icon [icon]="['fas', 'map-marker-alt']" [fixedWidth]="true" size="sm"></fa-icon>
+                {{ user.country }}
+              </span>
+
+            </div>
+
+            <div class="second-row d-flex align-items-center">
+
+              <h3 class="name mat-display-2 m-0">{{ user.userName }}</h3>
+
+              <ng-container *ngIf="isTop3Users || isTop10Users">
+          
+                <a class="rating-badge text-decoration-none p-0 ml-3 position-relative" [routerLink]="[ '/trends' ]" aria-label="go to top photographers and top rated photos">
+        
+                  <div class="badge position-relative d-flex align-items-center rounded overflow-hidden" [style.background-color]="topUsersBadgeColor">
+        
+                    <span class="overlay position-absolute"></span>
+        
+                    <mat-icon class="position-relative icon-16" *ngIf="isTop3Users">stars</mat-icon>
+        
+                    <span class="mat-caption position-relative">{{ topUserBadgeText }}</span>
+        
+                    <span class="bullet-before rounded-circle position-absolute" [style.background-color]="topUsersBadgeColor"></span>
+                    <span class="bullet-after rounded-circle position-absolute" [style.background-color]="topUsersBadgeColor"></span>
+        
+                  </div>
+      
+                </a>
+                  
+              </ng-container>
+              
+            </div>
+
+            <div class="third-row action-btns d-flex">
+
+              <ng-container *ngIf="!isProfileOwner; else editSettings">
+
+                <button mat-raised-button type="button" aria-label="hire me" class="mr-3 rounded-pill" color="accent" *ngIf="user.hiringAvailability" (click)="onHireMe()">hire me</button>
+
+                <div>
+
+                  <button mat-button type="button" aria-label="follow" *ngIf="!followBtnHidden" class="mat-button follow-btn rounded-pill" (click)="onFollow()">Follow</button>
+                  <button mat-button type="button" aria-label="unfollow" *ngIf="followBtnHidden" class="mat-button follow-btn rounded-pill" [color]="followingBtnColor" (click)="onUnfollow()" (mouseenter)="followingBtnText = 'Unfollow'; followingBtnColor = 'warn'" (mouseleave)="followingBtnText = 'Following'; followingBtnColor = 'accent'" #followingBtn>{{ followingBtnText }}</button>
+
+                </div>
+
+              </ng-container>
+              
+              <ng-template #editSettings>
+                <button mat-button type="button" aria-label="edit profile" class="rounded-pill" color="accent" [routerLink]="[ '/account/settings' ]">edit profile</button>
+              </ng-template>
+
+            </div>
+
+          </div>
+
+        </div>
+        <!-- /details -->
+
+        <!-- social links -->
+        <div class="social-links mt-4 mt-lg-0">
+
+          <a *ngIf="user.socialLinks.website.length" mat-icon-button [href]="'https://' + user.socialLinks.website" target="_blank" class="ml-2" matTooltip="Website" aria-label="Button that displays a tooltip when focused or hovered over">
+            <fa-icon [icon]="['fas', 'home']" [fixedWidth]="true" size="lg"></fa-icon>
+          </a>
+
+          <a *ngIf="user.socialLinks.facebook.length" mat-icon-button [href]="'https://' + user.socialLinks.facebook" target="_blank" class="ml-2" matTooltip="Facebook" aria-label="Button that displays a tooltip when focused or hovered over">
+            <fa-icon [icon]="['fab', 'facebook-f']" [fixedWidth]="true" size="lg"></fa-icon>
+          </a>
+
+          <a *ngIf="user.socialLinks.twitter.length" mat-icon-button [href]="'https://' + user.socialLinks.twitter" target="_blank" class="ml-2" matTooltip="Twitter" aria-label="Button that displays a tooltip when focused or hovered over">
+            <fa-icon [icon]="['fab', 'twitter']" [fixedWidth]="true" size="lg"></fa-icon>
+          </a>
+
+          <a *ngIf="user.socialLinks.instagram.length" mat-icon-button [href]="'https://' + user.socialLinks.instagram" target="_blank" class="ml-2" matTooltip="Instagram" aria-label="Button that displays a tooltip when focused or hovered over">
+            <fa-icon [icon]="['fab', 'instagram']" [fixedWidth]="true" size="lg"></fa-icon>
+          </a>
+
+          <a *ngIf="user.socialLinks.tumblr.length" mat-icon-button [href]="'https://' + user.socialLinks.tumblr" target="_blank" class="ml-2" matTooltip="Tumblr" aria-label="Button that displays a tooltip when focused or hovered over">
+            <fa-icon [icon]="['fab', 'tumblr']" [fixedWidth]="true" size="lg"></fa-icon>
+          </a>
+
+        </div>
+        <!-- /social links -->
+
+      </div>
+      <!-- /user details -->
+
+      <!-- about me -->
+      <div class="animate-land-in about-me" *ngIf="user.aboutMe.length">
+
+        <h6 class="mat-title">About me</h6>
+
+        <p class="mat-body-1">{{ user.aboutMe }}</p>
+
+      </div>
+      <!-- /about me -->
+
+    </div>
+
+    <!-- tabs -->
+    <div class="animate-land-in tabs">
+
+      <mat-tab-group color="accent" (focusChange)="tabIndex = $event.index" [disableRipple]="true" mat-align-tabs="center">
+
+        <mat-tab label="Photos">
+
+          <ps-photos></ps-photos>
+
+        </mat-tab>
+
+        <mat-tab label="Collections">
+
+          <ps-collections></ps-collections>
+
+        </mat-tab>
+
+      </mat-tab-group>
+
+    </div>
+    <!-- /tabs -->
+
+  </div>

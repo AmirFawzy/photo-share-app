@@ -1,0 +1,350 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+@import '~@angular/material/theming';
+@import '../../../framework/partials/bootstrap-grid.scss';
+@import '../../../framework/partials/mixins/border-radius';
+
+// hero slider
+.hero-slider {
+  background: url(../../../assets/images/hero-slider-1.jpg) center center no-repeat;
+  background-size: cover;
+  height: 600px;
+  color: #fff;
+  overflow: hidden;
+  @include border-bottom-radius(7rem);
+  // background: pink;
+
+  @include media-breakpoint-down(md) {
+    height: 500px;
+  }
+
+  .overlay {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(#000000, .5);
+  }
+
+  canvas {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+
+  .content {
+    height: 100%;
+
+    .mat-headline {
+      @include set-margin(75px, 0, 20px, 0);
+
+      @include media-breakpoint-down(md) {
+        font-size: 6rem;
+        line-height: 5rem;
+        @include set-margin(0, 0, 40px, 0);
+      }
+
+      @include media-breakpoint-down(sm) {
+        font-size: 4rem;
+        line-height: 4rem;
+        @include set-margin(0, 0, 20px, 0);
+      }
+    }
+
+    .mat-display-3 {
+      @include set-margin(.5rem, 6rem, 2.5rem, 8rem);
+
+      font: {
+        size: 2.2rem;
+        weight: lighter;
+      }
+
+      line-height: 3rem;
+
+      @include media-xxl-up() {
+        @include set-margin(0, 22rem, 5rem, 22rem);
+      }
+
+      @include media-breakpoint-down(md) {
+        font-size: 1.6rem;
+        line-height: 2.4rem;
+        @include set-margin(0, 2rem, 2rem, 2rem);
+      }
+
+      @include media-breakpoint-down(sm) {
+        font-size: 1.4rem;
+        line-height: 1.8rem;
+        @include set-margin(0, 0, 2rem, 0);
+      }
+    }
+
+    button {
+      height: 50px;
+      border-radius: 30px;
+      width: 126px;
+      color: #fff;
+      font-size: 1.05rem;
+    }
+  }
+}
+
+// popular photos
+.popular-photos {
+  @include set-margin(50px, 0, 50px, 0);
+  @include photo();
+
+  .mat-tab-header {
+    border-bottom: none;
+    margin-bottom: 20px;
+
+    .mat-tab-labels {
+      justify-content: center;
+      background-color: $bg-color;
+    }
+  }
+
+  .view-more-btn {
+    text-decoration: none;
+    color: $text-color;
+
+    mat-icon {
+      font-size: 18px;
+      @include set-margin(0, 0, 0, 4px);
+      height: 18px;
+      width: 18px;
+    }
+  }
+}
+
+// features
+.features {
+  background-color: #fff;
+
+  .item {
+    height: 450px;
+    overflow: hidden;
+
+    &:nth-child(2) {
+      @include set-margin(50px, 0, 50px, 0);
+
+      @include media-breakpoint-down(md) {
+        @include set-margin(0, 0, 0, 0);
+      }
+    }
+
+    $i: 1;
+
+    @while $i < 4 {
+      .img-#{$i} {
+        overflow: hidden;
+        background: url('../../../assets/images/features/img-#{$i}.jpeg') no-repeat fixed;
+        background-size: cover;
+
+        img {
+          height: 100%;
+          width: 100%;
+        }
+      }
+
+      $i: $i+1;
+    }
+  }
+
+  .caption {
+    @media screen and (min-width: 1600px) {
+      height: 450px;
+    }
+
+    @include media-breakpoint-down(md) {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(#fff, .9);
+      padding: 1em 1.5em;
+      z-index: 1;
+      border-radius: 2px;
+    }
+
+    .text {
+      height: 100%;
+      padding: 0 0 0 4em;
+
+      @include media-breakpoint-down(md) {
+        padding: 0;
+      }
+
+      .mat-display-1 {
+        @include set-margin(0, 0, 30px, 0);
+      }
+
+      .mat-body-1 {
+        max-width: 550px;
+        padding-right: 2em;
+
+        @include media-breakpoint-down(md) {
+          padding-right: 0;
+          width: 550px;
+        }
+
+        @include media-breakpoint-down(sm) {
+          width: 380px;
+        }
+      }
+    }
+  }
+}
+
+// statistics
+.statistics {
+  overflow: hidden;
+  // background: url(../../../assets/images/statistics.jpeg) no-repeat;
+  // background-size: cover;
+  color: #fff;
+  height: 450px;
+
+  @include media-breakpoint-down(md) {
+    height: 350px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(#000000, .7);
+  }
+
+  .stats-background {
+    top: 50%;
+    transform: translate(0, -50%);
+
+    img {
+      filter: blur(2px);
+    }
+  }
+
+  .stats-overlay {
+    background: linear-gradient(to right, transparent 5%, #232840 47.5%, #232840 47.5%);
+    opacity: .95;
+  }
+
+  .waves {
+    z-index: 1;
+    bottom: 0;
+
+    svg {
+      path {
+        fill: $bg-color;
+      }
+    }
+  }
+
+  .container-fluid {
+    z-index: 1;
+
+    .stats-title {
+      @include media-breakpoint-down(sm) {
+        display: block !important;
+        height: auto !important;
+      }
+
+      .mat-display-4 {
+        font-weight: lighter;
+
+        @include media-breakpoint-down(sm) {
+          display: none !important;
+        }
+      }
+    }
+
+    .stats {
+      height: 450px;
+      --text-color: #fafafa;
+
+      @include media-breakpoint-down(sm) {
+        height: 300px;
+      }
+
+      .mat-display-4:not(.title-description) {
+        color: var(--text-color) !important;
+      }
+
+      .title-description,
+      .mat-title {
+        margin-bottom: 8.5em;
+      }
+
+      .mat-title:not(.number) {
+        margin-left: 4em;
+        color: var(--text-color) !important;
+
+        @include media-breakpoint-down(sm) {
+          margin-left: 3em;
+        }
+
+        @include media-breakpoint-down(xs) {
+          margin-left: 1.8em;
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          transform: translate(0, -50%);
+          width: 18px;
+          left: -24px;
+          height: 1px;
+          background-color: var(--text-color) !important;
+        }
+      }
+    }
+  }
+}
+
+// Join us
+.join-us-now {
+  height: 20em;
+
+  .waves {
+    top: -136.14px;
+
+    svg {
+      path {
+        fill: $bg-color;
+      }
+    }
+  }
+
+  >div {
+    margin-bottom: 3rem;
+  }
+
+  .mat-display-1 {
+    margin-bottom: 50px;
+
+    @include media-breakpoint-down(sm) {
+      line-height: 4.5rem;
+    }
+  }
+
+  .mat-button {
+    background: $primary-gradient-btn;
+    border-radius: $ellipse;
+    color: #fff;
+    width: 122px;
+    height: 48px;
+    line-height: 48px;
+    text-decoration: none;
+    font-size: 1.05rem;
+
+    @include media-breakpoint-down(sm) {
+      width: 100px;
+      height: 48px;
+      line-height: 48px;
+      font-size: 1rem;
+    }
+  }
+}

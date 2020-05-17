@@ -1,0 +1,261 @@
+<div class="pb-3">
+
+  <!-- Comment Form -->
+  <form (ngSubmit)="onSubmitComment(commentForm)" #commentForm="ngForm">
+
+    <mat-form-field class="w-100" appearance="outline" color="accent">
+
+      <mat-label>Comment</mat-label>
+
+      <textarea matInput name="comment" (keyup.enter)="onSubmitComment(commentForm)" ngModel #comment="ngModel"><pre></pre></textarea>
+
+      <mat-hint class="d-none d-sm-block" align="left">Press <kbd>{{ 'enter' | uppercase }}</kbd> to post the comment and <kbd>{{ 'shift + enter' | uppercase }}</kbd> for new line.</mat-hint>
+
+    </mat-form-field>
+
+    <div class="d-flex justify-content-end">
+      <button mat-button type="submit" aria-label="post a comment" [disabled]="comment.value?.length < 1">post</button>
+    </div>
+
+  </form>
+  <!-- Comment Form -->
+
+  <!-- Comments -->
+  <ng-container *ngIf="comments; else skeletonPlaceholder">
+
+    <div class="comments mt-4" *ngIf="comments.length">
+  
+      <div class="comment position-realtive d-flex flex-column align-items-stretch" *ngFor="let comment of comments; let i = index">
+  
+        <div class="d-flex justify-content-start align-items-start">
+  
+          <figure class="mb-0 mr-3 rounded-circle">
+            <img class="img-fluid rounded-circle" [src]="comment.owner.userPhoto" [alt]="comment.owner.userName">
+          </figure>
+  
+          <div class="comment-content w-100">
+  
+            <div class="owner d-flex justify-content-between align-items-center">
+  
+              <div>
+  
+                <a [routerLink]="['/photo', '3']" aria-label="user profile" class="d-inline-block mat-subheading-2 my-0">{{ comment.owner.userName }} </a>
+  
+                <span class="divider">|</span>
+  
+                <!-- <span class="mat-caption">{{ comment.publishedDate | date:'mediumDate' }}</span> -->
+                <span class="mat-caption">
+  
+                  <span *ngIf="(time(today).diff(time(comment.publishedDate), 'hour') < 1) || (time(today).diff(time(comment.publishedDate), 'day') < 1)">{{ time(today).from(time(comment.publishedDate)) }}</span>
+  
+                  <span *ngIf="time(today).diff(time(comment.publishedDate), 'day') >= 1 && time(today).diff(time(comment.publishedDate), 'week') <= 3">{{ time(today).from(time(comment.publishedDate)) }} at {{ comment.publishedDate | date:'h:mm a' }}</span>
+        
+                  <span *ngIf="time(today).diff(time(comment.publishedDate), 'week') > 3">{{ time(today).from(time(comment.publishedDate)) }} at {{ comment.publishedDate | date:'MMM d' }}</span>
+    
+                </span>
+  
+              </div>
+  
+              <div>
+  
+                <button *ngIf="comment.owner.id !== userId" mat-icon-button type="button" aria-label="report" class="mat-button report-btn" matTooltip="Report" [disableRipple]="true" matTooltipPosition="above">
+                  <mat-icon class="icon-18 m-0">flag</mat-icon>
+                </button>
+  
+                <button *ngIf="comment.owner.id === userId" (click)="onDeleteComment(comment.id)" mat-icon-button type="button" aria-label="delete" class="mat-button report-btn" matTooltip="Delete" [disableRipple]="true" matTooltipPosition="above">
+                  <mat-icon class="icon-18 m-0">close</mat-icon>
+                </button>
+  
+              </div>
+  
+            </div>
+  
+            <div class="comment-body">
+  
+              <p class="mat-body-1 m-0">
+                {{ comment.comment }}
+              </p>
+  
+            </div>
+  
+            <button mat-button type="button" aria-label="replay" color="accent" (click)="onReplay(i); replayInput.focus();" [hidden]="!isAuth">replay</button>
+  
+          </div>
+  
+        </div>
+  
+        <div class="replays">
+  
+          <!-- Replay Form -->
+          <form (ngSubmit)="onSubmitReplay(replayForm, comment.id)" #replayForm="ngForm" [@openReplay]="(i === replayIdx) ? true : false">
+  
+            <mat-form-field class="w-100" appearance="outline" color="accent">
+  
+              <mat-label>Replay</mat-label>
+  
+              <textarea matInput name="replay" (keyup.enter)="onSubmitReplay(replayForm, comment.id)" ngModel #replay="ngModel" #replayInput="matInput"></textarea>
+  
+              <mat-hint class="d-none d-sm-block" align="left">Press <kbd>{{ 'enter' | uppercase }}</kbd> to post the replay and <kbd>{{ 'shift + enter' | uppercase }}</kbd> for new line.</mat-hint>
+  
+            </mat-form-field>
+  
+            <div class="d-flex justify-content-end">
+              <button mat-button type="submit" aria-label="post a replay" [disabled]="replay.value?.trim().length < 1">post</button>
+            </div>
+  
+          </form>
+          <!-- /Replay Form -->
+  
+          <div class="replay d-flex justify-content-start align-items-start" *ngFor="let replay of comment.replays" [hidden]="!comment.replays.length">
+  
+            <figure class="mb-0 mr-3 rounded-circle">
+              <img class="img-fluid rounded-circle" [src]="replay.owner.userPhoto" [alt]="replay.owner.userName">
+            </figure>
+  
+            <div class="replay-content w-100">
+  
+              <div class="owner d-flex justify-content-between align-items-center">
+  
+                <div>
+  
+                  <a [routerLink]="['/profile', replay.owner.userName]" [queryParams]="{ upi: replay.owner.id }" class="d-inline-block mat-subheading-2 my-0" aria-label="user profile">{{ replay.owner.userName }} </a>
+  
+                  <span class="divider">|</span>
+  
+                  <span class="mat-caption">
+  
+                    <span *ngIf="(time(today).diff(time(comment.publishedDate), 'hour') < 1) || (time(today).diff(time(comment.publishedDate), 'day') < 1)">{{ time(today).from(time(comment.publishedDate)) }}</span>
+    
+                    <span *ngIf="time(today).diff(time(comment.publishedDate), 'day') >= 1 && time(today).diff(time(comment.publishedDate), 'week') <= 3">{{ time(today).from(time(comment.publishedDate)) }} at {{ comment.publishedDate | date:'h:mm a' }}</span>
+          
+                    <span *ngIf="time(today).diff(time(comment.publishedDate), 'week') > 3">{{ time(today).from(time(comment.publishedDate)) }} at {{ comment.publishedDate | date:'MMM d' }}</span>
+      
+                  </span>  
+  
+                </div>
+  
+                <div>
+  
+                  <button *ngIf="replay.owner.id !== userId" mat-icon-button type="button" aria-label="report" class="mat-button report-btn" matTooltip="Report" [disableRipple]="true" matTooltipPosition="above">
+                    <mat-icon class="icon-18 m-0">flag</mat-icon>
+                  </button>
+  
+                  <button *ngIf="replay.owner.id === userId" (click)="onDeleteReplay(comment.id, replay.id)" mat-icon-button type="button" aria-label="delete" class="mat-button report-btn" matTooltip="Delete" [disableRipple]="true" matTooltipPosition="above">
+                    <mat-icon class="icon-18 m-0">close</mat-icon>
+                  </button>
+  
+                </div>
+  
+              </div>
+  
+              <div class="replay-body">
+  
+                <p class="mat-body-1 m-0">
+                  {{ replay.comment }}
+                </p>
+  
+              </div>
+  
+            </div>      
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+
+  </ng-container>
+  <!-- /Comments -->
+
+  <ng-template #skeletonPlaceholder>
+
+    <div class="skeleton-placeholder">
+  
+      <div class="comments mt-4">
+  
+        <div class="comment position-realtive d-flex flex-column align-items-stretch">
+    
+          <div class="d-flex justify-content-start align-items-start">
+    
+            <figure class="skeleton-circle-photo-sm mb-0 mr-3"></figure>
+    
+            <div class="comment-content w-100">
+    
+              <div class="owner d-flex justify-content-between align-items-center">
+    
+                <div>
+    
+                  <div class="skeleton-caption d-inline-block mat-subheading-2 my-0"></div>
+    
+                  <span class="skeleton-divider divider">|</span>
+    
+                  <div class="skeleton-caption d-inline-block"></div>
+  
+                </div>
+    
+                <div>
+  
+                  <div class="skeleton-icon-btn"></div>
+    
+                </div>
+    
+              </div>
+    
+              <div class="comment-body">
+    
+                <div class="skeleton-paragraph-xs"></div>
+    
+              </div>
+    
+              <div class="skeleton-pill-btn-sm mt-2"></div>
+    
+            </div>
+    
+          </div>
+    
+          <div class="replays">
+      
+            <div class="replay d-flex justify-content-start align-items-start">
+    
+              <figure class="skeleton-circle-photo-sm mb-0 mr-3"></figure>
+  
+              <div class="replay-content w-100">
+    
+                <div class="owner d-flex justify-content-between align-items-center">
+    
+                  <div>
+  
+                    <div class="skeleton-caption d-inline-block mat-subheading-2 my-0"></div>
+      
+                    <span class="skeleton-divider divider">|</span>
+      
+                    <div class="skeleton-caption d-inline-block"></div>
+    
+                  </div>
+    
+                </div>
+    
+                <div class="replay-body">
+    
+                  <div class="skeleton-paragraph-xs"></div>
+    
+                </div>
+    
+              </div>      
+    
+            </div>
+    
+          </div>
+    
+        </div>
+    
+      </div>
+        
+    </div>
+
+  </ng-template>
+  
+
+</div>

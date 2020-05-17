@@ -1,0 +1,17 @@
+<div class="photo-placeholder">
+  <figure class="m-0 p-0 position-relative w-100">
+    <img style="display: none" [src]="file.bolbLink" [alt]="file.name">
+    <span class="position-absolute" [ngStyle]="{'background-image': 'url(' + file.bolbLink.changingThisBreaksApplicationSecurity + ')'}"></span>
+    <figcaption class="position-absolute text-center" *ngIf="percaentage | async as pct">
+      <div class="progress-bar">
+        <div class="bar w-100">
+          <div class="progress h-100" [style.width.%]="pct | number:'1.0-0'"></div>
+        </div>
+        <div class="loading-state mat-body-2 m-0">{{ pct | number:'1.0-0' }}% uploaded</div>
+      </div>
+      <button mat-icon-button type="button" aria-label="cancel" color="warn" matTooltip="Cancel" (click)="onCancel()" *ngIf="isActive()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </figcaption>
+  </figure>
+</div>

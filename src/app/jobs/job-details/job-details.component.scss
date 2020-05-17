@@ -1,0 +1,79 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+
+@include go-back-btn();
+
+.container-fluid {
+  .job-title {
+    flex-basis: 80%;
+
+    .mat-display-3 {
+      flex-basis: 95%;
+      text-transform: capitalize;
+      @include set-margin(34px, 0, 30px, 0)
+    }
+  }
+
+  .mat-button {
+    border-radius: $ellipse;
+  }
+
+  .company-location {
+    @include media-breakpoint-down(md) {
+      width: 100% !important;
+    }
+
+    .company,
+    .location {
+      @include media-breakpoint-down(md) {
+        flex: 1 1 50%;
+      }
+
+      span {
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .mat-body-1 {
+    @include set-margin(0, 0, 16px, 0);
+
+    span {
+      color: rgba($text-color, .8);
+    }
+
+    a {
+      color: $secondary-color;
+      text-decoration: underline;
+    }
+
+    .mat-icon {
+      color: rgba($text-color, .5);
+    }
+  }
+
+  .badges {
+    margin-top: 50px;
+
+    .badge {
+      .content {
+        background-color: hsl(319, 29%, 95%);
+        border-left: 3px solid $secondary-color;
+        border-radius: 0 4px 4px 0;
+        @include set-padding(12px, 18px, 12px, 18px);
+
+        @include media-breakpoint-only(xs) {
+          width: 100% !important;
+        }
+
+        .mat-body-1 {
+          @include set-margin(0, 0, 10px, 0);
+        }
+      }
+    }
+  }
+
+  .description {
+    margin-top: 50px;
+  }
+}

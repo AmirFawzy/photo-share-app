@@ -1,0 +1,18 @@
+<div class="delete-account-dialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+
+  <mat-dialog-content>
+
+    <p class="mat-body-1 mt-0">
+      Your account including all data will delete permanently... <b>Are you sure?</b>
+    </p>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" data-ele-name="Drag" cdkDragHandle>
+
+    <button mat-button type="button" aria-label="cancel" color="warn" [mat-dialog-close]="false">cancel</button>
+    <button mat-button type="button" aria-label="delete" tabindex="-1" [mat-dialog-close]="true">delete</button>
+
+  </mat-dialog-actions>
+
+</div>

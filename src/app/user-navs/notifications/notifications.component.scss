@@ -1,0 +1,53 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+@import '~@angular/material/theming';
+
+.notifications-menu {
+  width: 300px;
+  height: 100%;
+
+  .see-all {
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 48px;
+    line-height: 48px;
+    @include mat-elevation(3);
+    border-bottom: 1px solid rgba(#000000, .1);
+
+    a {
+      color: $text-color;
+      @include link-hover();
+    }
+  }
+  .mat-nav-list {
+    .mat-list-item.mat-2-line {
+      height: auto;
+
+      .mat-list-item-content {
+        align-items: flex-start;
+        padding-top: 0.7rem;
+        padding-bottom: 0.7rem;
+      }
+      &:hover, &:focus {
+        background-color: $hover-color;
+      }
+      .owner-name {
+        text-transform: capitalize;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .date {
+        color: rgba($text-color, .65);
+      }
+      p {
+        white-space: normal;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        height: 48px;
+      }
+    }
+  }
+}
+

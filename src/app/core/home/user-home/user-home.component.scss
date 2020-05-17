@@ -1,0 +1,128 @@
+@import '../../../../framework/variables';
+@import '../../../../framework/mixins';
+@import '../../../../framework/partials/bootstrap-grid.scss';
+
+$no-feeds-container-width: 675px;
+$no-feeds-bg-color-area: hsl(319, 29%, 96%);
+
+.mat-card {
+  width: 657px;
+
+  @include media-breakpoint-down(sm) {
+    width: 100%;
+  }
+
+  .mat-card-header {
+    .mat-card-title {
+      text-transform: capitalize;
+    }
+
+    .mat-card-subtitle span {
+      font-size: 14px;
+    }
+
+    .mat-card-title a {
+      color: $text-color;
+      transition: $trans-2;
+
+      &:hover {
+        @include link-hover();
+        text-decoration: none;
+      }
+    }
+  }
+
+  .mat-card-image {
+    margin-bottom: 10px;
+    max-height: 450px;
+    cursor: pointer;
+  }
+
+  .mat-card-content {
+    >.photo-btns {
+      margin-bottom: 8px !important;
+      margin-top: 0 !important;
+
+      .mat-button {
+        border-radius: $ellipse;
+        margin-right: 8px;
+
+        .mat-icon {
+          margin-right: 8px;
+        }
+      }
+    }
+
+    .mat-divider {
+      border-top-color: #e9e9ee;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+    p {
+      padding-top: 24px;
+    }
+  }
+}
+
+.no-feeds-card {
+  width: $no-feeds-container-width;
+  background-color: $no-feeds-bg-color-area;
+  border-radius: $rounded-lg;
+  border: 1px dashed hsl(319, 29%, 88%);
+
+  @include media-breakpoint-down(sm) {
+    width: 100%;
+  }
+
+  button {
+    border-radius: $ellipse;
+  }
+}
+
+.top-users {
+  width: $no-feeds-container-width;
+
+  @include media-breakpoint-down(sm) {
+    width: 100%;
+  }
+
+  .carousel {
+    .slide {
+      background-color: $no-feeds-bg-color-area;
+      border-radius: $rounded-md;
+
+      figure {
+        box-shadow: 0 12px 20px 4px rgba(0, 0, 0, .1);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        width: 120px;
+        height: 120px;
+      }
+
+      .content {
+        p {
+          max-width: 200px;
+        }
+      }
+    }
+
+    .prev,
+    .next {
+      top: 50%;
+      transform: translate(0, -50%);
+      z-index: 1;
+      cursor: pointer;
+      color: $primary-color;
+    }
+
+    .prev {
+      left: 0;
+    }
+
+    .next {
+      right: 0;
+    }
+  }
+}

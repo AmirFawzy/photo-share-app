@@ -1,0 +1,17 @@
+<div class="account newsletter container-fluid">
+
+  <h6 class="mat-title mt-3">Newsletter</h6>
+
+  <p class="mat-body-1 mb-4">You will get weekly email with most trending articles, photos and top most rated photographers as well as jobs you may interesting with and more.</p>
+
+  <!-- checkbox -->
+  <div class="notify-checkbox mb-5">
+
+    <mat-checkbox [required]="true" [checked]="newsletterState" color="accent" (change)="onChange($event)">Subscribe for newsletter.</mat-checkbox>
+
+    <p class="d-block mat-caption m-0"><b>Enable/Disable</b> subscription for newsletter, by default this option is <b>checked</b>.</p>
+
+  </div>
+  <!-- checkbox -->
+  
+</div>

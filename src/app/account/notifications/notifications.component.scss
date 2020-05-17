@@ -1,0 +1,58 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+
+.all-notifications {
+  height: 495px;
+
+  @include media-breakpoint-down(sm) {
+    height: auto;
+  }
+  
+  .notify-checkbox {
+    p {
+      line-height: normal;
+      color: rgba(#000000, 0.6);
+    }
+
+    margin-bottom: 60px;
+  }
+
+  .notifications-container {
+    .mat-subheading-1 {
+      margin-bottom: 12px;
+    }
+
+    .mat-nav-list {
+      .mat-list-item.mat-2-line {
+        border-radius: 4px;
+        height: auto;
+
+        .mat-list-item-content {
+          align-items: flex-start;
+          padding-top: 0.7rem;
+          padding-bottom: 0.7rem;
+        }
+
+        &:hover,
+        &:focus {
+          background-color: $hover-color;
+        }
+
+        .owner-name {
+          text-transform: capitalize;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .date {
+          color: rgba($text-color, .65);
+        }
+      }
+
+      .mat-list-item.mat-2-line:last-child .mat-list-item-content .mat-divider {
+        display: none;
+      }
+    }
+  }
+}

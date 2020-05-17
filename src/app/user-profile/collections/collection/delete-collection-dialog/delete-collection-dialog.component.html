@@ -1,0 +1,22 @@
+<div class="delete-collection-dialog">
+
+  <mat-dialog-content class="m-0" #dialogContent>
+
+    <perfect-scrollbar [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{'max-width': dialogContentSize.width + 'px', 'max-height': '100vh'}">
+
+      <p class="mat-body-1 mt-0">
+          Are you sure you want to delete <b>{{ data.collectionTitle | titlecase }}</b> collection?
+      </p>
+
+    </perfect-scrollbar>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" data-ele-name="Drag">
+
+    <button mat-button type="button" aria-label="cancel" [mat-dialog-close]="false">cancel</button>
+    <button mat-button type="button" aria-label="delete" color="warn" [mat-dialog-close]="true">delete</button>
+
+  </mat-dialog-actions>
+
+</div>

@@ -1,0 +1,61 @@
+@import '../../../../framework/variables';
+@import '../../../../framework/mixins';
+
+$info-alert-bg: #cce5ff;
+$info-alert-border-color: #b8daff;
+$info-alert-text-color: #004085;
+
+@include dialog-scrollbar(post-job-dialog);
+
+.mat-dialog-container {
+  @include set-padding(0, 0, 24px, 0);
+
+  .post-job-dialog {
+    .mat-dialog-content {
+      overflow: hidden;
+
+      .content {
+        margin: 0;
+        @include set-padding(24px, 24px, 0, 24px);
+      }
+
+      .info-alert {
+        background-color: $info-alert-bg;
+        border-radius: $rounded-sm;
+        border-color: $info-alert-border-color !important;
+        padding: 0 1.25rem;
+
+        .icon {
+          line-height: 1;
+
+          .mat-icon {
+            color: $info-alert-text-color;
+          }
+        }
+
+        .mat-body-2 {
+          color: $info-alert-text-color !important;
+
+          &::after {
+            content: "";
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background: $info-alert-border-color;
+            top: 0;
+            left: 0;
+          }
+        }
+      }
+    }
+
+    .mat-dialog-actions {
+      cursor: move;
+
+      .mat-button {
+        @include gradient-btn();
+        cursor: pointer;
+      }
+    }
+  }
+}

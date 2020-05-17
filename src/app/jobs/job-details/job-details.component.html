@@ -1,0 +1,211 @@
+<div @contentAnimation *ngIf="job; else skeletonPlaceholder">
+
+  <a class="animate-in mat-button pl-0 mt-2 back-btn" [routerLink]="[ '/jobs' ]" aria-label="back to job list">
+
+    <span class=" d-flex justify-content-center align-items-center">
+
+      <span class="hor-line"></span>
+      <span class="text">back</span>
+
+    </span>
+
+  </a>
+
+  <div class="container-fluid">
+
+    <div class="row">
+
+      <div class="col">
+
+        <!-- title -->
+        <div class="animate-in d-flex justify-content-between align-items-center">
+
+          <div class="job-title d-flex justify-content-start align-items-center">
+            <h4 class="mat-display-3">{{ job.title }}</h4>
+          </div>
+
+          <button mat-flat-button *ngIf="isOwner" type="button" aria-label="delete" class="mat-button" color="warn" (click)="onDelete()">delete</button>
+
+        </div>
+        <!-- title -->
+
+        <!-- comapny & location -->
+        <div class="animate-in d-flex justify-content-between align-items-center w-50 company-location">
+
+          <div class="company">
+
+            <p class="mat-body-1">
+              <b>Company: </b>
+              <span>{{ job.companyName }}</span>
+            </p>
+
+          </div>
+
+          <div class="location">
+
+            <p class="mat-body-1">
+
+              <b>Location: </b>
+              <span>{{ job.country }} <span *ngIf="job.city">, {{ job.city }}</span></span>
+
+            </p>
+
+          </div>
+
+        </div>
+        <!-- /comapny & location -->
+
+        <!-- contact -->
+        <div class="contact animate-in">
+
+          <p class="mat-body-1">
+
+            <b>Contact: </b>
+
+            <a [href]="'mailto:' + job.contacts" class="d-inlince-block" aria-label="contact with job representative">{{ job.contacts }}</a>
+
+            <mat-icon class="align-middle icon-18 ml-1" matTooltip="Please use this email to send CV only." matTooltipPosition="after" aria-label="Button that displays a tooltip when focused or hovered over">info</mat-icon>
+
+          </p>
+
+        </div>
+        <!-- /contact -->
+
+        <!-- badges -->
+        <div class="badges row">
+
+          <div class="badge animate-in col-6 col-lg-3">
+
+            <div class="content w-75 mb-3 mb-lg-0">
+
+              <p class="mat-body-1 my-0">Salary</p>
+
+              <h6 class="mat-title my-0">{{ job.salary | currency:'USD':'symbol':'1.0' }}</h6>
+
+            </div>
+
+          </div>
+
+          <div class="badge animate-in col-6 col-lg-3">
+
+            <div class="content w-75 mb-3 mb-lg-0">
+
+              <p class="mat-body-1 my-0">Vacancy</p>
+              <h6 class="mat-title my-0">{{ job.vacancy }}</h6>
+
+            </div>
+
+          </div>
+
+          <div class="badge animate-in col-6 col-lg-3">
+
+            <div class="content w-75 mb-3 mb-lg-0">
+
+              <p class="mat-body-1 my-0">Employee</p>
+              <h6 class="mat-title my-0">{{ job.period }}</h6>
+
+            </div>
+
+          </div>
+
+          <div class="badge animate-in col-6 col-lg-3">
+
+            <div class="content w-75 mb-3 mb-lg-0">
+
+              <p class="mat-body-1 my-0">Published</p>
+
+              <h6 class="mat-title my-0">
+
+                <span>{{ time(today).from(time(job.published)) }}</span>
+  
+              </h6>
+
+            </div>
+
+          </div>
+
+        </div>
+        <!-- /badges -->
+
+        <!-- description -->
+        <div class="description animate-in">
+
+          <h6 class="mat-title mb-3 mt-0">Description</h6>
+          <p class="mat-body-1">{{ job.description }}</p>
+
+        </div>
+        <!-- /description -->
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<ng-template #skeletonPlaceholder>
+
+  <div class="skeleton-placeholder">
+
+    <div class="skeleton-pill-btn-sm ml-3 pl-0 mt-2 back-btn"></div>
+
+    <div class="container-fluid">
+
+      <div class="row">
+
+        <div class="col">
+
+          <!-- title -->
+          <div class="skeleton-title-xl mb-3 mt-4"></div>
+          <!-- title -->
+
+          <!-- comapny & location -->
+          <div class="d-flex mb-3 justify-content-between align-items-center w-50 company-location">
+
+            <div class="skeleton-text-md company"></div>
+
+            <div class="skeleton-text-md location"></div>
+
+          </div>
+          <!-- /comapny & location -->
+
+          <!-- contact -->
+          <div class="contact">
+
+            <div class="skeleton-text-md"></div>
+
+          </div>
+          <!-- /contact -->
+
+          <!-- badges -->
+          <div class="badges row">
+
+            <div class="badge col-6 col-lg-3" *ngFor="let item of [1, 2, 3, 4]">
+
+              <div class="skeleton-paint border-0 content w-75 mb-3 mb-lg-0" style="height: 120px"></div>
+
+            </div>
+
+          </div>
+          <!-- /badges -->
+
+          <!-- description -->
+          <div class="description">
+
+            <div class="skeleton-title-xs mb-3 mt-0"></div>
+
+            <div class="skeleton-paragraph-sm skeleton-shimmer-medium"></div>
+
+          </div>
+          <!-- /description -->
+
+        </div>
+
+      </div>
+
+    </div>    
+
+  </div>
+
+</ng-template>

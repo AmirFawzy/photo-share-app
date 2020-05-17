@@ -1,0 +1,24 @@
+@import '../../../framework/mixins';
+
+@include dialog-scrollbar(reauthenticate-dialog);
+
+.mat-dialog-container {
+  @include set-padding(0, 0, 24px, 0);
+}
+
+.reauthenticate-dialog {
+  .mat-dialog-content {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 24px;
+  }
+
+  .mat-dialog-actions {
+    cursor: move;
+    padding: 0 8px;
+
+    .mat-button {
+      border-radius: $ellipse;
+    }
+  }
+}

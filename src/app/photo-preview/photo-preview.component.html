@@ -1,0 +1,21 @@
+<div class="container-fluid">
+
+  <div class="row mt-3" [@fadeAnimation]="isLoadingPhotoDone">
+
+    <section class="col-12 col-lg-9 order-2 order-lg-1">
+
+      <ps-photo></ps-photo>
+
+      <ps-comments *ngIf="isLoadingPhotoDone" id="comments"></ps-comments>
+
+    </section>
+
+    <aside class="col-12 col-lg-3 order-1 order-lg-2">
+
+      <ps-details></ps-details>
+
+    </aside>
+
+  </div>
+
+</div>

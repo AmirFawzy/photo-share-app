@@ -1,0 +1,74 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+
+@include dialog-scrollbar(change-user-photo-dialog);
+
+.mat-dialog-container {
+  @include set-padding(0, 0, 24px, 0);
+
+  .change-user-photo-dialog {
+    .mat-dialog-content {
+      overflow: hidden;
+
+      .content {
+        margin: 0;
+        @include set-padding(24px, 24px, 0, 24px);
+
+        figure {
+          overflow: hidden;
+          width: 150px;
+          height: 150px;
+
+          img {
+            border: 1px solid $secondary-color;
+            width: 150px !important;
+            height: 150px !important;
+          }
+        }
+
+        .progress-bar {
+          width: 200px;
+
+          .bar {
+            border-radius: 50px;
+            width: 100%;
+            background: rgba($secondary-color, .5);
+
+            .progress {
+              border-radius: 50px;
+              background: $secondary-color;
+              height: 5px;
+              margin-bottom: .5em;
+            }
+          }
+        }
+
+        .upload-input {
+          label[matRipple] {
+            border-radius: $ellipse;
+          }
+
+          span {
+            // @extend label[matRipple];
+            border-radius: $ellipse;
+            background-color: $secondary-color;
+          }
+        }
+      }
+    }
+
+    .mat-dialog-actions {
+      cursor: move;
+      border-top: 1px solid rgba(#000000, .12);
+
+      .mat-button.cta {
+        @include gradient-btn();
+        cursor: pointer;
+      }
+
+      .mat-button {
+        border-radius: $ellipse;
+      }
+    }
+  }
+}

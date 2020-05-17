@@ -1,0 +1,367 @@
+@import '~@angular/material/theming';
+@import '../framework/variables';
+@import '../framework/mixins';
+@import '../framework/partials/bootstrap-grid.scss';
+
+ps-header {
+  width: 100%;
+}
+
+mat-toolbar {
+  @include mat-elevation(5, #000, .5);
+
+  &.zindex-2 {
+    z-index: 2;
+  }
+
+  &.remove-m {
+    margin-bottom: 0 !important;
+  }
+
+  &.sticky {
+    margin-bottom: 0 !important;
+    background: transparent !important;
+    box-shadow: none;
+    position: fixed !important;
+    z-index: 2;
+    height: 90px;
+    transition: $trans-2;
+
+    &.shrink {
+      height: 64px;
+      background-color: $primary-color !important;
+      @include mat-elevation(4);
+    }
+  }
+}
+
+mat-sidenav-container {
+  >.mat-drawer-backdrop {
+    position: fixed;
+  }
+
+  .main-sidenav {
+    background-color: $nav-bg;
+    right: 0;
+    width: 52px;
+    padding: 0;
+    transform: none !important;
+    transition: $trans-1;
+
+    .mat-drawer-inner-container {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      align-content: space-between;
+    }
+
+    &.close {
+      right: -100px;
+    }
+
+    .menu-trigger {
+      @include set-margin(0, 0, 25px, 0);
+      color: white;
+      transition: $trans-1;
+
+      img,
+      .mat-icon {
+        cursor: pointer;
+      }
+
+      .has-notifications {
+        width: 8px;
+        height: 8px;
+        background-color: $Danger;
+        border-radius: $ellipse;
+        top: 0;
+        left: 2px;
+      }
+
+      &.user {
+        img {
+          width: 35px;
+          height: 35px;
+          border: 1px solid $nav-bg;
+        }
+
+        .rating-badge {
+          left: -4px;
+          top: -4px;
+          color: $primary-color;
+          font-size: 22px;
+          line-height: 22px;
+          height: 22px;
+          width: 22px;
+          z-index: 2;
+
+          .back-layer {
+            width: 18px;
+            height: 18px;
+            left: 2px;
+            top: 2px;
+            z-index: -1;
+          }
+        }
+
+        .top-10 {
+          background-color: $primary-color;
+          width: 8px;
+          height: 8px;
+          top: 2px;
+          left: 2px;
+        }
+      }
+
+      &.more2 {
+        margin-top: 0 !important;
+        margin-bottom: 0px !important;
+      }
+    }
+  }
+}
+
+ps-footer {
+  background-color: $footer-bg-1;
+  @include set-margin(3.125rem, 0, 0, 0);
+  @include set-padding(3rem, 0, 0, 0);
+
+  @include media-breakpoint-down(md) {
+    @include set-padding(3rem, 0, 0, 0);
+  }
+
+  &.remove-m {
+    @include set-margin(0, 0, 0, 0);
+  }
+}
+
+ps-home,
+ps-register,
+ps-recover-password,
+ps-search,
+ps-trends,
+ps-photo-preview,
+ps-job-search,
+ps-job-details,
+ps-account,
+ps-setting,
+ps-delete,
+ps-followers,
+ps-notification,
+ps-newsletter,
+ps-user-profile,
+ps-collection {
+  width: 100%;
+}
+
+ps-recover-password {
+  height: 100vh;
+}
+
+perfect-scrollbar {
+  >.ps.ps--active-y {
+    >.ps__rail-y {
+      z-index: 2;
+      background-color: $primary-color !important;
+      width: 5px !important;
+
+      .ps__thumb-y {
+        background: $secondary-color !important;
+        border-radius: 1px;
+        right: 0;
+        width: 5px !important;
+      }
+
+      &:hover,
+      &.ps--clicking {
+        width: 5px !important;
+
+        .ps__thumb-y {
+          width: 5px !important;
+        }
+      }
+    }
+
+    &:hover {
+      mat-sidenav-container .main-sidenav {
+        width: 57px;
+
+        .menu-trigger {
+          margin-right: 5px !important;
+        }
+      }
+    }
+  }
+}
+
+.alt-scrollbar-style {
+  perfect-scrollbar>.ps.ps--active-y>.ps__rail-y {
+    z-index: 2;
+    background-color: #f2f2f2 !important;
+
+    .ps__thumb-y {
+      background: #bdbdbd !important;
+      border-radius: 1px;
+    }
+  }
+}
+
+ps-photo-card {
+  display: inherit;
+}
+
+.mat-hint kbd {
+  background-color: rgba(#333, .7);
+  color: #fff;
+  border-radius: 4px;
+  padding: 1px 3px;
+}
+
+.ps-snackbar {
+  background-color: $nav-bg;
+  color: #fff;
+}
+
+.report-btn {
+  color: $report;
+  width: 33px;
+  height: 33px;
+  line-height: 33px;
+
+  .icon-18 {
+    line-height: 18px !important;
+  }
+}
+
+.custom-cursor {
+  left: 0;
+  top: 0;
+  z-index: 10000;
+  pointer-events: none;
+
+  .cursor {
+    width: 20px;
+    height: 20px;
+    // background-color: #000;
+    // border: 1px solid $secondary-color;
+    border-radius: 50%;
+    // opacity: 0.8;
+    border: 2px solid $primary-color;
+    transition: $trans-2;
+    transform: scale(1);
+
+    .left-line {
+      top: 50%;
+      left: 2px;
+      height: 2px;
+      width: 8px;
+      background: $primary-color;
+      transform: translateY(-50%) scale(1);
+      opacity: 0;
+      transition: left $trans-2;
+    }
+
+    .right-line {
+      top: 50%;
+      right: 2px;
+      height: 2px;
+      width: 8px;
+      background: $primary-color;
+      transform: translateY(-50%) scale(1);
+      opacity: 0;
+      transition: right $trans-2;
+    }
+
+    &.data-ele-color-primary {
+      border-color: $secondary-color;
+
+      .left-line,
+      .right-line {
+        background-color: $secondary-color;
+      }
+    }
+
+    &.data-ele-color-secondary {
+      border-color: $primary-color;
+
+      .left-line,
+      .right-line {
+        background-color: $primary-color;
+      }
+    }
+
+    &.data-ele-name-exist {
+      background-color: rgba($secondary-color, .9);
+    }
+  }
+
+  .cursor-name {
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
+    transition: $trans-2;
+
+    span {
+      background-color: #fff;
+      border-radius: 2px;
+      padding: 0.1em 0.3em;
+      color: $text-color;
+      white-space: nowrap;
+      font-weight: 700 !important;
+    }
+  }
+
+  &.enter-cursor-active {
+    .cursor {
+      // width: 70px;
+      // height: 70px;
+      transform: scale(4) !important;
+      border: none;
+    }
+
+    .cursor-name {
+      right: inherit;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: transparent;
+
+      span {
+        background: none;
+        color: #fff;
+      }
+    }
+  }
+}
+
+// snackbar
+.photo-share-snackbar {
+  background: $nav-bg;
+
+  .mat-simple-snackbar {
+    >span {
+      color: rgba(#fff, .8);
+    }
+
+    .mat-button {
+      color: $secondary-color;
+    }
+  }
+}
+
+.mat-progress-bar.main-progress-bar {
+  z-index: 5;
+}
+
+.mat-standard-chip {
+  align-items: center !important;
+}
+
+.mat-drawer.mat-sidenav {
+  border-radius: 20px 0 0 20px;
+
+  &.main-sidenav {
+    border-radius: 0;
+  }
+}

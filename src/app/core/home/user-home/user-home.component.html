@@ -1,0 +1,197 @@
+<div class="user-home-container vh-75 mt-4 d-flex flex-column align-items-center justify-content-start" [ngClass]="{ 'mx-3': windowW < 768 ? true : false }">
+
+  <ng-container *ngIf="feeds; else skeletonPlaceholder">
+
+    <div class="card-wrapper" [@cardFadeIn]="feeds.length">
+
+      <ng-container *ngIf="feeds.length; else noFeeds">
+        
+        <mat-card class="mb-4 overflow-hidden" [ngClass]="{ 'pb-0': !photo.description }" *ngFor="let photo of feeds; index as i">
+      
+          <mat-card-header>
+      
+            <img mat-card-avatar [src]="photo.owner.profilePhoto" [alt]="photo.owner.userName">
+      
+            <mat-card-title>
+              <a class="d-inline-block" aria-label="user profile" [routerLink]="[ '/profile', photo.owner.userName.split(' ').join('-') ]" [queryParams]="{ upi: photo.owner.id}">{{ photo.owner.userName | titlecase }}</a>
+            </mat-card-title>
+      
+            <mat-card-subtitle>
+    
+              <span *ngIf="(time(today).diff(time(photo.publishedDate), 'hour') < 1) || (time(today).diff(time(photo.publishedDate), 'day') < 1)">{{ time(today).from(time(photo.publishedDate)) }}</span>
+    
+              <span *ngIf="time(today).diff(time(photo.publishedDate), 'day') >= 1 && time(today).diff(time(photo.publishedDate), 'week') <= 3">{{ time(today).from(time(photo.publishedDate)) }} at {{ photo.publishedDate | date:'h:mm a' }}</span>
+    
+              <span *ngIf="time(today).diff(time(photo.publishedDate), 'week') > 3">{{ time(today).from(time(photo.publishedDate)) }} at {{ photo.publishedDate | date:'MMM d' }}</span>
+      
+            </mat-card-subtitle>
+      
+          </mat-card-header>
+      
+          <img mat-card-image data-ele-name="Open" [src]="photo.photo.downloadUrl" [alt]="photo.title" [routerLink]="[ '/photo', photo.id, photo.title.split(' ').join('-').toLowerCase() ]">
+      
+          <mat-card-content>
+      
+            <!-- Photo Buttons -->
+            <div class="photo-btns d-flex justify-content-between align-items-center">
+      
+              <span>
+      
+                <button mat-button type="button" aria-label="like" class="mat-button" (click)="onLikePhoto(photo.id, i)" [color]="photo.isUserLikePhoto ? 'accent' : 'default'">
+                  <mat-icon>favorite</mat-icon>
+                  like
+                </button>
+      
+                <button mat-button type="button" aria-label="comments" class="mat-button" [routerLink]="[ '/photo', photo.id, photo.title.split(' ').join('-').toLowerCase() ]" fragment="comments">
+                  <mat-icon>comments</mat-icon>
+                  comments
+                </button>
+      
+              </span>
+              <span>
+      
+                <button mat-button type="button" aria-label="share" class="mat-button mr-0" (click)="onShare(photo.id)">
+                  <mat-icon>share</mat-icon>
+                  share
+                </button>
+      
+              </span>
+      
+            </div>
+            <!-- /Photo Buttons -->
+      
+            <ng-container *ngIf="photo.description">
+    
+              <mat-divider [inset]="true"></mat-divider>
+        
+              <!-- Description -->
+              <p class="mat-body-2 mt-0">{{ photo.description }}</p>
+              <!-- /Description -->
+    
+            </ng-container>
+      
+          </mat-card-content>
+      
+        </mat-card>
+  
+      </ng-container>
+
+    </div>
+    
+    <!-- no feeds -->
+    <ng-template #noFeeds>
+
+      <!-- no feeds card -->
+      <div class="no-feeds-card d-flex flex-column align-items-center justify-content-center p-5">
+
+        <mat-icon class="icon-48 text-muted">group</mat-icon>
+        
+        <p class="mat-display-2 mt-3 text-muted text-center font-weight-light">You have no friends.</p>
+
+        <button mat-raised-button class="ellipse" type="button" aria-label="upload first photo" *ngIf="!isUserHasPhotos" (click)="onUploadPhoto()" color="accent">upload first photo(s)</button>
+
+        <button mat-raised-button type="button" aria-label="upload photo" *ngIf="isUserHasPhotos" (click)="onUploadPhoto()" color="accent">upload photo(s)</button>
+
+      </div>
+      <!-- /no feeds card -->
+
+      <!-- users to follow -->
+      <ng-container *ngIf="topUsers && topUsers.length">
+
+        <div class="top-users mt-3 align-slef-start">
+
+          <p class="mat-title mb-3">Users to follow</p>
+
+          <div class="carousel mb-4 position-relative">
+  
+            <swiper [config]="config" #swiper>
+  
+              <div class="slide py-3 d-flex flex-column align-items-center" *ngFor="let user of topUsers" #slide>
+  
+                <figure class="m-0 border rounded-circle overflow-hidden" [ngStyle]="{ 'background-image': 'url(' + user.userPhoto + ')' }" [title]="user.userName"></figure>
+  
+                <div class="content text-center">
+                  <p class="mat-subheading-1 mt-3 mb-4 text-center text-truncate" [title]="user.userName.toLowerCase()">{{ user.userName | titlecase }}</p>
+                  <a mat-raised-button class="rounded-pill text-decoration-none" aria-label="user profile" color="accent" [routerLink]="[ '/profile', user.userName.split(' ').join('-').toLowerCase() ]" [queryParams]="{ upi: user.uid }">profile</a>
+                </div>
+  
+              </div>
+              
+            </swiper>
+
+            <mat-icon class="prev icon-32 position-absolute" [hidden]="topUsers.length <= 3">chevron_left</mat-icon>
+            <mat-icon class="next icon-32 position-absolute" [hidden]="topUsers.length <= 3">chevron_right</mat-icon>
+  
+          </div>
+          
+        </div>
+
+      </ng-container>
+      <!-- /users to follow -->
+
+    </ng-template>
+    <!-- /no feeds -->
+    
+  </ng-container>
+
+  <ng-template #skeletonPlaceholder>
+
+    <div class="skeleton-placeholder">
+
+      <mat-card class="skeleton-block mb-4 overflow-hidden" *ngFor="let photo of [1, 2, 3]">
+    
+        <mat-card-header>
+    
+          <div mat-card-avatar>
+            <div class="skeleton-circle-photo-sm w-100 h-100"></div>
+          </div>
+    
+          <mat-card-title>
+            <div class="skeleton-title-sm"></div>
+          </mat-card-title>
+    
+          <mat-card-subtitle>
+            <div class="skeleton-caption"></div>
+          </mat-card-subtitle>
+    
+        </mat-card-header>
+    
+        <div mat-card-image>
+          <div class="skeleton-paint skeleton-shimmer-medium" style="height: 300px"></div>
+        </div>
+    
+        <mat-card-content>
+    
+          <!-- Photo Buttons -->
+          <div class="photo-btns d-flex justify-content-between align-items-center">
+    
+            <span>
+    
+              <div class="skeleton-pill-btn-sm mr-2 d-inline-block" *ngFor="let item of [1, 2]"></div>
+              
+            </span>
+            
+            <span>
+              
+              <div class="skeleton-pill-btn-sm mr-0"></div>
+    
+            </span>
+    
+          </div>
+          <!-- /Photo Buttons -->
+    
+          <mat-divider class="skeleton-divider" [inset]="true"></mat-divider>
+    
+          <!-- Description -->
+          <div class="skeleton-paragraph-sm"></div>
+          <!-- /Description -->
+    
+        </mat-card-content>
+    
+      </mat-card>
+
+    </div>
+
+  </ng-template>
+  
+</div>

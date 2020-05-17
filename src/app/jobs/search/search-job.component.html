@@ -1,0 +1,217 @@
+<ng-container *ngIf="jobs; else skeletonPlaceholder">
+
+  <div class="container-fluid pb-3 mt-3 search-job vh-100">
+    
+    <ng-container *ngIf="jobs.length || isJobSearch; else noJobs">
+    
+      <!-- head -->
+      <div class="d-flex justify-content-between align-items-center header">
+    
+        <form class="search-form" (ngSubmit)="onSubmit()" [formGroup]="searchForm">
+    
+          <mat-form-field class="w-100" appearance="outline" color="accent">
+    
+            <mat-label>Search by location</mat-label>
+    
+            <input matInput type="search" aria-label="search by location" formControlName="search">
+    
+            <mat-icon matPrefix>search</mat-icon>
+    
+            <mat-hint class="d-none d-sm-block">Press <kbd>{{ 'enter' | uppercase }}</kbd> for search.</mat-hint>
+    
+          </mat-form-field>
+    
+        </form>
+    
+        <mat-divider [vertical]="true" [hidden]="belowTabletScreen"></mat-divider>
+    
+        <button mat-raised-button class="mat-button mr-0" type="button" aria-label="post a job" (click)="onPostJob()">post a job</button>
+    
+      </div>
+      <!-- /head -->
+    
+      <!-- result handling -->
+      <div class="result mt-sm-4 mt-0" *ngIf="jobs && totalJobsNum && !isJobSearch">
+    
+        <p class="mat-body-2 mb-0" *ngIf="totalJobsNum > 0; else noResult">{{ totalJobsNum }} job{{ (totalJobsNum <= 10) && totalJobsNum > 1 ? 's' : '' }} found</p>
+    
+        <ng-template #noResult>
+          <p class="text-center mat-display-2 pt-5">No job found.</p>
+        </ng-template>
+    
+      </div>
+    
+      <div class="result mt-4" *ngIf="jobs && isJobSearch">
+    
+        <p class="mat-body-2 mb-0" *ngIf="jobs.length; else noSearchResult">{{ jobs.length }} job{{ (jobs.length <= 10) && jobs.length > 1 ? 's' : '' }} found</p>
+    
+        <ng-template #noSearchResult>
+
+          <div class="vh-100 text-center">
+  
+            <p class="mat-display-2 pt-5 text-muted">No job found.</p>
+  
+            <button mat-flat-button class="rounded-pill" type="button" aria-label="all jobs" color="accent" (click)="getAllJobs()"><mat-icon class="mr-2">keyboard_backspace</mat-icon>all jobs</button>
+
+          </div>
+
+        </ng-template>
+    
+      </div>
+      <!-- /result handling -->
+    
+      <!-- job list result -->
+      <div class="job-list">
+    
+        <mat-list @listAnimation>
+    
+          <mat-list-item class="d-flex justify-content-between" *ngFor="let job of jobs; let isLast = last">
+    
+            <div matListAvatar class="avatar mat-body-1 m-0">{{ job.period }}</div>
+    
+            <div matLine class="content">
+    
+              <span class="job-title d-flex justify-content-between align-items-center w-100">
+    
+                <h3 class="mat-title my-0"><a [routerLink]="[ '/jobs/details', job.id ]" class="d-block position-relative" [title]="job.title" aria-label="for more about the job" appTextEllipsis [text]="job.title" ellipsisColor="#8142A4"></a></h3>
+    
+                <span class="mat-body-2 my-0 pl-3 date">
+    
+                  <span *ngIf="(time(today).diff(time(job.published), 'hour') < 1) || (time(today).diff(time(job.published), 'day') < 1)">{{ time(today).from(time(job.published)) }}</span>
+    
+                  <span *ngIf="time(today).diff(time(job.published), 'day') >= 1 && time(today).diff(time(job.published), 'week') <= 3">{{ time(today).from(time(job.published)) }} at {{ job.published | date:'h:mm a' }}</span>
+        
+                  <span *ngIf="time(today).diff(time(job.published), 'week') > 3">{{ time(today).from(time(job.published)) }} at {{ job.published | date:'MMM d' }}</span>
+    
+                </span>
+    
+              </span>
+    
+              <div class="mb-0 mt-1">
+    
+                <span class="company mat-body-1" *ngIf="job.companyName.length">{{ job.companyName }} - </span>
+                
+                <span class="location">{{ job.country }}<span class="city" *ngIf="job.city.length">, {{ job.city }}</span></span>
+    
+              </div>
+    
+              <span class="d-flex justify-content-between mt-2 salary-vacancy">
+    
+                <span class="salary">
+    
+                  <span>
+                    {{ job.salary | currency:'USD':'symbol':'1.0' }}
+                    <span *ngIf="job.period === 'full time'; else partTime"> / Yearly</span>
+                    <ng-template #partTime><span> / Project</span></ng-template>
+                  </span>
+    
+                </span>
+    
+                <span class="ml-4 vacancy">{{ job.vacancy }} Vacancy</span>
+    
+              </span>
+    
+            </div>
+    
+            <mat-divider [hidden]="isLast"></mat-divider>
+    
+          </mat-list-item>
+    
+        </mat-list>
+    
+      </div>
+      <!-- /job list result -->
+    
+    </ng-container>
+      
+    <ng-template #noJobs>
+  
+      <!-- no jobs card -->
+      <div class="no-jobs-card m-auto d-flex flex-column align-items-center justify-content-center p-5">
+  
+        <mat-icon class="icon-48 text-muted">work</mat-icon>
+        
+        <p class="mat-display-2 mt-3 text-muted text-center font-weight-light">No jobs found.</p>
+  
+        <button mat-raised-button class="ellipse" type="button" aria-label="post a job" color="accent" (click)="onPostJob()">post a job</button>
+  
+      </div>
+      <!-- /no jobs card -->
+  
+    </ng-template>
+
+  </div>
+
+</ng-container>
+
+<ng-template #skeletonPlaceholder>
+
+  <div class="skeleton-placeholder container-fluid pb-3 mt-3 search-job vh-100">
+
+    <!-- head -->
+    <div class="d-flex justify-content-between align-items-center header">
+
+      <div class="skeleton-input skeleton-shimmer-medium border-none search-form w-75"></div>
+  
+      <mat-divider class="mb-0 skeleton-divider" [vertical]="true" [hidden]="belowTabletScreen"></mat-divider>
+  
+      <div class="skeleton-pill-btn-sm"></div>
+  
+    </div>
+    <!-- /head -->
+  
+    <!-- result handling -->
+    <div class="result mt-4">
+  
+      <div class="skeleton-text-md mb-0"></div>
+    
+    </div>
+      <!-- /result handling -->
+  
+    <!-- job list result -->
+    <div class="job-list">
+  
+      <mat-list>
+  
+        <mat-list-item class="d-flex justify-content-between" *ngFor="let item of [1, 2, 3]; let isLast = last">
+  
+          <div matListAvatar class="skeleton-paint avatar mat-body-1 m-0"></div>
+  
+          <div matLine class="content">
+  
+            <div class="job-title d-flex justify-content-between align-items-center w-100">
+  
+              <div class="skeleton-title-lg my-0"></div>
+  
+              <div class="skeleton-text-sm my-0 pl-3 date"></div>
+  
+            </div>
+  
+            <div class="mb-0 mt-1">
+  
+              <div class="skeleotn-text-md company"></div>
+                
+            </div>
+  
+            <div class="d-flex justify-content-between mt-2 salary-vacancy">
+  
+              <div class="skeleton-text-sm salary"></div>
+  
+              <div class="skeleton-text-xs ml-4 vacancy"></div>
+  
+            </div>
+  
+          </div>
+  
+          <mat-divider class="skeleton-divider" [hidden]="isLast"></mat-divider>
+  
+        </mat-list-item>
+  
+      </mat-list>
+  
+    </div>
+    <!-- /job list result -->
+
+  </div>
+
+</ng-template>

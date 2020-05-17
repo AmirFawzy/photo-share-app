@@ -1,0 +1,37 @@
+<div class="notifications-menu alt-scrollbar-style position-realtive" #menuContainer>
+
+  <div class="see-all position-absolute text-right">
+    <a class="d-inline-block mat-button" [routerLink]="[ '/' ]" aria-label="see all notifications">See All</a>
+  </div>
+
+  <perfect-scrollbar [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{'max-width': menuSize.width + 'px', 'max-height': 'calc(100vh - 48px)', top: '48px'}">
+
+    <mat-nav-list>
+
+      <a mat-list-item data-ele-color="primary" [routerLink]="[ notification.link ]" *ngFor="let notification of notifications" tabindex="-1" aria-label="more about this notification (notification details)">
+
+        <img matListAvatar data-ele-color="primary" [src]="notification.owner.profilePhoto" [alt]="notification.owner.userName">
+
+        <div matLine data-ele-color="primary" class="d-flex justify-content-between">
+
+          <span class="owner-name mat-subheading-2 m-0" data-ele-color="primary">{{ notification.owner.userName }}</span>
+
+          <span data-ele-color="primary" *ngIf="(time(today).diff(time(notification.date), 'hour') < 1) || (time(today).isSame(time(notification.date), 'day'))">{{ time(today).from(time(notification.date)) }}</span>
+
+          <span data-ele-color="primary" *ngIf="time(today).diff(time(notification.date), 'day') >= 1 && time(today).diff(time(notification.date), 'week') <= 3">{{ time(today).from(time(notification.date)) }} at {{ notification.date | date:'h:mm a' }}</span>
+
+          <span data-ele-color="primary" *ngIf="time(today).diff(time(notification.date), 'week') > 3">{{ time(today).from(time(notification.date)) }} at {{ notification.date | date:'MMM d' }}</span>
+
+        </div>
+
+        <p matLine data-ele-color="primary">{{ notification.notificationText }}</p>
+
+        <mat-divider [inset]="true"></mat-divider>
+
+      </a>
+
+    </mat-nav-list>
+
+  </perfect-scrollbar>
+
+</div>

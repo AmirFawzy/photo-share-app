@@ -1,0 +1,119 @@
+@import '../../framework/variables';
+@import '../../framework/mixins';
+@import '../../framework/partials/bootstrap-grid.scss';
+
+@include rating-Badge();
+
+.user-profile {
+  background-color: #fff;
+
+  >.col {
+    background-color: $bg-color;
+  }
+
+  .user-details {
+    .details {
+      @include media-breakpoint-only(xs) {
+        flex-direction: column;
+        align-items: center !important;
+        width: 100%;
+      }
+
+      figure {
+        width: 170px;
+        height: 170px;
+        min-width: 170px;
+        margin-right: 40px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+
+        @include media-breakpoint-only(xs) {
+          margin: 0 !important;
+        }
+      }
+
+      .info {
+        @include media-breakpoint-only(xs) {
+          margin-top: 1rem;
+        }
+
+        .first-row {
+          @include media-breakpoint-only(xs) {
+            text-align: center;
+          }
+
+          .mat-divider {
+            border-right-color: $text-color;
+            height: 12px;
+          }
+
+          .country {
+            margin-left: 30px;
+
+            fa-icon {
+              margin-right: 5px;
+              color: $text-color;
+            }
+          }
+        }
+
+        .second-row {
+          @include set-margin(10px, 0, 20px, 0);
+
+          @include media-breakpoint-only(xs) {
+            flex-direction: column;
+          }
+
+          .name {
+            text-transform: capitalize;
+          }
+        }
+
+        .third-row {
+          margin-top: 1.5rem;
+
+          @include media-breakpoint-only(xs) {
+            justify-content: center;
+            margin-top: 2rem;
+          }
+        }
+      }
+    }
+
+    .social-links {
+      @include media-breakpoint-only(xs) {
+        width: 100%;
+        text-align: center;
+      }
+
+      fa-icon {
+        color: rgba(#000000, .2);
+      }
+    }
+  }
+
+  .about-me {
+    padding-bottom: 60px;
+
+
+    .mat-title {
+      @include set-margin(30px, 0, 15px, 0);
+    }
+
+    .mat-title,
+    p {
+      @include media-breakpoint-only(xs) {
+        text-align: center;
+      }
+    }
+  }
+
+  .tabs {
+    background-color: #ffffff;
+
+    .mat-tab-header {
+      border-bottom: none;
+    }
+  }
+}

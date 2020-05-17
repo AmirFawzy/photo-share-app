@@ -1,0 +1,66 @@
+<mat-progress-bar mode="indeterminate" color="accent" *ngIf="uiService.dialogLoadingState | async"></mat-progress-bar>
+
+<div class="change-user-photo-dialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+
+  <mat-dialog-content class="m-0 p-0" #dialogContent>
+
+    <perfect-scrollbar [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{'max-width': dialogContentSize.width + 'px', 'max-height': dialogContentSize.height + 'px'}">
+
+      <div class="content d-flex flex-column align-items-center justify-content-center">
+
+        <figure class="m-0 position-relative">
+
+          <img class="img-fluid rounded-circle" *ngIf="userService.accountSettings$ | async as settings else userPhotoAlt" [src]="settings.userPhoto" alt="user-photo">
+
+          <ng-template #userPhotoAlt>
+            <img class="img-fluid rounded-circle" src="../../../assets/images/default-user.png" alt="user-photo">
+          </ng-template>
+
+        </figure>
+
+        <ng-container *ngIf="userService.percentage$ | async as pct">
+
+          <ng-container *ngIf="uiService.dialogLoadingState | async">
+
+            <div class="progress-bar text-center mt-3">
+
+              <div class="bar" >
+                <div class="progress" [ngStyle]="{ 'width': pct + '%' }"></div>
+              </div>
+
+              <div class="pct mat-body-2 m-0">{{ pct | number:'1.0-0' }}% uploaded</div>
+
+            </div>
+
+          </ng-container>
+
+        </ng-container>
+
+        <p class="mat-body-1 text-center">max size of the profile photo is 1Mb and recommended dimension is 1:1 or squared dimensions.</p>
+
+        <div class="upload-input mb-3" [hidden]="uiService.dialogLoadingState | async">
+          
+          <label matRipple>
+            <span class="mat-button text-white">select a photo</span>
+            <input type="file" aria-label="select a photo for upload" accept="image/*" (change)="onUpdateUserPhoto($event)" hidden>
+          </label>
+
+        </div>
+      </div>
+    </perfect-scrollbar>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions data-ele-name="Drag" align="end" cdkDragHandle>
+
+    <span *ngIf="(uiService.dialogLoadingState | async) == true">
+      <button mat-button class="mr-3" type="submit" aria-label="cancel" color="warn" [mat-dialog-close]="true" [disabled]="false">cancel</button>
+    </span>
+
+    <span *ngIf="(uiService.dialogLoadingState | async) == false">
+      <button mat-button class="mr-3 cta" type="submit" aria-label="done" [mat-dialog-close]="true" [disabled]="false">done</button>
+    </span>
+
+  </mat-dialog-actions>
+
+</div>

@@ -1,0 +1,37 @@
+@import '../../../../framework/variables';
+@import '../../../../framework/mixins';
+@import '../../../../framework/partials/mixins/border-radius';
+
+@include dialog-scrollbar(edit-dialog);
+
+.mat-dialog-container {
+  @include set-padding(0,0,24px,0);
+
+  .edit-dialog {
+    .mat-dialog-content {
+      overflow: hidden;
+  
+      .content {
+        margin: 0;
+        @include set-padding(24px,24px,0,24px);
+  
+        figure {
+          @include border-top-radius(2px);
+          overflow: hidden;
+          max-height: 308px;
+        }
+        .mat-checkbox-layout {
+          margin-bottom: 1em;
+        }
+      }
+    }
+    .mat-dialog-actions {
+      cursor: move;
+  
+      .mat-button {
+        @include gradient-btn();
+        cursor: pointer;
+      }
+    }
+  }
+}

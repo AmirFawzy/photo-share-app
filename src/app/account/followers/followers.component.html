@@ -1,0 +1,74 @@
+<ng-container *ngIf="friends; else skeletonPlaceholder">
+
+  <div class="account followers container-fluid">
+
+    <ng-container *ngIf="friends.length > 0; else noFollowers">
+
+      <h6 class="mat-title mt-3">Manage followers</h6>
+
+      <div class="followers-container mb-2">
+
+        <mat-list @listAnimation>
+
+          <mat-list-item  *ngFor="let friend of friends">
+
+            <img matListAvatar [src]="friend.userPhoto" [alt]="friend.userName">
+
+            <p matLine class="d-flex justify-content-between align-items-center">
+              <span class="mat-body-1 m-0">{{ friend.userName }}</span>
+              <button mat-flat-button aria-label="unfollow" type="button" class="mat-button" color="accent" matRipple (click)="onUnfollow(friend.userId)">unfollow</button>
+            </p>
+
+          </mat-list-item>
+
+        </mat-list>
+
+      </div>
+
+    </ng-container>
+
+    <ng-template #noFollowers>
+      
+      <div class="no-followers w-auto d-flex flex-column align-items-center justify-content-center">
+        <mat-icon class="h-auto">group</mat-icon>
+        <p class="mat-display-3 mb-0 mt-3">You don't follow anyone yet.</p>
+      </div>
+
+    </ng-template>
+
+  </div>
+
+</ng-container>
+
+<ng-template #skeletonPlaceholder>
+
+  <div class="skeleton-placeholder">
+
+    <div class="skeleton-block account followers container-fluid">
+
+      <div class="skeleton-title-xs my-3"></div>
+
+      <div class="followers-container mb-2">
+
+        <mat-list *ngFor="let item of [1, 2, 3]">
+
+          <mat-list-item>
+
+            <div matListAvatar class="skeleton-circle-photo-xs"></div>
+
+            <div matLine class="d-flex justify-content-between align-items-center">
+              <div class="skeleton-title-xs m-0"></div>
+              <div class="skeleton-pill-btn-sm"></div>
+            </div>
+
+          </mat-list-item>
+
+        </mat-list>
+
+      </div>
+    
+    </div>    
+
+  </div>
+
+</ng-template>

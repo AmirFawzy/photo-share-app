@@ -1,0 +1,86 @@
+<mat-progress-bar mode="indeterminate" color="accent" *ngIf="progressBarState"></mat-progress-bar>
+
+<div class="login-dialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+
+  <h4 mat-dialog-title class="mat-display-4 text-center" cdkDragHandle>Sing in</h4>
+
+  <mat-dialog-content class="m-0 p-0" #dialogContent>
+
+    <perfect-scrollbar  [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{'max-width': '100%', 'max-height': dialogContentSize.height + 'px'}">
+
+      <div class="dialog-container">
+
+        <form (ngSubmit)="onSubmit(f)" class="w-100" #f="ngForm">
+
+          <mat-form-field class="mb-2 w-100" appearance="outline" color="accent">
+
+            <mat-label>Email</mat-label>
+
+            <input matInput type="email" aria-label="email" name="email" ngModel #emailInput="ngModel" email required>
+
+            <mat-error *ngIf="emailInput.hasError('email')!">Please enter valid email.</mat-error>
+
+            <mat-icon matSuffix (click)="emailInput.reset();" [hidden]="emailInput.value?.length < 1">close</mat-icon>
+
+          </mat-form-field>
+
+          <div class="mb-1 w-100 position-relative password">
+
+            <a routerLink="/password-recover" class="mat-body-2 my-0 position-absolute" (click)="closeDialog()" aria-label="restor password">Forgot password?</a>
+
+            <mat-form-field class="w-100" appearance="outline" color="accent">
+
+              <mat-label>Password</mat-label>
+
+              <input matInput [type]="passwordVisible ? 'text' : 'password'" aria-label="password" name="password" ngModel #password="ngModel" required>
+
+              <mat-icon matSuffix (click)="passwordVisible = !passwordVisible">{{ passwordVisible ? 'visibility_off' : 'visibility' }}</mat-icon>
+              
+              <mat-error *ngIf="password.hasError('required')!">Password is required.</mat-error>
+
+            </mat-form-field>
+
+          </div>
+
+          <div class="pb-2">
+
+            <button mat-raised-button class="submit-btn mat-button w-100" type="submit" aria-label="sign in" color="accent" [disabled]="f.invalid">sign in</button>
+
+          </div>
+
+        </form>
+
+        <div class="divider my-4 position-relative">
+
+          <span class="position-absolute text-center mat-body-2 m-0">or</span>
+          <mat-divider></mat-divider>
+
+        </div>
+
+        <div class="social-media-login">
+
+          <button mat-flat-button type="button" aria-label="login with facebook" color="accent" class="mb-3 w-100 facebook" (click)="loginWithFacebook()">
+            <fa-icon [icon]="['fab', 'facebook-f']" [fixedWidth]="true" size="lg"></fa-icon>
+            Continue with facebook
+          </button>
+
+          <button mat-flat-button type="button" aria-label="login with google" color="accent" class="w-100 google" (click)="loginWithGoogle()">
+            <fa-icon [icon]="['fab', 'google']" [fixedWidth]="true" size="lg"></fa-icon>
+            Continue with google
+          </button>
+
+        </div>
+
+      </div>
+
+    </perfect-scrollbar>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="flex-column position-relative m-0">
+
+    <mat-divider class="position-absolute"></mat-divider>
+    <p class="mat-body-1 m-0 align-self-center">Don't have an account? <a routerLink="/register" (click)="closeDialog()" aria-label="register">Sing up</a></p>
+  </mat-dialog-actions>
+  
+</div>

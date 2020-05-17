@@ -1,0 +1,89 @@
+@import '../../framework/variables';
+@import '../../framework/mixins';
+@import '../../framework/partials/bootstrap-grid.scss';
+@import '../../framework/partials/mixins/border-radius';
+@import '~@angular/material/theming';
+
+$photoSize: 170px;
+$photo-spacing: $photoSize / 2;
+
+%positionAbsoluteCenter {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.account-nav {
+  .container {
+    // background: $secondary-gradient;
+    background: $primary-gradient;
+    @include border-radius(4px);
+    margin-top: $photo-spacing;
+    padding-bottom: 12px;
+
+    .user {
+      .figure {
+        width: $photoSize;
+        left: 50%;
+        transform: translate(-50%, 0);
+        overflow: hidden;
+        box-shadow: 0 -2px 12px 2px rgba($secondary-color, .22);
+        top: unquote('-') + $photo-spacing;
+
+        $border-width: 4px;
+
+        img {
+          width: $photoSize;
+          height: $photoSize;
+          border: $border-width solid #fff;
+
+          @supports (border-image: linear-gradient(to bottom, #8A4D76, #E47972)) {
+            border-image: linear-gradient(to bottom, #8A4D76, #E47972) 20 / 30px;
+            border-top-width: $border-width;
+            border-bottom-width: $border-width;
+            border-left-width: $border-width;
+            border-right-width: $border-width;
+          }
+        }
+
+        .mat-icon-button {
+          @extend %positionAbsoluteCenter;
+
+          .mat-icon {
+            color: $secondary-color;
+          }
+        }
+      }
+
+      .fig-caption {
+        margin-top: $photo-spacing;
+
+        .mat-title {
+          text-transform: capitalize;
+        }
+      }
+    }
+
+    .mat-divider {
+      border-top-color: rgba(#fff, .16);
+    }
+
+    .mat-nav-list .mat-list-item {
+      font-size: 1rem;
+
+      .mat-list-item-content {
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.account {
+  background-color: #fff;
+  border: 1px solid rgba(#000000, .10);
+  @include border-radius(4px);
+
+  .mat-title {
+    @include set-margin(15px, 0, 30px, 0);
+  }
+}

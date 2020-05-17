@@ -1,0 +1,147 @@
+@import '../../framework/variables';
+@import '../../framework/mixins';
+
+$photo-border-radius: 3px;
+$photos-and-form-padding: 15px 11px;
+$border-split: 1px solid rgba($text-color, .16);
+
+@include dialog-scrollbar(upload-photos-dialog);
+
+.mat-dialog-container {
+  @include set-padding(0, 0, 24px, 0);
+
+  .upload-photos-dialog {
+    .mat-dialog-content {
+      overflow: hidden;
+      padding: 0 !important;
+
+      .upload-photos-container {
+        transition: .3s ease-in-out;
+
+        .row {
+          padding: $photos-and-form-padding;
+        }
+      }
+
+      figure {
+        overflow: hidden;
+        height: 200px;
+        padding: 0 5px;
+        margin-bottom: 10px !important;
+        border-radius: $photo-border-radius;
+
+        img,
+        span {
+          width: 100%;
+          height: 100%;
+        }
+
+        span {
+          background-size: cover;
+          background-repeat: no-repeat;
+          border-radius: $photo-border-radius;
+        }
+
+        figcaption {
+          top: 1em;
+          right: 1em;
+
+          .mat-checkbox {
+            .mat-checkbox-inner-container {
+              background-color: $bg-color;
+              width: 30px;
+              height: 30px;
+            }
+
+            .mat-checkbox-frame,
+            .mat-checkbox-inner-container,
+            .mat-checkbox-background {
+              border-radius: 50%
+            }
+          }
+        }
+      }
+
+      .upload-input {
+        margin-bottom: 10px;
+        padding: 0 5px;
+        min-height: 150px;
+
+        input {
+          width: 0;
+          height: 0;
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        .upload-container {
+          label {
+            background-color: #f5f5f5;
+            border: 1px solid rgba(0, 0, 0, .10);
+            border-radius: $photo-border-radius;
+            transition: $trans-2;
+            cursor: pointer;
+
+            &.hovering {
+              // border: 2px dashed $secondary-color;
+              border: 2px dotted rgba($secondary-color, .6);
+              background-color: rgba($secondary-color, .3);
+            }
+          }
+        }
+
+        .mat-body-1,
+        .upload-container {
+          color: rgba(#000, .5);
+        }
+      }
+      
+    }
+
+    .form-col {
+      border-left: $border-split;
+    }
+
+    form {
+      padding: $photos-and-form-padding;
+
+      .mat-standard-chip {
+        align-items: center;
+      }
+    }
+
+    .delete-btn {
+      .mat-icon {
+        color: $Danger;
+      }
+    }
+
+    button {
+      border-radius: $ellipse;
+    }
+
+    .save-btn {
+      background: $primary-gradient;
+    }
+
+    .mat-dialog-actions {
+      padding: 0 8px;
+      border-top: $border-split;
+      cursor: move;
+
+      .mat-caption {
+        padding-left: 7px;
+        cursor: text;
+      }
+
+      button {
+        border-radius: $ellipse;
+        cursor: pointer;
+
+        .mat-icon {
+          color: rgba(#000, .5);
+        }
+      }
+    }
+  }
+}

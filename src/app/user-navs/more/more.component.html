@@ -1,0 +1,25 @@
+<div class="more-menu alt-scrollbar-style" #menuContainer>
+
+  <perfect-scrollbar [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{'max-width': menuSize.width + 'px', 'max-height': '100%'}">
+
+    <mat-nav-list>
+
+      <a mat-list-item data-ele-color="primary" [routerLink]="[ item.routePath ]" *ngFor="let item of itemsList1" tabindex="-1" aria-label="navigation item">
+        {{ item.text }}
+      </a>
+
+    </mat-nav-list>
+
+    <mat-divider></mat-divider>
+
+    <mat-nav-list>
+
+      <a mat-list-item data-ele-color="primary" [routerLink]="[ item.routePath ]"  *ngFor="let item of itemsList2" tabindex="-1" aria-label="navigation item">
+        {{ item.text }}
+      </a>
+
+    </mat-nav-list>
+
+  </perfect-scrollbar>
+
+</div>

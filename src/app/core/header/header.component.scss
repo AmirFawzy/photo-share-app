@@ -1,0 +1,196 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+@import '~@angular/material/theming';
+@import '../../../framework/partials/bootstrap-grid.scss';
+
+.search-input {
+  width: 380px;
+  height: 35px;
+  --text-color: #fff;
+
+  input {
+    height: 35px;
+    border-radius: $ellipse;
+    background-color: $secondary-color;
+    width: 100%;
+    --p-l: calc(8px + 24px + 14px);
+    @include set-padding(0, 1em, 0, var(--p-l));
+    left: 0;
+    outline: none;
+    margin: 0;
+    color: var(--text-color);
+
+    &::placeholder {
+      color: rgba(var(--text-color), .8);
+    }
+  }
+
+  mat-icon {
+    z-index: 1;
+    margin-left: 10px;
+    color: rgba(#fff, .9);
+  }
+
+  &.input-float {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+
+    input {
+      border-radius: 0;
+      padding-right: 60px;
+    }
+
+    mat-icon,
+    .close-btn {
+      top: 0;
+      line-height: 64px;
+      height: 64px;
+
+      @media screen and (max-width: 600px) {
+        height: 56px;
+        line-height: 56px;
+      }
+
+      &.unauth-home-passed-hero-height {
+        height: 90px;
+        line-height: 90px;
+      }
+    }
+
+    .close-btn {
+      right: 8px;
+
+      mat-icon {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.menu-trigger {
+  @include media-breakpoint-down(md) {
+    margin-left: 0.25em !important;
+  }
+}
+
+.more-menu {
+  width: 180px;
+  border-radius: 4px !important;
+  @include mat-elevation(6, #000, .36);
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: white;
+    left: 10px;
+    transform: rotate(45deg);
+    top: -4px;
+    border-radius: 2px;
+  }
+
+  .mat-menu-item {
+    font-size: 1rem;
+    transition: $trans-1;
+
+    a {
+      text-decoration: none;
+      color: $text-color;
+    }
+
+    &:hover {
+      background-color: $hover-color;
+    }
+  }
+}
+
+.right-side {
+  >div {
+    transition: $trans-1;
+  }
+
+  .mr-52 {
+    margin-right: 52px; // 52px the width of the sidenav
+  }
+
+  button {
+    border-radius: $ellipse;
+    text-transform: inherit !important;
+    letter-spacing: inherit;
+
+    &:nth-child(1) {
+      color: $text-color;
+    }
+  }
+
+  .search-input {
+    width: 450px;
+
+    &.margin-auth {
+      margin-right: 52px;
+    }
+  }
+
+  .menu-bar-toggle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    overflow: hidden;
+    cursor: pointer;
+
+    @include media-breakpoint-down(md) {
+      margin-left: 2rem !important;
+    }
+
+    @include media-breakpoint-down(sm) {
+      margin-left: 1rem !important;
+    }
+
+    .ham-icon {
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 400ms;
+      user-select: none;
+
+      &.active {
+        transform: rotate(45deg);
+
+        .top {
+          stroke-dashoffset: -120px;
+        }
+
+        .middle {
+          stroke-dasharray: 60;
+        }
+
+        .bottom {
+          stroke-dashoffset: -138px;
+        }
+      }
+
+      .line {
+        fill: none;
+        transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
+        stroke: #000;
+        stroke-width: 5.5;
+        stroke-linecap: round;
+      }
+
+      .top {
+        stroke-dasharray: 20 139;
+      }
+
+      .bottom {
+        stroke-dasharray: 20 180;
+      }
+    }
+  }
+}
+
+.accent {
+  color: $secondary-color !important;
+}

@@ -1,0 +1,34 @@
+<div class="hire-me-dialog">
+
+  <mat-dialog-content class="m-0 p-0" #dialogContent>
+
+    <perfect-scrollbar [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{'max-width': dialogContentSize.width + 'px', 'max-height': '100vh'}">
+
+      <div class="content d-flex flex-column align-items-center justify-content-center">
+
+        <p class="mat-body-1 my-0">you can contact with <b class="user-name">{{ data.userName | titlecase }}</b> via:</p>
+
+        <p class="mat-body-1 mb-0 mt-3">
+          <b>eMail: </b>
+          <a [href]="'mailto:' + data.email" aria-label="email for contact">{{ data.email }}</a>
+        </p>
+
+        <ng-container *ngFor="let item of data.socialLinks | keyvalue">
+
+          <p class="mat-body-1 mt-2 mb-0" *ngIf="item.key && item.value">
+
+            <b>{{ item.key | titlecase }}: </b>
+
+            <a [href]="item.value" target="_blank" aria-label="user social links">{{ item.value }}</a>
+
+          </p>
+
+        </ng-container>
+
+      </div>
+
+    </perfect-scrollbar>
+
+  </mat-dialog-content>
+
+</div>

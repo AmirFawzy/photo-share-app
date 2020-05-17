@@ -1,0 +1,42 @@
+<div class="reauthenticate-dialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+
+  <mat-dialog-content class="m-0 p-0" #dialogContent>
+
+    <perfect-scrollbar [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{'max-width': dialogContentSize.width + 'px', 'max-height': 'auto'}">
+
+      <div class="content">
+
+        <p class="m-3">Please enter your password to continue:</p>
+
+        <form [formGroup]="f">
+
+          <!-- password -->
+          <mat-form-field class="col mb-1" appearance="outline" color="accent">
+
+            <mat-label>Password</mat-label>
+
+            <input matInput formControlName="password" aria-label="password" type="password" minlength="8">
+
+            <mat-hint align="end">{{ f.get('password').value?.length }} / 8</mat-hint>
+
+            <mat-error *ngIf="(f.get('password').value?.length < 8)">Length of the password 8 at least.</mat-error>
+
+          </mat-form-field>
+          <!-- /password -->
+
+        </form>
+
+      </div>
+
+    </perfect-scrollbar>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions data-ele-name="Drag" align="end" cdkDragHandle>
+
+    <button mat-button type="button" aria-label="cancel" [mat-dialog-close]="false">cancel</button>
+    <button mat-button type="button" aria-label="continue" color="accent" tabindex="-1" [mat-dialog-close]="f.get('password').value!" [disabled]="f.get('password').value?.length < 8">continue</button>
+
+  </mat-dialog-actions>
+
+</div>

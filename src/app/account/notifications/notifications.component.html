@@ -1,0 +1,53 @@
+<div class="account all-notifications container">
+
+  <h6 class="mat-title mt-3">Notifications</h6>
+
+  <!-- checkbox -->
+  <div class="notify-checkbox">
+
+    <mat-checkbox [checked]="sendNotificationsByEmail" color="accent" #checkbox (change)="onChange($event)">Get notifications by email.</mat-checkbox>
+
+    <p class="d-block mat-caption m-0"><b>Enable/Disable</b> getting emails for notifications, by default this option is <b>checked</b>.</p>
+
+  </div>
+  <!-- checkbox -->
+
+  <ng-container *ngIf="notifications">
+    
+    <!-- notifications list -->
+    <div class="notifications-container mb-2" *ngIf="notifications.length">
+  
+      <h6 class="mat-subheading-1">All notifications</h6>
+  
+      <mat-nav-list>
+  
+        <a mat-list-item aria-label="notification" [routerLink]="[ notification.link ]" *ngFor="let notification of notifications" tabindex="-1">
+  
+          <img matListAvatar [src]="notification.owner.profilePhoto" [alt]="notification.owner.userName">
+  
+          <div matLine class="d-flex justify-content-between">
+  
+            <span class="owner-name mat-subheading-2 m-0">{{ notification.owner.userName }}</span>
+  
+            <span class="date" *ngIf="(time(today).diff(time(notification.date), 'hour') < 1) || (time(today).diff(time(notification.date), 'day') < 1)">{{ time(today).from(time(notification.date)) }}</span>
+      
+            <span class="date" *ngIf="time(today).diff(time(notification.date), 'day') >= 1 && time(today).diff(time(notification.date), 'week') <= 3">{{ time(today).from(time(notification.date)) }} at {{ notification.date | date:'h:mm a' }}</span>
+  
+            <span class="date" *ngIf="time(today).diff(time(notification.date), 'week') > 3">{{ time(today).from(time(notification.date)) }} at {{ notification.date | date:'MMM d' }}</span>
+  
+          </div>
+  
+          <p matLine>{{ notification.notificationText }}</p>
+  
+          <mat-divider [inset]="true"></mat-divider>
+  
+        </a>
+  
+      </mat-nav-list>
+  
+    </div>
+    <!-- notifications list -->
+
+  </ng-container>
+
+</div>

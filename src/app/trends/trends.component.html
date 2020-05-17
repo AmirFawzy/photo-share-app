@@ -1,0 +1,45 @@
+<div class="page-head col-12 no-gutters">
+
+  <h3 class="mat-display-2 my-0">Trending</h3>
+
+  <p class="mat-body-1 my-0">The most trending photos can be found here based on the most views and likes as well as the most feature top 10 photographers.</p>
+
+</div>
+
+<div class="col-12 px-0 no-gutters">
+
+  <mat-tab-group (selectedTabChange)="selectedTabChanged($event)">
+
+    <mat-tab>
+
+      <ng-template mat-tab-label>
+        <span>{{ 'top photographers' | uppercase }}</span>
+      </ng-template>
+
+      <ps-top-photographers></ps-top-photographers>
+
+    </mat-tab>
+    
+    <mat-tab>
+
+      <ng-template mat-tab-label>
+        <span>{{ 'most views' | uppercase }}</span>
+      </ng-template>
+
+      <ps-most-views *ngIf="isViewsTab"></ps-most-views>
+
+    </mat-tab>
+
+    <mat-tab>
+
+      <ng-template mat-tab-label>
+        <span>{{ 'most likes' | uppercase }}</span>
+      </ng-template>
+
+      <ps-most-likes *ngIf="isLikesTab"></ps-most-likes>
+
+    </mat-tab>
+
+  </mat-tab-group>
+  
+</div>

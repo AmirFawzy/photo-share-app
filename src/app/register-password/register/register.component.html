@@ -1,0 +1,87 @@
+<div class="col m-auto d-flex flex-column align-items-center pb-5" [ngClass]="{ 'w-75': wWidth <= 1500, 'w-50': wWidth > 1500, 'w-100': wWidth < 769 }">
+
+  <h4 class="mat-display-3">Register</h4>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="row w-100 pb-4">
+
+    <div class="col-12 no-gutters" formGroupName="userName">
+
+      <mat-form-field class="col-sm col-md-6 pr-0 pr-md-2 mb-1" appearance="outline" color="accent">
+        <mat-label>First name</mat-label>
+        <input matInput type="text" aria-label="first name" formControlName="firstName" required>
+        <mat-error *ngIf="getFormControlError('userName.firstName', 'required')">First name is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm col-md-6 pl-0 pl-md-2 mb-1" appearance="outline" color="accent">
+        <mat-label>Last name</mat-label>
+        <input matInput type="text" aria-label="last name" formControlName="lastName" required>
+        <mat-error *ngIf="getFormControlError('userName.lastName', 'required')">Last name is required</mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <mat-form-field class="col-12 mb-1" appearance="outline" color="accent">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" aria-label="email" formControlName="email" email required>
+      <mat-error *ngIf="getFormControlError('email', 'email')">Please enter valid email.</mat-error>
+      <mat-error *ngIf="getFormControlError('email', 'required')">Email is required.</mat-error>
+    </mat-form-field>
+
+    <div class="col-12 no-gutters password" formGroupName="password">
+
+      <mat-form-field class="col mb-1" appearance="outline" color="accent">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="passwordVisible ? 'text' : 'password'" aria-label="password" formControlName="password" required>
+        <mat-icon matSuffix (click)="passwordVisible = !passwordVisible">{{ passwordVisible ? 'visibility_off' : 'visibility' }}</mat-icon>
+        <mat-hint align="start">Password should be at least 8 characters/digits/symbols.</mat-hint>
+        <mat-hint align="end">{{ $any(getFormControlValue('password.password'))!.length }} / 8</mat-hint>
+        <mat-error *ngIf="getFormControlError('password.password', 'required')">Password is required.</mat-error>
+        <mat-error *ngIf="($any(getFormControlValue('password.password'))!.length < 8) && !getFormControlError('password.password', 'required')">Password should be at least 8 characters/digits/symbols.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col mb-1" appearance="outline" color="accent" [ngClass]="{ 'mat-form-field-invalid ng-invalid': passwordsDoNotMatch }">
+        <mat-label>Confirm password</mat-label>
+        <input matInput type="password" aria-label="confirm password" formControlName="confirm" required>
+        <mat-icon matSuffix *ngIf="!passwordsDoNotMatch && passwordMatched">check</mat-icon>
+        <mat-error *ngIf="getFormControlError('password.confirm', 'required')">Please rewrite your password for confirmation.</mat-error>
+        <mat-hint *ngIf="passwordsDoNotMatch" class="pass-not-match">Password not match.</mat-hint>
+      </mat-form-field>
+
+    </div>
+
+    <mat-form-field class="col-12 mb-1 birthdate-field" appearance="outline" color="accent">
+      <mat-label>Birthdate</mat-label>
+      <input matInput aria-label="birthdate" [matDatepicker]="birthdatePicker" formControlName="birthdate" [max]="maxDate">
+      <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
+      <mat-datepicker [touchUi]="wWidth <= 768" #birthdatePicker></mat-datepicker>
+      <mat-hint align="start">MM/DD/YY.</mat-hint>
+      <mat-error *ngIf="form.get('birthdate').touched && form.get('birthdate').invalid">Please write valid date.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-12" appearance="outline" color="accent">
+      <mat-label>Country</mat-label>
+      <mat-select aria-label="country" formControlName="country" disableRipple panelClass="select-country">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let country of countries" [value]="country.Name">
+          {{ country.Name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="col-12">
+
+      <mat-checkbox aria-label="terms of use" color="accent" formControlName="conditions" required>
+        I agree on <a routerLink="/register" aria-label="read termas of use and privacy conditions">terms of use and privacy conditions</a>.
+      </mat-checkbox>
+
+    </div>
+
+    <div class="col-12 text-center py-2 mt-4">
+
+      <button mat-raised-button class="submit-btn mat-button" type="submit" aria-label="register now" color="accent" [disabled]="form.invalid">register now</button>
+
+    </div>
+
+  </form>
+  
+</div>

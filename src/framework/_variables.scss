@@ -1,0 +1,49 @@
+@import '~@angular/material/theming';
+@import './theme-palette';
+
+///// Variables
+$theme: fancyPurple;
+
+//// Color Theme
+// Teal Theme
+$text-color: mat-contrast($mat-teal, A700);
+$bg-color: #fafafa;
+$primary-color: #A7FFEB;
+$secondary-color: #00BFA5;
+$Danger: #f44336;
+$nav-bg: #004D40;
+$primary-gradient: linear-gradient(to bottom right, #00BFA5, #8142A4);
+$secondary-gradient: linear-gradient(to bottom right, #292A49, #31336D);
+$primary-gradient-btn: linear-gradient(to right, #00BFA5, #8142A4);
+$hover-color: $primary-color;
+$footer-bg-1: #232840;
+$footer-bg-2: #191E21;
+$report: #cecece;
+
+@if $theme == fancyPurple {
+  // Fancy Purple Theme
+  $text-color: mat-contrast($mat-fancy-purple, A400);
+  $bg-color: #fafafa;
+  $primary-color: #fa7c91;
+  $secondary-color: #8a4d76;
+  $Danger: #f44336;
+  $nav-bg: #5a2546;
+  $primary-gradient: linear-gradient(to bottom right, #8A4D76, #E47972);
+  $secondary-gradient: linear-gradient(to bottom right, #292A49, #31336D);
+  $primary-gradient-btn: linear-gradient(to right, #8A4D76, #E47972);
+  $hover-color: $primary-color;
+  $footer-bg-1: #232840;
+  $footer-bg-2: #191E21;
+  $report: #cecece;
+}
+
+// Transitions
+$trans-1: .1s ease-in-out;
+$trans-2: .2s ease-in-out;
+
+// Variety
+$ellipse: 26px;
+$rounded-sm: 4px;
+$rounded-md: 8px;
+$rounded-lg: 10px;
+$rounded-xl: 14px;

@@ -1,0 +1,34 @@
+<div class="container-fluid">
+
+  <ng-container *ngIf="photos; else skeletonPlaceholder">
+    
+    <ngx-masonry class="row no-gutters pb-4" [options]="masnoryConfig" [useImagesLoaded]="true">
+  
+        <ngxMasonryItem class="col-6 col-md-4 col-xl-3 p-1 item d-flex" *ngFor="let photo of photos">
+    
+          <ps-photo-card [photo]="photo"></ps-photo-card>
+    
+        </ngxMasonryItem>
+    
+    </ngx-masonry>
+
+  </ng-container>
+
+  <ng-template #skeletonPlaceholder>
+  
+    <div class="skeleton-placeholder">
+  
+      <div class="row mt-5">
+  
+        <div class="col-6 col-md-4 col-xl-3 item" *ngFor="let block of [1, 2, 3, 4]">
+          <div class="skeleton-photo-thumbnail-md"></div>
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  </ng-template>
+
+</div>
+  

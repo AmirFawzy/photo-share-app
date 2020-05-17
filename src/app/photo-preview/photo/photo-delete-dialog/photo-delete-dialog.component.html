@@ -1,0 +1,22 @@
+<div class="delete-dialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+
+  <mat-dialog-content>
+
+    <p class="mat-body-1 mt-0">
+      Are you sure you want to delete this photo?
+    </p>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" data-ele-name="Drag" cdkDragHandle>
+
+    <div>
+      
+      <button mat-button type="button" aria-label="cancel" [mat-dialog-close]="false">cancel</button>
+  
+      <button mat-button type="button" aria-label="delete" color="warn" tabindex="-1" [mat-dialog-close]="true">delete</button>
+
+    </div>
+
+  </mat-dialog-actions>
+</div>

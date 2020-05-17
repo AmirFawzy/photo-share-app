@@ -1,0 +1,185 @@
+<div class="post-job-dialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+
+  <mat-dialog-content class="m-0 p-0" #dialogContent>
+
+    <perfect-scrollbar [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{'max-width': dialogContentSize.width + 'px', 'max-height': dialogContentSize.height + 'px'}">
+
+      <div class="content">
+
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+
+          <!-- title -->
+          <mat-form-field class="w-100 mb-1" appearance="outline" color="accent">
+
+            <mat-label>Job title</mat-label>
+
+            <input matInput type="text" aria-label="job title" name="jobTitle" ngModel #jobTitle="ngModel" required>
+
+            <mat-error *ngIf="jobTitle.touched && jobTitle.invalid">This field is <b>reuqired</b>.</mat-error>
+
+          </mat-form-field>
+          <!-- /title -->
+
+          <!-- company name -->
+          <mat-form-field class="w-100 mb-1" appearance="outline" color="accent">
+
+            <mat-label>Company name</mat-label>
+
+            <input matInput type="text" aria-label="company name" name="companyName" ngModel #companyName="ngModel">
+
+          </mat-form-field>
+          <!-- /company name -->
+
+          <div class="row">
+
+            <!-- Location -->
+            <mat-form-field class="col mb-1" color="accent" appearance="outline">
+
+              <mat-label>Country</mat-label>
+
+              <mat-select aria-label="select country" name="country" [panelClass]="'select-location'" (selectionChange)="onSelectionChange($event)" ngModel #countriesSelect="ngModel" required>
+                <mat-option *ngFor="let country of countries" [value]="country.Name.toLowerCase()">{{ country.Name }}</mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="countriesSelect.touched && countriesSelect.invalid">This field is <b>required</b>.</mat-error>
+
+            </mat-form-field>
+            <!-- /Location -->
+
+            <!-- Location details -->
+            <mat-form-field class="col mb-1" color="accent" appearance="outline">
+
+              <mat-label>City</mat-label>
+
+              <mat-select aria-label="select city" name="city" [panelClass]="'select-location'" ngModel #citiesSelect="ngModel" [disabled]="countriesSelect.invalid">
+                <mat-option *ngFor="let city of cities" [value]="city.toLowerCase()">{{ city }}</mat-option>
+              </mat-select>
+
+            </mat-form-field>
+            <!-- /Location details -->
+
+          </div>
+
+          <div class="row" *ngIf="periodValue">
+
+            <div class="col">
+
+              <div class="info-alert mb-3 border d-flex align-items-center">
+
+                <div class="icon">
+                  <mat-icon>priority_high</mat-icon>
+                </div>
+
+                <p class="mat-body-2 my-0 ml-3 py-3 pl-3 position-relative">
+                  You choose <strong>{{ periodValue | titlecase }}</strong>
+                  make sure you put the right employment salary for
+                  <strong>{{ periodValue === 'full time' ? 'year' : 'project' }}</strong>.
+                </p>
+
+              </div>
+              
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <!-- vacancy -->
+            <mat-form-field class="col-12 col-md-4 mb-1" color="accent" appearance="outline">
+
+              <mat-label>Vacancy</mat-label>
+
+              <input matInput type="number" aria-label="vacancy" name="vacancy" ngModel #vacancy="ngModel" (input)="onInput($event, vacancy)" required>
+
+              <mat-error *ngIf="vacancy.touched && vacancy.hasError('required')">This field is <b>required</b>.</mat-error>
+
+            </mat-form-field>
+            <!-- /vacancy -->
+
+            <!-- salary -->
+            <mat-form-field class="col-12 col-md-4 mb-1" color="accent" appearance="outline">
+
+              <mat-label>Salary</mat-label>
+
+              <input matInput type="number" aria-label="salary" name="salary" ngModel #salary="ngModel" (input)="onInput($event, salary)" required>
+
+              <mat-hint>By <strong>Dollar</strong> currency.</mat-hint>
+
+              <mat-error *ngIf="salary.touched && salary.hasError('required')">This field is <b>required</b>.</mat-error>
+
+            </mat-form-field>
+            <!-- /salary -->
+
+            <!-- employee -->
+            <mat-form-field class="col-12 col-md-4 mb-1" color="accent" appearance="outline">
+
+              <mat-label>Employee</mat-label>
+
+              <mat-select aria-label="employee period" name="period" [(value)]="periodValue" [panelClass]="'select-period'" ngModel #periodSelect="ngModel" required>
+                <mat-option *ngFor="let period of periods" [value]="period.toLowerCase()">{{ period }}</mat-option>
+              </mat-select>
+
+              <mat-hint *ngIf="periodValue">
+
+                <span *ngIf="periodValue === 'full time'; then periodFullTime else periodPartTime"></span>
+
+                <ng-template #periodFullTime>for <strong>Year</strong>.</ng-template>
+
+                <ng-template #periodPartTime>for <strong>Project</strong>.</ng-template>
+
+              </mat-hint>
+
+              <mat-error *ngIf="periodSelect.touched && periodSelect.invalid">This field is <b>required</b>.</mat-error>
+
+            </mat-form-field>
+            <!-- /employee -->
+
+          </div>
+          <!-- Description -->
+
+          <mat-form-field class="w-100 mb-1" color="accent" appearance="outline">
+
+            <mat-label>Description</mat-label>
+
+            <textarea matInput type="text" aria-label="description" name="description" ngModel #desc="ngModel" required></textarea>
+
+            <mat-error *ngIf="desc.touched && desc.invalid">This field is <b>required</b>.</mat-error>            
+
+          </mat-form-field>
+          <!-- /Description -->
+
+          <!-- contact -->
+          <mat-form-field class="w-100 mb-1" color="accent" appearance="outline">
+
+            <mat-label>Contact email</mat-label>
+
+            <input matInput type="email" aria-label="contact email" name="contact" ngModel email #contact="ngModel" required>
+
+            <mat-error *ngIf="contact.touched && contact.hasError('required')">This field is <b>required</b>.</mat-error>
+
+            <mat-error *ngIf="contact.hasError('email') || contact.hasError('pattern')">Please enter valid mail.</mat-error>
+
+          </mat-form-field>
+          <!-- /contact -->
+
+        </form>
+
+      </div>
+
+    </perfect-scrollbar>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions cdkDragHandle>
+
+    <div class="d-flex justify-content-between align-items-center mx-3">
+
+      <p class="mat-caption">Please make sure of the information you post that is right all jobs get scan by our team to avoid any scam or tricks.</p>
+
+      <button mat-button class="ml-4" type="submit" aria-label="post the job" [mat-dialog-close]="f.valid ? f.value : false" [disabled]="f.invalid">save</button>
+
+    </div>
+
+  </mat-dialog-actions>
+
+</div>

@@ -1,0 +1,48 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+
+mat-form-field {
+  mat-icon {
+    cursor: pointer;
+  }
+
+  .pass-not-match {
+    color: $Danger;
+  }
+
+  &.birthdate-field {
+    .mat-form-field-suffix {
+      align-self: center;
+    }
+  }
+}
+
+.select-country {
+  .mat-option {
+
+    &:hover:not(.mat-option-disabled),
+    &:focus:not(.mat-option-disabled),
+    &.mat-active {
+      background-color: $hover-color;
+    }
+  }
+}
+
+mat-checkbox {
+  a {
+    color: $text-color;
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: $text-color;
+    transition: $trans-2;
+
+    &:hover {
+      color: $secondary-color;
+      text-decoration-color: $secondary-color;
+    }
+  }
+}
+
+.submit-btn {
+  @include gradient-btn();
+}

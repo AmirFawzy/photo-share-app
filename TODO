@@ -1,0 +1,37 @@
+
+Todo:
+  ✔ add accessibility to the project. (role, aria-lable, araia-labeldby...etc) @done(19-09-15 03:45)
+  ✔ Skeleton page loading to stamulate page structure. @done(19-09-14 00:37)
+  ✔ navigation animation. @done(19-09-14 00:37)
+  ✔ account newsletter (change in db 'ts file'). @done(19-08-06 14:19)
+  ✔ friendly message when user not have any friends to show their feeds in home page. @done(19-07-27 17:50)
+  ✔ delete all user collections, photos and jobs when user delete his account. 'Database' @done(19-07-18 06:18)
+  ✔ user home page feeds. @started(19-07-06 16:30) @done(19-07-06 16:30) @lasted(31s)
+  ✔ Left margin when the user not registered. @high ruining the look of the ui. @done(19-06-17 12:09)
+  ✔ User service. @started(19-03-18 11:38) @done(19-06-11 10:39) @lasted(12w23h1m9s)
+  ✔ collection service. @started(19-05-16 13:00) @done(19-06-11 10:39) @lasted(3w4d21h39m11s)
+  ✔ User profile page (action btn) hide if the profile user is the user id. @critical @started(19-04-27 14:11) @done(19-05-09 05:37) @lasted(1w4d15h26m38s)
+  ✔ use resolver guard for 'user profile page' @started(19-04-27 14:11) @done(19-05-09 05:37) @lasted(1w4d15h26m2s)
+  ✔ job service and page. @done(19-04-27 14:11)
+  ✔ Auth service. @project(Todo) @done(19-03-28 03:49)
+  ✔ Search service. @done(19-03-18 11:33) @project(Todo)
+  ✔ Upload service. @done(19-03-18 11:33) @project(Todo)
+  ✔ CLOUD FUNCTIONS update 'donwloadUrl' and 'storagePath' the same goes for thumbnails of the photo. @started(19-03-28 03:50) @done(19-03-28 06:30) @lasted(2h40m6s)
+  ✔ When user create a new account 'userName' property in 'db' doesn't set correctly @low @started(19-04-05 13:13) @done(19-04-05 13:13) @lasted(38s)
+  ✔ Photo service. @high @started(19-03-18 11:48) @done(19-04-12 08:59) @lasted(3w3d21h11m41s)
+
+Bugs:
+  ✔ in user-profile page photos and collections taps not updating their content if you navigate to the same route the photos and collections still same not changing. @done(19-08-25 18:06)
+  ✔ search input in the header 'search' and 'cancel' icons not aligned in center tablet screen and down. @high @done(19-08-14 11:32)
+  ✔ Encapsulation issue in 'ui'. @done(19-08-06 14:18)
+  ✔ change all if conditions in 'html doms' depend on $loadingState cuz it will trigger everytime set to 'true'. @done(19-07-27 17:50)
+  ✔ sign out bug (when you sign out it take you back to home page but not update the ui and not sign out correctrly) @high @critical @done(19-07-27 17:49)
+
+Next Feature:
+  ☐ quick view dialog for photo.
+  ☐ notifications menu.
+    
+cancelled:
+✘ implement in 'user service' in 'getUserPhotos()' to get photos from collections as well as photos from db @cancelled(19-06-11 10:40)
+✘ use resolver guard for 'photo page' @cancelled(19-03-26 20:32)
+  

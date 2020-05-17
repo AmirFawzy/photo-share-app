@@ -1,0 +1,16 @@
+@import '../../../framework/variables';
+
+.more-menu {
+  width: 300px;
+  height: 100%;
+
+  .mat-nav-list {
+    text-transform: capitalize;
+
+    .mat-list-item {
+      &:hover, &:focus {
+        background-color: $hover-color;
+      }
+    }
+  }
+}

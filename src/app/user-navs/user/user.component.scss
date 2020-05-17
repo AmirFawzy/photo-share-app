@@ -1,0 +1,57 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+@import '../../../framework/partials/bootstrap-grid.scss';
+
+@include rating-Badge();
+
+.ps-user-menu {
+  width: 300px;
+  height: 100%;
+
+  .user-id {
+    background: $nav-bg;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    color: #fff;
+
+    .mat-subheading-1 {
+      text-transform: capitalize;
+    }
+  }
+
+  .mat-nav-list {
+    text-transform: capitalize;
+
+    .mat-list-item {
+      .mat-list-icon {
+        color: $text-color;
+      }
+
+      &:hover,
+      &:focus {
+        background-color: $hover-color;
+      }
+
+      &.exit {
+        &:hover {
+          background-color: #fff;
+        }
+
+        .mat-list-item-content {
+          height: 68px;
+          padding-top: 10px;
+          justify-content: center;
+          cursor: default;
+
+          .btn {
+            @include gradient-btn($ellipse);
+            width: calc(300px - 50px);
+          }
+        }
+      }
+    }
+  }
+}

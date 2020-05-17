@@ -1,0 +1,285 @@
+<ng-container *ngIf="accountSettings; else skeletonPlaceholder">
+
+  <div class="account settings container-fluid" [@fadeInOut]="loadingState ? false : true">
+
+    <h6 class="mat-title mt-3">Manage settings</h6>
+
+    <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="row w-100 pb-4 no-gutters">
+
+      <!-- manage settings -->
+      <div class="col-12 manage-settings">
+
+        <div class="row">
+
+          <div class="col-12 no-gutters" formGroupName="userName">
+
+            <!-- First name -->
+            <mat-form-field class="col-sm col-md-6 pr-0 pr-md-2 mb-1" appearance="outline" color="accent">
+              <mat-label>First name</mat-label>
+              <input matInput type="text" aria-label="first name" formControlName="firstName" required>
+              <mat-error *ngIf="getFormControlError('userName.firstName', 'required')">First name is required</mat-error>
+            </mat-form-field>
+            <!-- /First name -->
+
+            <!-- Last name -->
+            <mat-form-field class="col-sm col-md-6 pl-0 pl-md-2 mb-1" appearance="outline" color="accent">
+              <mat-label>Last name</mat-label>
+              <input matInput type="text" aria-label="last name" formControlName="lastName" required>
+              <mat-error *ngIf="getFormControlError('userName.lastName', 'required')">Last name is required</mat-error>
+            </mat-form-field>
+            <!-- /Last name -->
+
+          </div>
+
+          <!-- email -->
+          <div class="col-12 pl-0 flex-column email">
+
+            <mat-form-field class="col-9 col-sm-10 mb-3" appearance="outline" color="accent">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" aria-label="email" formControlName="email" email>
+              <mat-error *ngIf="getFormControlError('email', 'email')">Please enter valid email.</mat-error>
+            </mat-form-field>
+
+            <button mat-button class="col-3 col-sm-2 mat-button align-self-center" aria-label="update email" type="button" (click)="onUpdateEmail(getFormControValue('email'))" [disabled]="(oldEmail === getFormControValue('email')) || settingsForm.get('email').invalid">update</button>
+
+          </div>
+          <!-- /email -->
+
+          <!-- password -->
+          <div class="col-12 no-gutters password" formGroupName="password">
+
+            <!-- password -->
+            <mat-form-field class="col-12 mb-3 mb-sm-1" appearance="outline" color="accent">
+              <mat-label>New password</mat-label>
+              <input matInput [type]="passwordVisible ? 'text' : 'password'" aria-label="new password" formControlName="password">
+              <mat-icon matSuffix class="text-muted" (click)="passwordVisible = !passwordVisible">{{ passwordVisible ? 'visibility_off' : 'visibility' }}</mat-icon>
+              <mat-hint align="start">Password should be at least 8 characters/digits/symbols.</mat-hint>
+              <mat-hint align="end">{{ $any(getFormControValue('password.password'))!.length }} / 8</mat-hint>
+              <mat-error *ngIf="($any(getFormControValue('password.password'))!.length < 8) && !getFormControlError('password.password', 'required')!">Password should be at least 8 characters/digits/symbols.</mat-error>
+            </mat-form-field>
+            <!-- /password -->
+
+            <!-- repeat password -->
+            <div class="col-12 no-gutters pl-0 flex-column" *ngIf="settingsForm.get('password.password').valid && (getFormControValue('password.password')?.length >= 8)">
+
+              <mat-form-field class="col-9 col-sm-10 mb-1 pr-1 repeat-password" appearance="outline" color="accent" [ngClass]="{ 'mat-form-field-invalid ng-invalid': passwordDoNotMatch }">
+                <mat-label>Repeat password</mat-label>
+                <input matInput type="password" aria-label="repeat password" formControlName="confirm">
+                <mat-icon matSuffix class="check-icon" *ngIf="!passwordDoNotMatch && passwordMatched">check</mat-icon>
+                <mat-hint *ngIf="passwordDoNotMatch" class="pass-not-match">Password not match.</mat-hint>
+              </mat-form-field>
+
+              <button mat-button class="col-3 col-sm-2 mat-button align-self-center" type="button" aria-label="update pasword" (click)="onUpdatePassword(getFormControValue('password.confirm'))" [disabled]="settingsForm.get('password').invalid">update</button>
+
+            </div>
+            <!-- repeat password -->
+
+          </div>
+          <!-- /password -->
+
+          <!-- birthdate -->
+          <mat-form-field class="col-12 mb-1" appearance="outline" color="accent">
+            <mat-label>Birthdate</mat-label>
+            <input matInput aria-label="birthdate" [matDatepicker]="birthdatePicker" formControlName="birthdate" [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
+            <mat-datepicker [touchUi]="wWidth <= 768" #birthdatePicker></mat-datepicker>
+            <mat-hint align="start">MM/DD/YY</mat-hint>
+          </mat-form-field>
+          <!-- /birthdate -->
+
+          <!-- country -->
+          <mat-form-field class="col-12 mb-1" appearance="outline" color="accent">
+            <mat-label>Country</mat-label>
+            <mat-select formControlName="country" aria-label="country" disableRipple panelClass="select-country">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let country of countries" [value]="country.Name">
+                {{ country.Name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- /country -->
+
+          <!-- about me -->
+          <mat-form-field class="col-12 mb-1" color="accent" appearance="outline">
+            <mat-label>About me</mat-label>
+            <textarea matInput type="text" aria-label="about me" formControlName="aboutMe"></textarea>
+          </mat-form-field>
+          <!-- /about me -->
+
+          <!-- checkbox -->
+          <div class="col-12 checkbox">
+            <mat-checkbox color="accent" aria-label="hire availability" formControlName="hiringAvailability">Make me available for hire.</mat-checkbox>
+            <mat-hint class="mat-caption d-block">What this choice going to do is that show to business owners you are available for hiring then they can contact with you.</mat-hint>
+          </div>
+          <!-- checkbox -->
+
+        </div>
+        <!-- manage settings -->
+        
+      </div>
+
+      <!-- contacts -->
+      <div class="col-12 contacts" formGroupName="socialLinks">
+
+        <h6 class="mat-subheading-1">Contacts</h6>
+
+        <div class="row">
+
+          <!-- website -->
+          <mat-form-field class="col-12 mb-1" appearance="outline" color="accent">
+            <mat-label>Website</mat-label>
+            <input matInput type="text" aria-label="website" formControlName="website">
+            <fa-icon matPrefix [icon]="['fas', 'home']" [fixedWidth]="true"></fa-icon>
+            <mat-error *ngIf="getFormControlError('socialLinks.website', 'pattern') && (getFormControValue('socialLinks.website')?.length > 0)">Wrong url.</mat-error>
+          </mat-form-field>
+          <!-- /website -->
+
+          <!-- facebook -->
+          <mat-form-field class="col-12 mb-1" appearance="outline" color="accent">
+            <mat-label>Facebook</mat-label>
+            <input matInput type="text" aria-label="facebook" formControlName="facebook">
+            <fa-icon matPrefix [icon]="['fab', 'facebook-f']" [fixedWidth]="true"></fa-icon>
+            <mat-error *ngIf="getFormControlError('socialLinks.facebook', 'pattern') && (getFormControValue('socialLinks.facebook')?.length > 0)">Wrong url.</mat-error>
+          </mat-form-field>
+          <!-- /facebook -->
+
+          <!-- twitter -->
+          <mat-form-field class="col-12 mb-1" appearance="outline" color="accent">
+            <mat-label>Twitter</mat-label>
+            <input matInput type="text" aria-label="twitter" formControlName="twitter">
+            <fa-icon matPrefix [icon]="['fab', 'twitter']" [fixedWidth]="true"></fa-icon>
+            <mat-error *ngIf="getFormControlError('socialLinks.twitter', 'pattern') && (getFormControValue('socialLinks.twitter')?.length > 0)">Wrong url.</mat-error>
+          </mat-form-field>
+          <!-- /twitter -->
+
+          <!-- instagram -->
+          <mat-form-field class="col-12 mb-1" appearance="outline" color="accent">
+            <mat-label>instagram</mat-label>
+            <input matInput type="text" aria-label="instagram" formControlName="insta">
+            <fa-icon matPrefix [icon]="['fab', 'instagram']" [fixedWidth]="true"></fa-icon>
+            <mat-error *ngIf="getFormControlError('socialLinks.insta', 'pattern') && (getFormControValue('socialLinks.insta')?.length > 0)">Wrong url.</mat-error>
+          </mat-form-field>
+          <!-- /instagram -->
+
+          <!-- tumblr -->
+          <mat-form-field class="col-12 mb-1" appearance="outline" color="accent">
+            <mat-label>tumblr</mat-label>
+            <input matInput type="text" aria-label="tumblr" formControlName="tumblr">
+            <fa-icon matPrefix [icon]="['fab', 'tumblr']" [fixedWidth]="true"></fa-icon>
+            <mat-error *ngIf="getFormControlError('socialLinks.tumblr', 'pattern') && (getFormControValue('socialLinks.tumblr')?.length > 0)">Wrong url.</mat-error>
+          </mat-form-field>
+          <!-- /tumblr -->
+
+        </div>
+  
+      </div>
+      <!-- /contacts -->
+
+      <div class="col-12 text-center">
+
+        <button mat-raised-button class="submit-btn mat-button" type="submit" aria-label="save the settings" color="accent" [disabled]="false">save</button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</ng-container>
+
+<ng-template #skeletonPlaceholder>
+
+  <div class="skeleton-placeholder">
+
+    <div class="skeleton-block account settings container-fluid">
+
+      <div class="skeleton-title-sm my-3"></div>
+  
+      <div class="row w-100 pb-4 no-gutters">
+  
+        <!-- manage settings -->
+        <div class="col-12 manage-settings">
+  
+          <div class="row">
+  
+            <div class="col-12 d-flex no-gutters mb-2">
+  
+              <!-- First name -->
+              <div class="col-sm col-md-6 pr-0 pr-md-2 mb-1">
+                <div class="skeleton-input"></div>
+              </div>
+              <!-- /First name -->
+  
+              <!-- Last name -->
+              <div class="col-sm col-md-6 pl-0 pl-md-2 mb-1">
+                <div class="skeleton-input"></div>
+              </div>
+              <!-- /Last name -->
+  
+            </div>
+  
+            <!-- email -->
+            <div class="d-flex col-12 pl-0 email mb-2">
+  
+              <div class="col-9 col-sm-10 mb-1">
+                <div class="skeleton-input skeleton-shimmer-medium"></div>
+              </div>
+  
+              <div class="col-3 col-sm-2 mat-button align-self-center">
+                <div class="skeleton-pill-btn-sm"></div>
+              </div>
+  
+            </div>
+            <!-- /email -->
+  
+            <div class="col-12 mb-2" *ngFor="let item of [1, 2, 3]">
+              <div class="skeleton-input skeleton-shimmer-medium"></div>
+            </div>
+  
+            <!-- about me -->
+            <div class="col-12 mb-2">
+              <div class="skeleton-textarea skeleton-shimmer-medium"></div>
+            </div>
+            <!-- /about me -->
+  
+            <!-- checkbox -->
+            <div class="col-12 checkbox mt-4">
+              <div class="skeleton-text-md"></div>
+              <div class="skeleton-caption mt-2" style="width: 350px"></div>
+            </div>
+            <!-- checkbox -->
+  
+          </div>
+          <!-- manage settings -->
+          
+        </div>
+  
+        <!-- contacts -->
+        <div class="col-12 contacts">
+  
+          <div class="skeleton-title-xs mb-3"></div>
+  
+          <div class="row">
+
+            <div class="col-12 mb-2" *ngFor="let item of [1, 2, 3, 4, 5]">
+              <div class="skeleton-input skeleton-shimmer-medium"></div>
+            </div>
+      
+          </div>
+    
+        </div>
+        <!-- /contacts -->
+  
+        <div class="col-12 text-center">
+  
+          <div class="skeleton-pill-btn-sm submit-btn mat-button"></div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+
+  </div>
+
+</ng-template>

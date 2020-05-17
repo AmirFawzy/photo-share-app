@@ -1,0 +1,70 @@
+<div class="w-100">
+
+  <div *ngIf="photos.length && !loadingSkeleton">
+
+    <div class="col-12 pb-4">
+
+      <h4 class="mat-display-3 mb-4" *ngIf="searchResultLength > 0">{{ searchResultLength }} result for {{ searchKeyword.split('-').join(' ') }}</h4>
+  
+      <mat-chip-list>
+  
+        <mat-chip *ngFor="let keyword of relatedSearchKeyword">
+          <a class="d-blcok" [routerLink]="[ '/search', keyword.split(' ').join('-') ]" (click)="onChip(keyword)" aria-label="search for this keyword">{{ keyword }}</a>
+        </mat-chip>
+        
+      </mat-chip-list>
+  
+      <ngx-masonry class="row no-gutters mt-5" [options]="masnoryConfig" [useImagesLoaded]="true">
+  
+        <ngxMasonryItem class="col-6 col-md-4 col-xl-3 p-1 item d-flex" *ngFor="let photo of photos; let i = index">
+  
+          <ps-photo-card [photo]="photo"></ps-photo-card>
+  
+        </ngxMasonryItem>
+  
+      </ngx-masonry>
+      
+    </div>
+      
+  </div>
+
+  <div *ngIf="!photos.length && !loadingSkeleton">
+
+    <div class="text-center w-100" style="height: 100vh">
+      <p class="mat-display-2">There's no result for <span class="danger">"{{ searchKeyword }}"</span> keyword.</p>
+    </div>
+
+  </div>
+
+  <div *ngIf="loadingSkeleton">
+    
+    <div class="skeleton-placeholder mt-5">
+
+      <div class="col-12 pb-4">
+  
+        <div class="skeleton-title-lg mb-4"></div>
+    
+        <div>
+  
+          <div class="skeleton-chip d-inline-block"></div>
+          <div class="skeleton-chip d-inline-block"></div>
+          <div class="skeleton-chip d-inline-block"></div>
+          <div class="skeleton-chip d-inline-block"></div>
+  
+        </div>
+    
+        <div class="row mt-5">
+    
+          <div class="col-6 col-md-4 col-xl-3 item" *ngFor="let block of [1, 2, 3, 4]">
+            <div class="skeleton-photo-thumbnail-md mb-3"></div>
+          </div>
+    
+        </div>
+        
+      </div>
+  
+    </div>
+
+  </div>
+
+</div>

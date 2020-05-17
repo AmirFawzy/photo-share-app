@@ -1,0 +1,77 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+@import '../../../framework/partials/bootstrap-grid.scss';
+
+form {
+  >div {
+    @include set-margin(-20px, 0, 0, 0);
+
+    .mat-button {
+      border-radius: $ellipse;
+    }
+  }
+}
+
+.comments {
+  .comment {
+    @include set-margin(18px, 0, 0, 0);
+
+    figure {
+      width: 50px;
+      border: 1px solid $secondary-color;
+      overflow: hidden;
+      @include set-margin(0, 16px, 0, 0);
+    }
+
+    .replays {
+      @include set-margin(0, 0, 0, 66px);
+
+      .replay,
+      form {
+        @include set-margin(12px, 0, 0, 0);
+      }
+    }
+
+    .comment-content,
+    .replay-content {
+      .owner {
+        a {
+          text-transform: capitalize;
+          text-decoration: none;
+          transition: $trans-2;
+
+          &:hover {
+            color: $secondary-color;
+          }
+        }
+
+        .divider {
+          @include set-margin(0, 10px, 0, 10px);
+        }
+
+        .mat-button {
+          width: 33px;
+          height: 33px;
+          line-height: 33px;
+
+          .icon-18 {
+            line-height: 18px !important;
+          }
+        }
+      }
+
+      .comment-body,
+      .replay-body {
+        @include set-margin(6px, 0, 5px, 0);
+      }
+
+      .comment-body {
+        white-space: pre-line;
+      }
+
+      .mat-button {
+        border-radius: $ellipse;
+      }
+    }
+  }
+}

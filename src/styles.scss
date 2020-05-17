@@ -1,0 +1,311 @@
+/* You can add global styles to this file, and also import other style files */
+@import './framework/partials/bootstrap-grid.scss';
+@import './framework/partials/bootstrap-reboot.scss';
+@import './framework/partials/mixins';
+@import './framework/mixins';
+@import './framework/partials/utilities';
+@import './framework/variables';
+
+:root {
+  font-size: 16px;
+}
+
+* {
+  outline: none !important;
+  list-style: none;
+  // cursor: none !important;
+}
+
+.img-fluid {
+  width: 100%;
+  height: auto;
+}
+
+::selection {
+  background-color: rgba($primary-color, .7);
+  color: #333;
+}
+
+.backdrop {
+  background: rgba(#000000, .5);
+}
+
+// skeleton placeholder style
+.skeleton-placeholder {
+  --skeleton-bg-color: #f1f1f1;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+
+  .skeleton-circle-photo-xs,
+  .skeleton-circle-photo-md,
+  .skeleton-circle-photo-sm,
+  .skeleton-circle-photo-lg,
+  .skeleton-circle-photo-xl {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--skeleton-bg-color);
+    border: none !important;
+  }
+
+  .skeleton-circle-photo-sm {
+    width: 50px;
+    height: 50px;
+  }
+
+  .skeleton-circle-photo-lg {
+    width: 130px;
+    height: 130px;
+  }
+
+  .skeleton-circle-photo-xs {
+    width: 35px;
+    height: 35px;
+  }
+
+  .skeleton-circle-photo-xl {
+    width: 170px;
+    height: 170px;
+  }
+
+  .skeleton-title-sm,
+  .skeleton-title-xs,
+  .skeleton-title-lg,
+  .skeleton-title-xl {
+    height: 24px;
+    width: 135px;
+    background: var(--skeleton-bg-color);
+    border-radius: var(--radius-md);
+  }
+
+  .skeleton-title-xs {
+    width: 100px;
+  }
+
+  .skeleton-title-lg {
+    width: 220px;
+  }
+
+  .skeleton-title-xl {
+    width: 320px;
+  }
+
+  .skeleton-icon-btn,
+  .skeleton-icon {
+    border-radius: 50%;
+    background: var(--skeleton-bg-color);
+    width: 26px;
+    height: 26px;
+  }
+
+  .skeleton-pill-btn-sm,
+  .skeleton-pill-btn-md,
+  .skeleton-chip {
+    width: 85px;
+    height: 36px;
+    background: var(--skeleton-bg-color);
+    border-radius: $ellipse;
+  }
+
+  .skeleton-pill-btn-md {
+    width: 140px;
+  }
+
+  .skeleton-chip {
+    height: 32px;
+    margin-right: 8px;
+  }
+
+  .skeleton-text-xs,
+  .skeleton-text-sm,
+  .skeleton-text-md {
+    width: 50px;
+    height: 18px;
+    background: var(--skeleton-bg-color);
+    border-radius: var(--radius-md);
+  }
+  
+  .skeleton-text-sm {
+    width: 140px;
+  }
+
+  .skeleton-text-md {
+    width: 220px;
+  }
+
+  .skeleton-paragraph-sm,
+  .skeleton-paragraph-xs {
+    position: relative;
+    width: 100%;
+    height: 18px;
+    background: var(--skeleton-bg-color);
+    border-radius: var(--radius-md);
+    margin-bottom: 64px !important;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute !important;
+      height: 18px;
+      background: var(--skeleton-bg-color);
+      border-radius: var(--radius-md);
+    }
+
+    &::before {
+      width: 100%;
+      top: 30px;
+    }
+
+    &::after {
+      width: 50%;
+      top: 60px;
+    }
+  }
+
+  .skeleton-paragraph-xs {
+    margin-bottom: 34px;
+
+    &::before {
+      display: none;
+    }
+
+    &::after {
+      top: 30px;
+    }
+  }
+
+  .skeleton-accordion {
+    .mat-expansion-panel-header {
+      background-color: #fff !important;
+    }
+
+    .mat-expansion-panel-body {
+      background-color: rgba(#fff, .9);
+    }
+  }
+
+  .skeleton-defined-size-photo,
+  .skeleton-block {
+    background: var(--skeleton-bg-color) !important;
+    border-radius: var(--radius-lg);
+  }
+  
+  .skeleton-block {
+    background: #fff !important;
+    border-radius: var(--radius-lg);
+    box-shadow: none !important;
+    border: 1px solid #f6f6f6;
+  }
+
+  .skeleton-divider {
+    color: var(--skeleton-bg-color);
+    border-color: var(--skeleton-bg-color) !important;
+  }
+
+  .skeleton-caption {
+    width: 150px;
+    height: 10px;
+    background: var(--skeleton-bg-color);
+    border-radius: $ellipse;
+  }
+
+  .skeleton-photo-thumbnail-md {
+    width: 100%;
+    height: 220px;
+    background: var(--skeleton-bg-color);
+    border-radius: var(--radius-md);
+  }
+
+  .skeleton-input,
+  .skeleton-textarea {
+    background: var(--skeleton-bg-color);
+    border-radius: var(--radius-md);
+    height: 63px;
+  }
+
+  .skeleton-textarea {
+    height: 100px;
+  }
+
+  .skeleton-paint {
+    background: var(--skeleton-bg-color) !important;
+  }
+
+  .skeleton-circle-photo-xs,
+  .skeleton-circle-photo-sm,
+  .skeleton-circle-photo-md,
+  .skeleton-circle-photo-lg,
+  .skeleton-circle-photo-xl,
+  .skeleton-icon,
+  .skeleton-icon-btn,
+  .skeleton-paragraph-sm,
+  .skeleton-paragraph-sm::after,
+  .skeleton-paragraph-sm::before,
+  .skeleton-paragraph-xs,
+  .skeleton-paragraph-xs::after,
+  .skeleton-pill-btn-sm,
+  .skeleton-pill-btn-md,
+  .skeleton-text-md,
+  .skeleton-text-sm,
+  .skeleton-text-xs,
+  .skeleton-title-sm,
+  .skeleton-title-xs,
+  .skeleton-title-lg,
+  .skeleton-title-xl,
+  .skeleton-defined-size-photo,
+  .skeleton-chip,
+  .skeleton-caption,
+  .skeleton-photo-thumbnail-md,
+  .skeleton-input,
+  .skeleton-textarea,
+  .skeleton-paint
+  {
+    @include skeleton-animation(skeletonShimmerDefault);
+    background-size: 800px 104px !important;
+    // position: relative !important;
+  }
+
+
+  @keyframes skeletonShimmerDefault {
+    0% {
+      background-position: -468px 0;
+    }
+
+    100% {
+      background-position: 468px 0;
+    }
+  }
+
+  .skeleton-defined-size-photo {
+    background-size: 2500px 104px !important;
+  }
+
+  @keyframes skeletonShimmerBig {
+    0% {
+      background-position: -1250px 0;
+    }
+
+    100% {
+      background-position: 1250px 0;
+    }
+  }
+
+  .skeleton-shimmer-medium,
+  .skeleton-shimmer-medium::before,
+  .skeleton-shimmer-medium::after {
+    @include skeleton-animation(skeletonShimmerMedium);
+    background-size: 1000px 104px !important;
+  }
+
+  @keyframes skeletonShimmerMedium {
+    0% {
+      background-position: -468px 0;
+    }
+
+    100% {
+      background-position: 468px 0;
+    }
+  }
+}

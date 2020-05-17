@@ -1,0 +1,225 @@
+<mat-progress-bar mode="indeterminate" color="accent" *ngIf="loadingState"></mat-progress-bar>
+
+<div class="upload-photos-dialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+
+  <mat-dialog-content class="m-0 position-relative" #dialogContent>
+
+    <div class="row no-gutters">
+
+      <div class="upload-photos-container" [ngClass]="{ 'col-12': !selectedPhoto.length || tabletScreenDown, 'col-8': selectedPhoto.length && !tabletScreenDown }">
+
+
+        <perfect-scrollbar [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{'max-width': '100%', 'max-height': '65vh'}">
+
+          <div class="row no-gutters" #uploadPhotoContainer>
+
+            <!-- photos -->
+            <ng-container *ngIf="receivedPhotos">
+
+              <figure class="m-0 position-relative" *ngFor="let photo of receivedPhotos" [ngClass]="{ 'col-4': !mobileScreenDown, 'col-6': mobileScreenDown }">
+
+                <span class="position-absolute" [ngStyle]="{'background-image': 'url(' + photo.photo.downloadUrl + ')'}"></span>
+
+                <img style="display: none" [src]="photo.photo.downloadUrl" [alt]="photo.title">
+
+                <figcaption class="position-absolute" *ngIf="!tabletScreenDown && !mobileScreenDown">
+                  <mat-checkbox color="accent" [value]="photo.id" [disableRipple]="true" [checked]="selectedPhotoAfterOnSave === photo.id" (change)="onPhotoSelect($event)"></mat-checkbox>
+                </figcaption>
+
+              </figure>
+
+            </ng-container>
+            <!-- /photos -->
+
+            <!-- upload task -->
+            <ng-container *ngFor="let photoFile of files">
+
+              <ps-upload-task [ngClass]="{ 'col-4': !mobileScreenDown, 'col-6': mobileScreenDown }" [file]="photoFile" (fakeId)="onUploadDoneOrCancel($event)"></ps-upload-task>
+
+            </ng-container>
+            <!-- /upload task -->
+
+            <!-- upload input -->
+            <div class="upload-input" [ngClass]="{ 'col-4': !mobileScreenDown, 'col-6': mobileScreenDown }">
+
+              <div matRipple class="upload-container h-100">
+
+                <label for="upload-photos" class="d-block m-0 h-100 d-flex justify-content-center align-items-center" [class.hovering]="isHovered" psDropzone (filesDroped)="onFilesDrop($event)" (hovered)="onHover($event)">
+
+                  <input type="file" accept="image/*" multiple id="upload-photos" (change)="onFilesDrop($event.target.files)" #fileInput>
+
+                  <div class="upload-ui text-center">
+                    <mat-icon>add_circle</mat-icon>
+                    <p *ngIf="!mobileScreenDown && !tabletScreenDown" class="mat-body-1 m-0 text center">Drag and drop a file <br> or choose a file</p>
+                    <p *ngIf="mobileScreenDown || tabletScreenDown" class="mat-body-1 m-0 text center">choose a file</p>
+                  </div>
+
+                </label>
+
+              </div>
+
+            </div>
+            <!-- /upload input -->
+
+          </div>
+
+        </perfect-scrollbar>
+
+      </div>
+
+      <div class="col-4 form-col" @showHideFormContainer *ngIf="selectedPhoto.length && !tabletScreenDown && !mobileScreenDown">
+
+        <perfect-scrollbar [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{'max-width': '100%', 'max-height': '65vh'}">
+
+          <!-- delete button -->
+          <div class="d-flex justify-content-center mt-3 mb-4">
+
+            <button mat-button type="button" aria-label="delete" color="warn" class="delete-btn" (click)="onDeletePhoto()">
+              <mat-icon>delete</mat-icon>
+              {{ selectedPhoto.length > 1 ? 'delete all' : 'delete' }}
+            </button>
+
+          </div>
+          <!-- delete button -->
+
+          <!-- form -->
+          <form [formGroup]="editForm" (ngSubmit)="onSave()" @showHideForm *ngIf="selectedPhoto.length < 2">
+
+            <!-- Title -->
+            <mat-form-field appearance="outline" color="accent" class="w-100 mb-1">
+
+              <mat-label>Title</mat-label>
+
+              <input matInput type="text" aria-label="title" formControlName="photoTitle" required>
+
+              <mat-error *ngIf="editForm.get('photoTitle').invalid && editForm.get('photoTitle').touched">This field is <b>required</b>.</mat-error>
+
+            </mat-form-field>
+            <!-- /title -->
+
+            <!-- keywords -->
+            <mat-form-field appearance="outline" color="accent" class="w-100 mb-1">
+
+              <mat-chip-list #photoChipList>
+
+                <mat-chip *ngFor="let item of selectedPhoto[0].keywords" [selectable]="false" [removable]="true" (removed)="onRemovePhotoChip(item)">
+                  {{ item.toLowerCase() }}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+
+              </mat-chip-list>
+
+              <mat-label>Keywords</mat-label>
+
+              <input matInput class="w-100" type="text" aria-label="keywords" formControlName="keywords" [matChipInputFor]="photoChipList" [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="onAddPhotoChip($event)">
+
+              <mat-hint *ngIf="!tabletScreenDown && !mobileScreenDown" align="left">Press <kbd>{{ 'enter' | uppercase }}</kbd> to add new keyword.</mat-hint>
+
+              <mat-hint *ngIf="tabletScreenDown || mobileScreenDown" align="left">Press <kbd>,</kbd> to add new keyword.</mat-hint>
+
+            </mat-form-field>
+            <!-- /keywords -->
+
+            <!-- description -->
+            <mat-form-field appearance="outline" color="accent" class="w-100 mb-1">
+
+              <mat-label>Description</mat-label>
+
+              <textarea matInput aria-label="description" formControlName="description"></textarea>
+
+            </mat-form-field>
+            <!-- /description -->
+
+            <!-- Location -->
+            <mat-form-field class="w-100 mb-1" color="accent" appearance="outline">
+
+              <mat-label>Country location</mat-label>
+
+              <mat-select aria-label="country location" formControlName="countries" [panelClass]="'select-location'" (selectionChange)="onSelectionChange($event)">
+                <mat-option *ngFor="let country of countries" [value]="country.Name.toLowerCase()">{{ country.Name }}</mat-option>
+              </mat-select>
+
+            </mat-form-field>
+            <!-- /Location -->
+
+            <!-- Location details -->
+            <div *ngIf="isLocationExist">
+
+              <mat-form-field class="w-100 mb-1" color="accent" appearance="outline">
+
+                <mat-label>City location</mat-label>
+
+                <mat-select aria-label="city location" formControlName="cities" [panelClass]="'select-location'">
+                  <mat-option *ngFor="let city of cities" [value]="city.toLowerCase()">{{ city }}</mat-option>
+                </mat-select>
+
+              </mat-form-field>
+
+            </div>
+            <!-- /Location details -->
+
+            <!-- Nodity -->
+            <mat-checkbox color="accent" formControlName="nodity"><span class="mat-body-1 mb-1">Is this photo has nodity.</span></mat-checkbox>
+            <!-- /Nodity -->
+
+            <!-- Collections -->
+            <mat-form-field class="mt-3 w-100" color="accent" appearance="outline">
+
+              <mat-label>Collections</mat-label>
+
+              <mat-select aria-label="collections" formControlName="collections" [disabled]="disableCollectionsSelectInput" multiple>
+
+                <ng-container *ngIf="collections; else noCollections">
+
+                  <mat-option *ngFor="let collection of collections" [value]="collection.id">{{ collection.title | lowercase }}</mat-option>
+
+                </ng-container>
+
+                <ng-template #noCollections>
+                  <mat-option>no collections</mat-option>
+                </ng-template>
+
+              </mat-select>
+
+              <mat-hint [hidden]="disableCollectionsSelectInput">Add this photo to collection(s).</mat-hint>
+
+            </mat-form-field>
+            <!-- /Collections -->
+
+            <div class="d-flex justify-content-center mt-3">
+              <button mat-raised-button type="button" aria-label="save" class="save-btn text-white" (click)="onSave()" [disabled]="editForm.get('photoTitle').hasError('required')!">save</button>
+            </div>
+
+          </form>
+          <!-- /form -->
+
+        </perfect-scrollbar>
+
+      </div>
+
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions cdkDragHandle>
+
+    <div data-ele-name="Drag" class="d-flex justify-content-between align-items-center w-100">
+
+      <div *ngIf="!mobileScreenDown && !tabletScreenDown" class="mat-caption mr-5">You can create your own collection and upload photos from <i>User Menu</i> > <i>My Profile</i> > <i>Collections Tab</i>.</div>
+
+      <div>
+        <button mat-icon-button type="button" aria-label="tooltip" *ngIf="mobileScreenDown || tabletScreenDown" #tooltip="matTooltip"
+          matTooltip="You can create your own collection and upload photos from User Menu > My Profile > Collections Tab."
+          matTooltipPosition="above"
+          (click)="tooltip.toggle()">
+          <mat-icon>help</mat-icon>
+        </button>
+      </div>
+
+      <button mat-button type="button" aria-label="submit the photos" color="accent" [disabled]="(receivedPhotos.length < 1) || disableSubmit" [mat-dialog-close]="true">submit</button>
+
+    </div>
+
+  </mat-dialog-actions>
+  
+</div>

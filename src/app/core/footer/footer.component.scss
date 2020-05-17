@@ -1,0 +1,93 @@
+@import '../../../framework/variables';
+@import '../../../framework/partials/bootstrap-grid.scss';
+
+$main-footer-color: #ababab;
+
+* {
+  color: $main-footer-color;
+}
+
+.row {
+  @include media-breakpoint-down(sm) {
+    text-align: center;
+  }
+}
+
+// About
+.about {
+  .mat-button {
+    color: $primary-color;
+
+    mat-icon {
+      color: $primary-color;
+    }
+  }
+}
+
+// useful links & photographers
+.column {
+  h5 {
+    color: #fff;
+  }
+
+  .list {
+    counter-reset: photographer-counter;
+
+    a {
+      color: $main-footer-color;
+      transition: $trans-2;
+      margin: 0;
+
+      &:hover {
+        color: $primary-color;
+        text-decoration: none;
+      }
+    }
+  }
+
+  &.photographers .list li::before {
+    counter-increment: photographer-counter;
+    content: counter(photographer-counter) '. ';
+  }
+}
+
+// Follow us
+.follow-us {
+  .list li a {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    transition: $trans-2;
+
+    &:hover {
+      background: $primary-color;
+    }
+  }
+}
+
+.about,
+.column,
+.follow-us {
+  @include media-breakpoint-down(md) {
+    margin-bottom: 2rem;
+  }
+}
+
+.copy-rights {
+  height: 50px;
+  line-height: 50px;
+  background-color: $footer-bg-2;
+  margin-top: 5em;
+
+  .mat-body-2 {
+    line-height: 50px;
+
+    @include media-breakpoint-down(md) {
+      margin-top: 1rem !important;
+    }
+
+    mat-icon {
+      vertical-align: sub;
+    }
+  }
+}

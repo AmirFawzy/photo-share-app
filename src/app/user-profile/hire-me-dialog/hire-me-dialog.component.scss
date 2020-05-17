@@ -1,0 +1,29 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+
+@include dialog-scrollbar(hire-me-dialog);
+
+.mat-dialog-container {
+  @include set-padding(0,0,0,0);
+
+  .hire-me-dialog {
+    .mat-dialog-content {
+      overflow: hidden;
+      max-height: initial;
+  
+      .content {
+        margin: 0;
+        @include set-padding(24px,24px,24px,24px);
+
+        .user-name {
+          color: $secondary-color;
+        }
+        a {
+          color: $text-color;
+
+          @include link-hover();
+        }
+      }
+    }
+  }
+}

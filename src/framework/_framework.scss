@@ -1,0 +1,19 @@
+@import './partials/functions';
+@import './partials/variables';
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 1024px,
+  lg: 1440px,
+  xl: 1920px
+);
+
+$container-max-widths: (
+  sm: 600px,
+  md: 1150px, // 976
+  lg: 1080px,
+  xl: 1440px  // 1860
+);
+
+@import './partials/bootstrap.scss';

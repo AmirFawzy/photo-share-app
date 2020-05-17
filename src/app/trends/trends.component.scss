@@ -1,0 +1,37 @@
+@import '../../framework/variables';
+@import '../../framework/mixins';
+@import '../../framework/partials/bootstrap-grid.scss';
+
+.page-head {
+  background: $primary-gradient-btn;
+
+  >* {
+    color: #ffffff;
+  }
+
+  .mat-display-2 {
+    @include set-padding(30px, 0, 20px, 0);
+  }
+
+  .mat-body-1 {
+    width: 830px;
+    @include set-padding(10px, 0, 40px, 0);
+
+    @include media-breakpoint-down(md) {
+      width: 600px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      width: 400px;
+    }
+  }
+}
+
+.mat-tab-header {
+  background-color: #ffffff;
+  border: none;
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar {
+  background-color: $secondary-color !important;
+}

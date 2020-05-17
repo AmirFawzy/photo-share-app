@@ -1,0 +1,169 @@
+@import '../../../../framework/variables';
+@import '../../../../framework/mixins';
+@import '../../../../framework/partials/mixins/border-radius';
+@import '~@angular/material/theming';
+
+$photo-border-radius: 3px;
+
+@include go-back-btn();
+
+.collection-head {
+  height: 300px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, $bg-color, transparent);
+  }
+}
+
+.content {
+  .mat-icon {
+    color: $text-color;
+  }
+}
+
+.collection-edit {
+  .back-btn {
+    text-decoration: none;
+    border-radius: $ellipse;
+  }
+
+  .head {
+    .mat-standard-chip {
+      line-height: 1;
+    }
+  }
+
+  figure {
+    a {
+      border-radius: $photo-border-radius;
+      overflow: hidden;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    figcaption {
+      top: 0.5em;
+      right: 1.5em;
+
+      .mat-checkbox {
+        .mat-checkbox-inner-container {
+          background-color: $bg-color;
+          width: 32px;
+          height: 32px;
+        }
+
+        .mat-checkbox-frame,
+        .mat-checkbox-inner-container,
+        .mat-checkbox-background {
+          border-radius: 50%
+        }
+      }
+    }
+  }
+
+  .upload-input {
+    height: 150px;
+
+    @include media-breakpoint-only(xs) {
+      height: 130px;
+    }
+
+    .upload-container {
+      background-color: #f5f5f5;
+      border: 1px solid rgba(0, 0, 0, .10);
+      border-radius: $photo-border-radius;
+      transition: $trans-2;
+      cursor: pointer;
+    }
+
+    .mat-body-1,
+    .upload-container {
+      color: rgba(#000, .5);
+    }
+  }
+
+  .mat-accordion {
+    .mat-expansion-panel {
+      margin-bottom: 1em;
+      box-shadow: none !important;
+
+      .mat-expansion-panel-header {
+        background-color: #eee;
+        transition: $trans-2;
+
+        .mat-expansion-panel-header-title,
+        .mat-expansion-indicator::after {
+          color: $secondary-color;
+        }
+
+        .mat-expansion-panel-header-description {
+          color: rgba($secondary-color, .7);
+        }
+
+        .mat-expansion-indicator::after {
+          transform: rotate(45deg) translate(0, -3px);
+        }
+
+        &.mat-expanded {
+          background-color: #eee;
+          @include border-bottom-radius(0);
+        }
+      }
+
+      .mat-expansion-panel-content {
+        background-color: #f2f2f2;
+
+        .mat-expansion-panel-body {
+          padding-top: 1em;
+
+          .mat-icon {
+            color: $text-color;
+          }
+
+          a {
+            @include link-hover();
+            cursor: pointer;
+          }
+
+          .delete-btn {
+            .mat-icon {
+              color: $Danger;
+            }
+          }
+
+          button {
+            border-radius: $ellipse;
+          }
+
+          .save-btn {
+            background: $primary-gradient;
+          }
+        }
+      }
+
+      .title,
+      .location {
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+
+.mat-select-panel .mat-option {
+
+  &.mat-active,
+  &:hover:not(.mat-option-disabled) {
+    background: $primary-color
+  }
+}

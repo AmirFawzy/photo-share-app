@@ -1,0 +1,27 @@
+@import '../../framework/variables';
+@import '../../framework/partials/bootstrap-grid.scss';
+
+h4 {
+  @include media-breakpoint-down(xs) {
+    margin-top: 2rem !important;
+  }
+}
+
+mat-chip {
+  user-select: none;
+  cursor: pointer;
+
+  &.mat-standard-chip {
+    align-items: baseline;
+  }
+
+  a {
+    color: $text-color;
+    text-decoration: none !important;
+    line-height: 1;
+
+    &:hover {
+      color: $text-color;
+    }
+  }
+}

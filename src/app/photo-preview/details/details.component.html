@@ -1,0 +1,302 @@
+<ng-container *ngIf="photo; else skeletonPlaceholder">
+
+  <div class="owner mb-4">
+
+    <div class="row no-gutters">
+
+      <div class="col-auto">
+        <figure class="rounded-circle m-0" [ngStyle]="{'background': 'url(' + photo.owner.profilePhoto + ') center/cover no-repeat' }"></figure>
+      </div>
+
+      <div class="col pl-3 d-flex flex-column justify-content-lg-between justify-content-around">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+          <h6 class="mat-title m-0 user-name text-truncate" [title]="photo.owner.userName">
+            <a [routerLink]="[ '/profile', photo.owner.userName.toLowerCase().split(' ').join('-') ]" [queryParams]="{ upi: photo.owner.id }" aria-label="uer profile">{{ photo.owner.userName }}</a>
+          </h6>
+
+          <button mat-icon-button type="button" aria-label="report" class="mat-button report-btn" matTooltip="Report" [disableRipple]="true" matTooltipPosition="before">
+            <mat-icon class="icon-18 m-0">flag</mat-icon>
+          </button>
+
+        </div>
+
+        <div *ngIf="!isOwner; else followersNum">
+
+          <button mat-flat-button type="button" aria-label="follow" *ngIf="!followBtnHidden" class="mat-button follow-btn" color="accent" (click)="onFollow()">Follow</button>
+          <button mat-flat-button type="button" aria-label="unfollow" *ngIf="followBtnHidden" class="mat-button follow-btn" [color]="followingBtnColor" (click)="onUnfollow()" (mouseenter)="followingBtnText = 'Unfollow'; followingBtnColor = 'warn'" (mouseleave)="followingBtnText = 'Following'; followingBtnColor = 'accent'" #followingBtn>{{ followingBtnText }}</button>
+
+        </div>
+
+        <ng-template #followersNum>
+
+          <ng-container *ngIf="numOfFollowers; else noFollowerNum">
+            <div class="mat-body-2">{{ numOfFollowers }} Follower(s)</div>
+          </ng-container>
+
+          <ng-template #noFollowerNum>
+            <div class="mat-body-2">You have no followers</div>
+          </ng-template>
+
+        </ng-template>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-accordion [multi]="true" #accordion="matAccordion">
+
+    <!-- Details -->
+    <mat-expansion-panel [expanded]="isAccordionEpanded">
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>Details</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="statics row no-gutters ">
+
+        <div class="stat views col d-flex flex-column justify-content-center align-items-center">
+
+          <mat-icon>remove_red_eye</mat-icon>
+          <div class="mat-body-1 text-center">{{ numOfViews | transformBigNumbers }}</div>
+
+        </div>
+
+        <div class="stat likes col d-flex flex-column justify-content-center align-items-center">
+
+          <mat-icon>favorite</mat-icon>
+          <div class="mat-body-1 text-center">{{ photo.likes | transformBigNumbers }}</div>
+
+        </div>
+
+        <div class="stat col d-flex flex-column justify-content-center align-items-center">
+
+          <mat-icon>location_on</mat-icon>
+
+          <div class="location mat-body-1 text-center" *ngIf="photo.location; else noLocation">{{ photo.location }}</div>
+
+          <ng-template #noLocation>
+            <div class="location mat-body-1 text-center">--</div>
+          </ng-template>
+
+        </div>
+
+      </div>
+
+      <div class="title mat-body-2"><strong>Name: </strong>{{ photo.title }}</div>
+
+      <div class="published mat-body-2"><strong>Published: </strong>{{ photo.publishedDate | date:'mediumDate' }}</div>
+
+      <div class="mat-body-2 location" *ngIf="photo.location || photo.locationDetails">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+          <span class="location">
+            <strong>Location: </strong> {{ photo.locationDetails }} <span *ngIf="photo.locationDetails">, </span> {{ photo.location }}
+          </span>
+
+          <span class="text-right see-map align-self-center">
+            <a class="mat-caption d-inline-block" [href]="'http://www.google.com/maps/place/' + photo.locationDetails + ' ' + photo.location" target="_blank" aria-label="see location on google map">see map</a>
+          </span>
+
+        </div>
+
+      </div>
+
+    </mat-expansion-panel>
+    <!-- /Details -->
+
+    <!-- Tools -->
+    <mat-expansion-panel [expanded]="isAccordionEpanded">
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>Tools</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-container *ngIf="photo.camera.model; else noCamera">
+
+        <div class="camera">
+
+          <p class="mat-body-2 mt-0">
+            <strong>Camera: </strong>{{ photo.camera.model }}
+          </p>
+
+        </div>
+
+        <div class="tools" *ngIf="photo.tools.length > 0">
+
+          <p class="mat-body-2 text-left">
+            <strong>Gears: </strong>{{ photo.tools.join(', ') }}
+          </p>
+
+        </div>
+
+        <div class="text-center">
+
+          <a class="mat-caption mt-4 d-inline-block" [routerLink]="[ '/search', photo.camera.model.toLowerCase().split(' ').join('-') ]" aria-label="more photos taken by this camera">see more photos taken by this camera</a>
+
+        </div>
+
+      </ng-container>
+
+      <ng-template #noCamera>
+        <p class="mat-body-1 text-center">No camera provided.</p>
+      </ng-template>
+
+    </mat-expansion-panel>
+    <!-- /Tools -->
+
+    <!-- Software -->
+    <mat-expansion-panel [expanded]="isAccordionEpanded">
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>Software</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-container *ngIf="photo.software.length; else noSoftware">
+
+        <div class="software text-center d-flex align-items-center">
+
+          <div class="m-0" *ngFor="let software of photo.software; last as isLast">
+            <pre><p class="mat-body-1">{{ software }}<span *ngIf="!isLast">, </span> </p></pre>
+          </div>
+
+        </div>
+
+      </ng-container>
+
+      <ng-template #noSoftware>
+        <p class="mat-body-1 text-center">No software provided.</p>
+      </ng-template>
+
+    </mat-expansion-panel>
+    <!-- /Software -->
+
+  </mat-accordion>
+  
+</ng-container>
+
+<ng-template #skeletonPlaceholder>
+
+  <div class="skeleton-placeholder">
+    
+    <div class="owner mb-4">
+  
+      <div class="row no-gutters">
+  
+        <div class="col-auto skeleton-circle-photo-md"></div>
+  
+        <div class="col pl-3 d-flex flex-column justify-content-lg-between justify-content-around">
+  
+          <div class="d-flex justify-content-between align-items-center">
+  
+            <div class="m-0 user-name skeleton-title-sm"></div>
+  
+            <div class="m-0 skeleton-icon-btn"></div>
+  
+          </div>
+  
+          <div class="skeleton-pill-btn-sm"></div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+    <mat-accordion class="skeleton-accordion" [multi]="true" #accordion="matAccordion">
+  
+      <!-- Details -->
+      <mat-expansion-panel [expanded]="true" [disabled]="true">
+  
+        <mat-expansion-panel-header>
+          <mat-panel-title><span class="skeleton-title-xs"></span></mat-panel-title>
+        </mat-expansion-panel-header>
+  
+        <div class="statics row no-gutters mb-3">
+  
+          <div class="stat views col d-flex flex-column justify-content-center align-items-center">
+  
+            <div class="skeleton-icon mb-2"></div>
+            <div class="skeleton-text-xs"></div>
+  
+          </div>
+  
+          <div class="stat likes col d-flex flex-column justify-content-center align-items-center">
+  
+            <div class="skeleton-icon mb-2"></div>
+            <div class="skeleton-text-xs"></div>
+    
+          </div>
+  
+          <div class="stat col d-flex flex-column justify-content-center align-items-center">
+  
+            <div class="skeleton-icon mb-2"></div>
+            <div class="skeleton-text-xs"></div>
+  
+          </div>
+  
+        </div>
+  
+        <div class="title skeleton-text-sm mb-3"></div>
+  
+        <div class="published skeleton-text-sm"></div>
+  
+        <div class="mat-body-2 location">
+  
+          <div class="d-flex justify-content-between align-items-center">
+  
+            <div class="skeleton-text-sm"></div>
+            <div class="skeleton-text-xs"></div>
+    
+          </div>
+  
+        </div>
+  
+      </mat-expansion-panel>
+      <!-- /Details -->
+  
+      <!-- Tools -->
+      <mat-expansion-panel [expanded]="true" [disabled]="true">
+  
+        <mat-expansion-panel-header>
+          <mat-panel-title><span class="skeleton-title-xs"></span></mat-panel-title>
+        </mat-expansion-panel-header>
+  
+        <div class="camera mb-3">
+
+          <div class="skeleton-text-sm mt-0"></div>
+
+        </div>
+
+        <div class="tools mb-3">
+
+          <div class="skeleton-text-sm text-left"></div>
+
+        </div>
+
+        <div class="skeleton-text-md m-auto"></div>
+  
+      </mat-expansion-panel>
+      <!-- /Tools -->
+  
+      <!-- Software -->
+      <mat-expansion-panel [expanded]="true" [disabled]="true">
+  
+        <mat-expansion-panel-header>
+          <mat-panel-title><span class="skeleton-title-xs"></span></mat-panel-title>
+        </mat-expansion-panel-header>
+  
+        <div class="software skeleton-paragraph-sm text-center d-flex align-items-center"></div>
+  
+      </mat-expansion-panel>
+      <!-- /Software -->
+  
+    </mat-accordion>
+
+  </div>
+
+</ng-template>

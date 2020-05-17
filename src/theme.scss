@@ -1,0 +1,151 @@
+@import '~@angular/material/theming';
+@import './framework/theme-palette';
+@import './framework/variables';
+@import './framework/mixins';
+
+// Custom Material Theme
+$font-family: 'Roboto, "Helvetica Neue", sans-serif';
+$custom-typography: mat-typography-config(
+  $headline: mat-typography-level(6rem, 6rem, 300, $font-family, -.01562em),
+  $display-1: mat-typography-level(3.75rem, 3.75rem, 300, $font-family, -.00833em),
+  $display-2: mat-typography-level(3rem, 3.125rem, 400, $font-family, normal),
+  $display-3: mat-typography-level(2.125rem, 2.5rem, 400, $font-family, .00735em),
+  $display-4: mat-typography-level(1.5rem, 2rem, 400, $font-family, normal),
+  $title: mat-typography-level(1.25rem, 2rem, 500, $font-family, .0125em),
+  $subheading-1: mat-typography-level(1rem, 1.75rem, 400, $font-family, .00937em),
+  $subheading-2: mat-typography-level(.875rem, 1.375rem, 500, $font-family, .00714em),
+  $body-1: mat-typography-level(1rem, 1.5rem, 400, $font-family, .03125em),
+  $body-2: mat-typography-level(.875rem, 1.25rem, 400, $font-family, .01786em),
+  $button: mat-typography-level(.875rem, 2.25rem, 500, $font-family, .08929em),
+  $caption: mat-typography-level(.75rem, 1.25rem, 400, $font-family, .03333em)
+);
+
+@include mat-core($custom-typography);
+
+// $phs-app-primary: mat-palette($mat-teal, A100);
+// $phs-app-accent:  mat-palette($mat-teal, A700);
+$phs-app-primary: mat-palette($mat-fancy-pink);
+$phs-app-accent:  mat-palette($mat-fancy-purple);
+
+$phs-app-theme: mat-light-theme($phs-app-primary, $phs-app-accent);
+
+@include angular-material-theme($phs-app-theme);
+
+
+// Theme Definition
+body, html {
+  color: $text-color;
+  background-color: $bg-color;
+}
+
+.nav-bg {
+  background-color: $nav-bg;
+}
+
+.primary-gradient {
+  background: $primary-gradient;
+}
+
+.secondary-gradient {
+  background: $secondary-gradient;
+}
+
+.danger {
+  color: $Danger;
+}
+
+.mat-button,
+.mat-raised-button,
+.mat-flat-button {
+  text-transform: uppercase !important;
+
+  .icon-18 {
+    margin-left: 4px;
+  }
+}
+
+.icon-18 {
+  font-size: 18px !important;
+  height: 18px !important;
+  width: 18px !important;
+}
+
+.icon-16 {
+  font-size: 16px !important;
+  height: 16px !important;
+  width: 16px !important;
+}
+
+.icon-32 {
+  font-size: 32px !important;
+  height: 32px !important;
+  width: 32px !important;
+}
+
+.icon-48 {
+  font-size: 48px !important;
+  height: 48px !important;
+  width: 48px !important;
+}
+
+// Theme refine specs
+  // Typo color
+$custom-typography-color: (
+  mat-headline:  $text-color,
+  mat-display-1: $text-color,
+  mat-display-2: $text-color,
+  mat-display-3: $text-color,
+  mat-display-4: $text-color,
+  mat-title: $text-color,
+  mat-subheading-1: $text-color,
+  mat-subheading-2: $text-color,
+  mat-body-1: $text-color,
+  mat-body-2: $text-color,
+  mat-button: $text-color,
+  mat-caption: $text-color
+);
+
+@each $typoClass, $textColor in $custom-typography-color {
+  .#{$typoClass} {
+    color: $textColor;
+
+    // Make text color white for text need to
+    &.white {
+      color: #fff !important;
+    }
+  }
+}
+
+  // typo margins
+$custom-theme-spacing: (
+  mat-headline:  '0.83em 0 0.83em 0',
+  mat-display-1: '0.83em 0 0.83em 0',
+  mat-display-2: '1em 0 1em 0',
+  mat-display-3: '1.33em 0 1.33em 0',
+  mat-display-4: '1.67em 0 1.67em 0',
+  mat-title: '2.33em 0 2.33em 0',
+  mat-subheading-1: '2.33em 0 2.33em 0',
+  mat-subheading-2: '2.33em 0 2.33em 0',
+  mat-body-1: '1em 0 1em 0',
+  mat-body-2: '1em 0 1em 0',
+  mat-button: '0 0 0 0',
+  mat-caption: '0 0 0 0'
+);
+
+@each $typoClass, $space in $custom-theme-spacing {
+  .#{$typoClass} {
+    margin: unquote($space);
+  }
+}
+
+.mat-raised-button:not([class*=mat-elevation-z]) {
+  box-shadow: 0px 3px 1px -2px rgba(138, 77, 118, 0.2),
+    0px 2px 2px 0px rgba(138, 77, 118, 0.2),
+    0px 1px 5px 0px rgba(138, 77, 118, 0.12);
+}
+
+.mat-raised-button:not([disabled]):active:not([class*='mat-elevation-z']) {
+  box-shadow: 0px 5px 5px -3px rgba(138, 77, 118, 0.2),
+    0px 8px 10px 1px rgba(138, 77, 118, 0.2),
+    0px 3px 14px 2px rgba(138, 77, 118, 0.12);
+}

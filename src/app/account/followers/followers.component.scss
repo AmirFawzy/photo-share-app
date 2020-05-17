@@ -1,0 +1,43 @@
+@import '../../../framework/variables';
+@import '../../../framework/mixins';
+
+.followers {
+  .mat-title {
+    margin-bottom: 20px !important;
+  }
+
+  .mat-list-avatar {
+    border: 1px solid $secondary-color;
+  }
+
+  .mat-list .mat-list-item .mat-list-item-content {
+    padding: 0;
+
+    .mat-list-text {
+      .mat-body-1 {
+        text-transform: capitalize;
+      }
+
+      .mat-flat-button {
+        border-radius: $ellipse;
+      }
+    }
+  }
+
+  .no-followers {
+    height: 495px;
+
+    @include media-breakpoint-down(sm) {
+      height: auto;
+    }
+
+    .mat-icon,
+    .mat-display-3 {
+      color: #777;
+    }
+
+    .mat-icon {
+      font-size: 56px;
+    }
+  }
+}

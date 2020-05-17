@@ -1,0 +1,96 @@
+<div class="ps-user-menu position-relative alt-scrollbar-style" #menuContainer>
+
+  <ng-container *ngIf="user">
+
+    <mat-list class="user-id position-absolute">
+
+      <mat-list-item>
+
+        <ng-container *ngIf="isTop3Users || isTop10Users">
+          
+          <a mat-list-icon class="rating-badge text-decoration-none p-0 position-relative" [routerLink]="[ '/trends' ]" aria-label="see top photographers and top rated photos">
+  
+            <div class="badge position-relative d-flex align-items-center rounded overflow-hidden" [style.background-color]="topUsersBadgeColor">
+  
+              <span class="overlay position-absolute"></span>
+  
+              <mat-icon class="position-relative icon-16" *ngIf="isTop3Users">stars</mat-icon>
+  
+              <span class="mat-caption position-relative">{{ topUserBadgeText }}</span>
+  
+              <span class="bullet-before rounded-circle position-absolute" [style.background-color]="topUsersBadgeColor"></span>
+              <span class="bullet-after rounded-circle position-absolute" [style.background-color]="topUsersBadgeColor"></span>
+  
+            </div>
+
+          </a>
+            
+        </ng-container>
+
+        <h4 matLine class="mat-subheading-1 white">{{ user.userName }}</h4>
+
+        <p matLine class="mat-caption white">{{ user.email }}</p>
+
+      </mat-list-item>
+      
+    </mat-list>
+
+    <perfect-scrollbar [config]="config" [usePSClass]="true" [autoPropagation]="true" [ngStyle]="{ 'max-width': menuSize.width + 'px', 'max-height': '100vh' }">
+
+      <!-- just a place holder to make space for fixed head -->
+      <mat-list class="placeholder-indent">
+
+        <mat-list-item>
+
+          <h4 matLine class="mat-subheading-1">{{ user.userName }}</h4>
+          <p matLine class="mat-caption">{{ user.email }}</p>
+
+        </mat-list-item>
+
+      </mat-list>
+      <!-- /just a place holder to make space for fixed head -->
+
+      <mat-nav-list class="pt-0">
+
+        <a mat-list-item data-ele-color="primary" [routerLink]="[ '/profile/' + user.userName.toLowerCase().split(' ').join('-') ]" [queryParams]="{ upi: user.uid }" *ngFor="let item of listItems1" tabindex="-1" aria-label="navigation item">
+
+          <mat-icon matListIcon data-ele-color="primary">{{ item.icon }}</mat-icon>
+          <p matLine data-ele-color="primary">{{ item.text }}</p>
+
+        </a>
+
+      </mat-nav-list>
+      
+      <mat-divider></mat-divider>
+
+      <mat-nav-list>
+
+        <a mat-list-item data-ele-color="primary" [routerLink]="[ item.routePath ]" *ngFor="let item of listItems2" tabindex="-1" aria-label="navigiation item">
+
+          <mat-icon matListIcon data-ele-color="primary">{{ item.icon }}</mat-icon>
+          <p matLine data-ele-color="primary">{{ item.text }}</p>
+
+        </a>
+
+      </mat-nav-list>
+
+      <mat-divider></mat-divider>
+
+      <mat-nav-list class="exit" [disableRipple]="true">
+
+        <a mat-list-item class="exit d-inline-block" [routerLink]="[ '/' ]" tabindex="-1" (click)="signout()" aria-label="sign out">
+
+          <button mat-flat-button type="button" aria-label="sign out" class="btn mat-button" tabindex="-1">
+            <mat-icon>exit_to_app</mat-icon>
+            sign Out
+          </button>
+          
+        </a>
+        
+      </mat-nav-list>
+
+    </perfect-scrollbar>
+
+  </ng-container>
+
+</div>
